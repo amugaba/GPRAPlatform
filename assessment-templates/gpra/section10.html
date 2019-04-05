@@ -1,0 +1,32 @@
+<div class="pageTitle">
+    <h3>G: Social Connectedness</h3>
+</div>
+
+<section>
+    <question-text title="In the past 30 days, how many times did you attend any voluntary self-help groups for recovery that were not affiliated with a religious or faith-based organization?"
+                    reminderText="i.e. a nonprofessional, peer-operated organization that is devoted to helping individuals who have addiction-related problems,
+                    such as Alcoholics Anonymous, Narcotics Anonymous, Oxford House, Secular Organization for Sobriety, or Women for Sobriety"
+                    id="AttendVoluntaryTimes" v-model="gpra.AttendVoluntaryTimes"></question-text>
+</section>
+<section>
+    <question-text title="In the past 30 days, how many times did you attend any religious/faith-affiliated recovery self-help groups?"
+                   id="AttendReligiousTimes" v-model="gpra.AttendReligiousTimes"></question-text>
+</section>
+<section>
+    <question-text title="In the past 30 days, how many times did you attend meetings of organizations that support recovery other than the organizations described above?"
+                   id="AttendOtherOrgTimes" v-model="gpra.AttendOtherOrgTimes"></question-text>
+</section>
+<section>
+    <question-radio title="In the past 30 days, did you have interaction with family and/or friends that are supportive of your recovery?" class="columns-fourths"
+                    id="InteractFamilyFriends" v-model="gpra.InteractFamilyFriends" :options="optionSets.YesNoRD"></question-radio>
+</section>
+<section>
+    <question-radio title="To whom do you turn when you are having trouble?"
+                    id="WhomInTrouble" v-model="gpra.WhomInTrouble" :options="optionSets.WhomInTrouble"></question-radio>
+    <question-text v-show="gpra.WhomInTrouble == 5" title="Other (Specify)"
+                   id="WhomInTroubleSpec" v-model="gpra.WhomInTroubleSpec"></question-text>
+</section>
+<section>
+    <question-radio title="How satisfied are you with your personal relationships?" class="flex"
+                    id="RelationshipSatisfaction" v-model="gpra.RelationshipSatisfaction" :options="optionSets.SatisfactionScale"></question-radio>
+</section>

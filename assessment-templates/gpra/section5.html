@@ -1,0 +1,49 @@
+<div class="pageTitle">
+    <h3>C: Family and Living Conditions</h3>
+</div>
+
+<section>
+    <question-radio title="In the past 30 days, where have you been living most of the time?" reminderText="Do not read response options to client."
+                    id="LivingWhere" v-model="gpra.LivingWhere" :options="optionSets.LivingWhere"></question-radio>
+    <transition name="fadeslow">
+        <div v-show="gpra.LivingWhere == 4" class="subquestion">
+            <question-radio title="If Housed, specify:" id="LivingHoused" v-model="gpra.LivingHoused" :options="optionSets.LivingHoused"></question-radio>
+            <question-text v-show="gpra.LivingHoused == 5" title="Other (Specify)" id="LivingHousedSpec" v-model="gpra.LivingHousedSpec"></question-text>
+        </div>
+    </transition>
+</section>
+<section>
+    <question-radio title="How satisfied are you with the conditions of your living space?"
+                    id="LivingConditionsSatisfaction" v-model="gpra.LivingConditionsSatisfaction" :options="optionSets.SatisfactionScale"></question-radio>
+</section>
+<div v-if="parseInt(gpra.DAUseAlcoholDays) > 0 || parseInt(gpra.DAUseIllegDrugsDays) > 0">
+    <section>
+        <question-radio title="During the past 30 days, how stressful have things been for you because of your use of alcohol or other drugs?"
+                        id="ImpactStress" v-model="gpra.ImpactStress" :options="optionSets.ImpactScale" class="columns-fourths"></question-radio>
+    </section>
+    <section>
+        <question-radio title="During the past 30 days, has your use of alcohol or other drugs caused you to reduce or give up important activities?"
+                        id="ImpactActivity" v-model="gpra.ImpactActivity" :options="optionSets.ImpactScale" class="columns-fourths"></question-radio>
+    </section>
+    <section>
+        <question-radio title="During the past 30 days, has your use of alcohol and other drugs caused you to have emotional problems?"
+                        id="ImpactEmotional" v-model="gpra.ImpactEmotional" :options="optionSets.ImpactScale" class="columns-fourths"></question-radio>
+    </section>
+</div>
+<section v-if="gpra.GenderCode != 1">
+    <question-radio title="Are you currently pregnant?" id="Pregnant" v-model="gpra.Pregnant" :options="optionSets.YesNoRD" class="columns-fourths"></question-radio>
+</section>
+<section>
+    <question-radio title="Do you have children?" id="Children" v-model="gpra.Children" :options="optionSets.YesNoRD" class="columns-fourths"></question-radio>
+    <transition name="fadeslow">
+        <div v-show="gpra.Children == 1" class="subquestion">
+            <question-text title="How many children do you have?" id="ChildrenNr" v-model="gpra.ChildrenNr"></question-text>
+            <question-radio title="Are any of your children living with someone else due to a child protection order?"
+                            id="ChildrenCustody" v-model="gpra.ChildrenCustody" :options="optionSets.YesNoRD" class="columns-fourths"></question-radio>
+            <question-text v-show="gpra.ChildrenCustody == 1" title="How many of your children are living with someone else due to a child protection court order?"
+                           id="ChildrenCustodyNr" v-model="gpra.ChildrenCustodyNr" class="header-xlarge"></question-text>
+            <question-text title="For how many of your children have you lost parental rights?" class="header-xlarge"
+                           id="ChildrenCustodyLost" v-model="gpra.ChildrenCustodyLost"></question-text>
+        </div>
+    </transition>
+</section>

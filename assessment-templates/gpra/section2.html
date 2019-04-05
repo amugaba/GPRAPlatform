@@ -1,0 +1,99 @@
+<div class="pageTitle">
+    <h3>A: Planned Services</h3>
+</div>
+
+<div class="explanationBox">
+    Identify the services you plan to provide to the client during the client’s course of treatment/recovery.
+</div>
+
+<div class="row">
+    <div class="col-sm-6 condensed">
+        <section>
+            <h4>MODALITY</h4>
+            <h5>(Select at least one modality)</h5>
+            <question-checkbox title="Case Management" id="SvcCaseManagement" v-model="gpra.SvcCaseManagement" ></question-checkbox>
+            <question-checkbox title="Day Treatment" id="SvcDayTreatment" v-model="gpra.SvcDayTreatment" ></question-checkbox>
+            <question-checkbox title="Inpatient/Hospital (not Detox)" id="SvcInpatient" v-model="gpra.SvcInpatient" ></question-checkbox>
+            <question-checkbox title="Outpatient" id="SvcOutpatient" v-model="gpra.SvcOutpatient" ></question-checkbox>
+            <question-checkbox title="Outreach" id="SvcOutreach" v-model="gpra.SvcOutreach" ></question-checkbox>
+            <question-checkbox title="Intensive Outpatient" id="SvcIntensiveOutpatient" v-model="gpra.SvcIntensiveOutpatient" ></question-checkbox>
+            <question-checkbox title="Methadone" id="SvcMethadone" v-model="gpra.SvcMethadone" ></question-checkbox>
+            <question-checkbox title="Residential/Rehabilitation" id="SvcResidentialRehab" v-model="gpra.SvcResidentialRehab" ></question-checkbox>
+            <h5><u>Detoxification (Select Only One)</u></h5>
+            <question-checkbox title="a. Hospital Inpatient" id="SvcHospitalInpatient" v-model="gpra.SvcHospitalInpatient" ></question-checkbox>
+            <question-checkbox title="b. Free-Standing Residential" id="SvcFreeStandingRes" v-model="gpra.SvcFreeStandingRes" ></question-checkbox>
+            <question-checkbox title="c. Ambulatory Detoxification" id="SvcAmbulatoryDetox" v-model="gpra.SvcAmbulatoryDetox" ></question-checkbox>
+            <question-checkbox title="After Care" id="SvcAfterCare" v-model="gpra.SvcAfterCare" ></question-checkbox>
+            <question-checkbox title="Recovery Support" id="SvcRecoverySupport" v-model="gpra.SvcRecoverySupport" ></question-checkbox>
+            <question-checkbox title="Other" id="SvcOtherModalities" v-model="gpra.SvcOtherModalities" ></question-checkbox>
+            <question-text v-show="gpra.SvcOtherModalities==1" title="Other (Specify)" id="SvcOtherModalitesSpec" v-model="gpra.SvcOtherModalitesSpec"></question-text>
+        </section>
+        <section>
+            <h4>CASE MANAGEMENT SERVICES</h4>
+            <question-checkbox title="Family Services (Including Marriage Education, Parenting, Child Development Services)" id="SvcFamilyServices" v-model="gpra.SvcFamilyServices" ></question-checkbox>
+            <question-checkbox title="Child Care" id="SvcChildCare" v-model="gpra.SvcChildCare" ></question-checkbox>
+            <question-checkbox title="Pre-Employment" id="SvcPreEmployment" v-model="gpra.SvcPreEmployment" ></question-checkbox>
+            <question-checkbox title="Employment Coaching" id="SvcEmploymentCoaching" v-model="gpra.SvcEmploymentCoaching" ></question-checkbox>
+            <question-checkbox title="Individual Services Coordination" id="SvcIndividualCoord" v-model="gpra.SvcIndividualCoord" ></question-checkbox>
+            <question-checkbox title="Transportation" id="SvcTransportation" v-model="gpra.SvcTransportation" ></question-checkbox>
+            <question-checkbox title="HIV/AIDS Service" id="SvcHIVAIDSServices" v-model="gpra.SvcHIVAIDSServices" ></question-checkbox>
+            <question-checkbox title="Supportive Transitional Drug-Free Housing Services" id="SvcDrugFreeHousing" v-model="gpra.SvcDrugFreeHousing" ></question-checkbox>
+            <question-checkbox title="Other Case Management Services" id="SvcOtherCaseMgmt" v-model="gpra.SvcOtherCaseMgmt" ></question-checkbox>
+            <question-text v-show="gpra.SvcOtherCaseMgmt==1" title="Other (Specify)" id="SvcOtherCaseMgmtSpec" v-model="gpra.SvcOtherCaseMgmtSpec"></question-text>
+        </section>
+        <section>
+            <h4>MEDICAL SERVICES</h4>
+            <question-checkbox title="Medical Care" id="SvcMedicalCare" v-model="gpra.SvcMedicalCare" ></question-checkbox>
+            <question-checkbox title="Alcohol/Drug Testing" id="SvcAlcoholDrugTesting" v-model="gpra.SvcAlcoholDrugTesting" ></question-checkbox>
+            <question-checkbox title="HIV/AIDS Medical Support and Testing" id="SvcHIVAIDSMedical" v-model="gpra.SvcHIVAIDSMedical" ></question-checkbox>
+            <question-checkbox title="Other Medical Services" id="SvcOtherMedical" v-model="gpra.SvcOtherMedical" ></question-checkbox>
+            <question-text v-show="gpra.SvcOtherMedical==1" title="Other (Specify)" id="SvcOtherMedicalSpec" v-model="gpra.SvcOtherMedicalSpec"></question-text>
+        </section>
+    </div>
+    <div class="col-sm-6 condensed">
+        <section>
+        <h4>TREATMENT SERVICES</h4>
+            <question-checkbox title="Screening" id="SvcScreening" v-model="gpra.SvcScreening" ></question-checkbox>
+            <question-checkbox title="Brief Intervention" id="SvcBriefIntervention" v-model="gpra.SvcBriefIntervention" ></question-checkbox>
+            <question-checkbox title="Brief Treatment" id="SvcBriefTreatment" v-model="gpra.SvcBriefTreatment" ></question-checkbox>
+            <question-checkbox title="Referral to Treatment" id="SvcReferralTreatment" v-model="gpra.SvcReferralTreatment" ></question-checkbox>
+            <question-checkbox title="Assessment" id="SvcAssessment" v-model="gpra.SvcAssessment" ></question-checkbox>
+            <question-checkbox title="Treatment/Recovery Planning" id="SvcTreatmentPlanning" v-model="gpra.SvcTreatmentPlanning" ></question-checkbox>
+            <question-checkbox title="Individual Counseling" id="SvcIndividualCouns" v-model="gpra.SvcIndividualCouns" ></question-checkbox>
+            <question-checkbox title="Group Counseling" id="SvcGroupCouns" v-model="gpra.SvcGroupCouns" ></question-checkbox>
+            <question-checkbox title="Family/Marriage Counseling" id="SvcFamilyMarriageCouns" v-model="gpra.SvcFamilyMarriageCouns" ></question-checkbox>
+            <question-checkbox title="Co-Occurring Treatment/ Recovery Services" id="SvcCoOccurring" v-model="gpra.SvcCoOccurring" ></question-checkbox>
+            <question-checkbox title="Pharmacological Interventions" id="SvcPharmacological" v-model="gpra.SvcPharmacological" ></question-checkbox>
+            <question-checkbox title="HIV/AIDS Counseling" id="SvcHIVAIDSCouns" v-model="gpra.SvcHIVAIDSCouns" ></question-checkbox>
+            <question-checkbox title="Other Clinical Services" id="SvcOtherClinicalCouns" v-model="gpra.SvcOtherClinicalCouns" ></question-checkbox>
+            <question-text v-show="gpra.SvcOtherClinicalCouns==1" title="Other (Specify)" id="SvcOtherClinicalCounsSpec" v-model="gpra.SvcOtherClinicalCounsSpec"></question-text>
+        </section>
+        <section>
+            <h4>AFTER CARE SERVICES</h4>
+            <question-checkbox title="Continuing Care" id="SvcContinuingCare" v-model="gpra.SvcContinuingCare" ></question-checkbox>
+            <question-checkbox title="Relapse Prevention" id="SvcRelapsePrevention" v-model="gpra.SvcRelapsePrevention" ></question-checkbox>
+            <question-checkbox title="Recovery Coaching" id="SvcRecoveryCoaching" v-model="gpra.SvcRecoveryCoaching" ></question-checkbox>
+            <question-checkbox title="Self-Help and Support Groups" id="SvcSelfHelpSupport" v-model="gpra.SvcSelfHelpSupport" ></question-checkbox>
+            <question-checkbox title="Spiritual Support" id="SvcSpiritualSupport" v-model="gpra.SvcSpiritualSupport" ></question-checkbox>
+            <question-checkbox title="Other After Care Services" id="SvcOtherAfterCare" v-model="gpra.SvcOtherAfterCare" ></question-checkbox>
+            <question-text v-show="gpra.SvcOtherAfterCare==1" title="Other (Specify)" id="SvcOtherAfterCareSpec" v-model="gpra.SvcOtherAfterCareSpec"></question-text>
+        </section>
+        <section>
+            <h4>EDUCATION SERVICES</h4>
+            <question-checkbox title="Substance Abuse Education" id="SvcSubstanceAbuseEdu" v-model="gpra.SvcSubstanceAbuseEdu" ></question-checkbox>
+            <question-checkbox title="HIV/AIDS Education" id="SvcHIVAIDSEdu" v-model="gpra.SvcHIVAIDSEdu" ></question-checkbox>
+            <question-checkbox title="Other Education Services" id="SvcOtherEdu" v-model="gpra.SvcOtherEdu" ></question-checkbox>
+            <question-text v-show="gpra.SvcOtherEdu==1" title="Other (Specify)" id="SvcOtherEduSpec" v-model="gpra.SvcOtherEduSpec"></question-text>
+        </section>
+        <section>
+            <h4>PEER-TO-PEER RECOVERY SUPPORT SERVICES</h4>
+            <question-checkbox title="Peer Coaching or Mentoring" id="SvcPeerCoaching" v-model="gpra.SvcPeerCoaching" ></question-checkbox>
+            <question-checkbox title="Housing Support" id="SvcHousingSupport" v-model="gpra.SvcHousingSupport" ></question-checkbox>
+            <question-checkbox title="Alcohol- and Drug-Free Social Activities" id="SvcDrugFreeSocial" v-model="gpra.SvcDrugFreeSocial" ></question-checkbox>
+            <question-checkbox title="Information and Referral" id="SvcInformationReferral" v-model="gpra.SvcInformationReferral" ></question-checkbox>
+            <question-checkbox title="Other Peer-to-Peer Recovery Support" id="SvcOtherRecovery" v-model="gpra.SvcOtherRecovery" ></question-checkbox>
+            <question-text v-show="gpra.SvcOtherRecovery==1" title="Other (Specify)" id="SvcOtherRecoverySpec" v-model="gpra.SvcOtherRecoverySpec"></question-text>
+        </section>
+    </div>
+</div>
+

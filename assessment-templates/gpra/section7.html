@@ -1,0 +1,21 @@
+<div class="pageTitle">
+    <h3>E: Crime and Criminal Justice Status</h3>
+</div>
+
+<section>
+    <div class="header">
+        <span class="title">In the past 30 days, how many times have you...</span>
+    </div>
+    <div class="subquestion header-large">
+        <question-text title="Been arrested?" id="ArrestedDays" v-model="gpra.ArrestedDays"></question-text>
+        <question-text v-show="gpra.ArrestedDays > 0" title="Been arrested for drug-related offenses?" id="ArrestedDrugDays" v-model="gpra.ArrestedDrugDays"></question-text>
+        <question-text title="Spent the night in jail/prison?" id="ArrestedConfineDays" v-model="gpra.ArrestedConfineDays"></question-text>
+        <question-text title="Committed a crime?" id="NrCrimes" v-model="gpra.NrCrimes"></question-text>
+    </div>
+</section>
+<section>
+    <question-radio title="Are you currently awaiting charges, trial, or sentencing?" class="columns-fourths"
+                    id="AwaitTrial" v-model="gpra.AwaitTrial" :options="optionSets.YesNoRD"></question-radio>
+    <question-radio title="Are you currently on parole or probation?" class="columns-fourths"
+                    id="ParoleProbation" v-model="gpra.ParoleProbation" :options="optionSets.YesNoRD"></question-radio>
+</section>

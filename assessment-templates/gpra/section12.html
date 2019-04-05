@@ -1,0 +1,23 @@
+<div class="pageTitle">
+    <h3>J: Discharge Status</h3>
+</div>
+
+<section>
+    <question-text title="On what date was the client discharged?" reminder="MM-DD-YYYY" id="DischargeDate" v-model="gpra.DischargeDate"></question-text>
+</section>
+
+
+<section>
+    <question-radio title="What is the client’s discharge status?"
+                    id="DischargeStatusCompl" v-model="gpra.DischargeStatusCompl" :options="optionSets.DischargeStatusCompl"></question-radio>
+    <question-radio v-show="gpra.DischargeStatusCompl == 2" title="What was the reason for termination?"
+                   id="DischargeStatusTermReason" v-model="gpra.DischargeStatusTermReason" :options="optionSets.DischargeStatusTermReason"></question-radio>
+    <question-text v-show="gpra.DischargeStatusTermReason == 13" title="Other (Specify)"
+                   id="OtherDischargeStatTermRsnSpec" v-model="gpra.OtherDischargeStatTermRsnSpec"></question-text>
+</section>
+<section>
+    <question-radio title="Did the program test this client for HIV?"
+                    id="jHIVTest" v-model="gpra.jHIVTest" :options="optionSets.YesNo"></question-radio>
+    <question-radio v-show="gpra.jHIVTest === '0'" title="Did the program refer this client for testing?" class="subquestion"
+                    id="ReceivingServices" v-model="gpra.ReceivingServices" :options="optionSets.YesNo"></question-radio>
+</section>

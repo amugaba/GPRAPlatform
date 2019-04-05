@@ -1,0 +1,99 @@
+<div class="pageTitle">
+    <h3>K: Services Provided</h3>
+</div>
+
+<div class="explanationBox">
+    Identify the number of DAYS of services provided to the client during the client’s course of treatment/recovery.
+</div>
+
+<div class="row">
+    <div class="col-sm-6 condensed input-small header-services">
+        <section>
+            <h4>MODALITY</h4>
+            <h5>(Select at least one modality)</h5>
+            <question-text title="Case Management" id="SvcCaseManagementDis" v-model="gpra.SvcCaseManagementDis" ></question-text>
+            <question-text title="Day Treatment" id="SvcDayTreatmentDis" v-model="gpra.SvcDayTreatmentDis" ></question-text>
+            <question-text title="Inpatient/Hospital (not Detox)" id="SvcInpatientDis" v-model="gpra.SvcInpatientDis" ></question-text>
+            <question-text title="Outpatient" id="SvcOutpatientDis" v-model="gpra.SvcOutpatientDis" ></question-text>
+            <question-text title="Outreach" id="SvcOutreachDis" v-model="gpra.SvcOutreachDis" ></question-text>
+            <question-text title="Intensive Outpatient" id="SvcIntensiveOutpatientDis" v-model="gpra.SvcIntensiveOutpatientDis" ></question-text>
+            <question-text title="Methadone" id="SvcMethadoneDis" v-model="gpra.SvcMethadoneDis" ></question-text>
+            <question-text title="Residential/Rehabilitation" id="SvcResidentialRehabDis" v-model="gpra.SvcResidentialRehabDis" ></question-text>
+            <h5><u>Detoxification (Select Only One)</u></h5>
+            <question-text title="a. Hospital Inpatient" id="SvcHospitalInpatientDis" v-model="gpra.SvcHospitalInpatientDis" ></question-text>
+            <question-text title="b. Free-Standing Residential" id="SvcFreeStandingResDis" v-model="gpra.SvcFreeStandingResDis" ></question-text>
+            <question-text title="c. Ambulatory Detoxification" id="SvcAmbulatoryDetoxDis" v-model="gpra.SvcAmbulatoryDetoxDis" ></question-text>
+            <question-text title="After Care" id="SvcAfterCareDis" v-model="gpra.SvcAfterCareDis" ></question-text>
+            <question-text title="Recovery Support" id="SvcRecoverySupportDis" v-model="gpra.SvcRecoverySupportDis" ></question-text>
+            <question-text title="Other" id="SvcOtherModalitiesDis" v-model="gpra.SvcOtherModalitiesDis" ></question-text>
+            <question-text v-show="gpra.SvcOtherModalitiesDis > 0" title="Other (Specify)" id="SvcOtherModalitesSpecDis" v-model="gpra.SvcOtherModalitesSpecDis"></question-text>
+        </section>
+        <section>
+            <h4>CASE MANAGEMENT SERVICES</h4>
+            <question-text title="Family Services (Including Marriage Education, Parenting, Child Development Services)" id="SvcFamilyServicesDis" v-model="gpra.SvcFamilyServicesDis" ></question-text>
+            <question-text title="Child Care" id="SvcChildCareDis" v-model="gpra.SvcChildCareDis" ></question-text>
+            <question-text title="Pre-Employment" id="SvcPreEmploymentDis" v-model="gpra.SvcPreEmploymentDis" ></question-text>
+            <question-text title="Employment Coaching" id="SvcEmploymentCoachingDis" v-model="gpra.SvcEmploymentCoachingDis" ></question-text>
+            <question-text title="Individual Services Coordination" id="SvcIndividualCoordDis" v-model="gpra.SvcIndividualCoordDis" ></question-text>
+            <question-text title="Transportation" id="SvcTransportationDis" v-model="gpra.SvcTransportationDis" ></question-text>
+            <question-text title="HIV/AIDS Service" id="SvcHIVAIDSServicesDis" v-model="gpra.SvcHIVAIDSServicesDis" ></question-text>
+            <question-text title="Supportive Transitional Drug-Free Housing Services" id="SvcDrugFreeHousingDis" v-model="gpra.SvcDrugFreeHousingDis" ></question-text>
+            <question-text title="Other Case Management Services" id="SvcOtherCaseMgmtDis" v-model="gpra.SvcOtherCaseMgmtDis" ></question-text>
+            <question-text v-show="gpra.SvcOtherCaseMgmtDis > 0" title="Other (Specify)" id="SvcOtherCaseMgmtSpecDis" v-model="gpra.SvcOtherCaseMgmtSpecDis"></question-text>
+        </section>
+        <section>
+            <h4>MEDICAL SERVICES</h4>
+            <question-text title="Medical Care" id="SvcMedicalCareDis" v-model="gpra.SvcMedicalCareDis" ></question-text>
+            <question-text title="Alcohol/Drug Testing" id="SvcAlcoholDrugTestingDis" v-model="gpra.SvcAlcoholDrugTestingDis" ></question-text>
+            <question-text title="HIV/AIDS Medical Support and Testing" id="SvcHIVAIDSMedicalDis" v-model="gpra.SvcHIVAIDSMedicalDis" ></question-text>
+            <question-text title="Other Medical Services" id="SvcOtherMedicalDis" v-model="gpra.SvcOtherMedicalDis" ></question-text>
+            <question-text v-show="gpra.SvcOtherMedicalDis > 0" title="Other (Specify)" id="SvcOtherMedicalSpecDis" v-model="gpra.SvcOtherMedicalSpecDis"></question-text>
+        </section>
+    </div>
+    <div class="col-sm-6 condensed input-small header-services">
+        <section>
+        <h4>TREATMENT SERVICES</h4>
+            <question-text title="Screening" id="SvcScreeningDis" v-model="gpra.SvcScreeningDis" ></question-text>
+            <question-text title="Brief Intervention" id="SvcBriefInterventionDis" v-model="gpra.SvcBriefInterventionDis" ></question-text>
+            <question-text title="Brief Treatment" id="SvcBriefTreatmentDis" v-model="gpra.SvcBriefTreatmentDis" ></question-text>
+            <question-text title="Referral to Treatment" id="SvcReferralTreatmentDis" v-model="gpra.SvcReferralTreatmentDis" ></question-text>
+            <question-text title="Assessment" id="SvcAssessmentDis" v-model="gpra.SvcAssessmentDis" ></question-text>
+            <question-text title="Treatment/Recovery Planning" id="SvcTreatmentPlanningDis" v-model="gpra.SvcTreatmentPlanningDis" ></question-text>
+            <question-text title="Individual Counseling" id="SvcIndividualCounsDis" v-model="gpra.SvcIndividualCounsDis" ></question-text>
+            <question-text title="Group Counseling" id="SvcGroupCounsDis" v-model="gpra.SvcGroupCounsDis" ></question-text>
+            <question-text title="Family/Marriage Counseling" id="SvcFamilyMarriageCounsDis" v-model="gpra.SvcFamilyMarriageCounsDis" ></question-text>
+            <question-text title="Co-Occurring Treatment/ Recovery Services" id="SvcCoOccurringDis" v-model="gpra.SvcCoOccurringDis" ></question-text>
+            <question-text title="Pharmacological Interventions" id="SvcPharmacologicalDis" v-model="gpra.SvcPharmacologicalDis" ></question-text>
+            <question-text title="HIV/AIDS Counseling" id="SvcHIVAIDSCounsDis" v-model="gpra.SvcHIVAIDSCounsDis" ></question-text>
+            <question-text title="Other Clinical Services" id="SvcOtherClinicalCounsDis" v-model="gpra.SvcOtherClinicalCounsDis" ></question-text>
+            <question-text v-show="gpra.SvcOtherClinicalCounsDis > 0" title="Other (Specify)" id="SvcOtherClinicalCounsSpecDis" v-model="gpra.SvcOtherClinicalCounsSpecDis"></question-text>
+        </section>
+        <section>
+            <h4>AFTER CARE SERVICES</h4>
+            <question-text title="Continuing Care" id="SvcContinuingCareDis" v-model="gpra.SvcContinuingCareDis" ></question-text>
+            <question-text title="Relapse Prevention" id="SvcRelapsePreventionDis" v-model="gpra.SvcRelapsePreventionDis" ></question-text>
+            <question-text title="Recovery Coaching" id="SvcRecoveryCoachingDis" v-model="gpra.SvcRecoveryCoachingDis" ></question-text>
+            <question-text title="Self-Help and Support Groups" id="SvcSelfHelpSupportDis" v-model="gpra.SvcSelfHelpSupportDis" ></question-text>
+            <question-text title="Spiritual Support" id="SvcSpiritualSupportDis" v-model="gpra.SvcSpiritualSupportDis" ></question-text>
+            <question-text title="Other After Care Services" id="SvcOtherAfterCareDis" v-model="gpra.SvcOtherAfterCareDis" ></question-text>
+            <question-text v-show="gpra.SvcOtherAfterCareDis > 0" title="Other (Specify)" id="SvcOtherAfterCareSpecDis" v-model="gpra.SvcOtherAfterCareSpecDis"></question-text>
+        </section>
+        <section>
+            <h4>EDUCATION SERVICES</h4>
+            <question-text title="Substance Abuse Education" id="SvcSubstanceAbuseEduDis" v-model="gpra.SvcSubstanceAbuseEduDis" ></question-text>
+            <question-text title="HIV/AIDS Education" id="SvcHIVAIDSEduDis" v-model="gpra.SvcHIVAIDSEduDis" ></question-text>
+            <question-text title="Other Education Services" id="SvcOtherEduDis" v-model="gpra.SvcOtherEduDis" ></question-text>
+            <question-text v-show="gpra.SvcOtherEduDis > 0" title="Other (Specify)" id="SvcOtherEduSpecDis" v-model="gpra.SvcOtherEduSpecDis"></question-text>
+        </section>
+        <section>
+            <h4>PEER-TO-PEER RECOVERY SUPPORT SERVICES</h4>
+            <question-text title="Peer Coaching or Mentoring" id="SvcPeerCoachingDis" v-model="gpra.SvcPeerCoachingDis" ></question-text>
+            <question-text title="Housing Support" id="SvcHousingSupportDis" v-model="gpra.SvcHousingSupportDis" ></question-text>
+            <question-text title="Alcohol- and Drug-Free Social Activities" id="SvcDrugFreeSocialDis" v-model="gpra.SvcDrugFreeSocialDis" ></question-text>
+            <question-text title="Information and Referral" id="SvcInformationReferralDis" v-model="gpra.SvcInformationReferralDis" ></question-text>
+            <question-text title="Other Peer-to-Peer Recovery Support" id="SvcOtherRecoveryDis" v-model="gpra.SvcOtherRecoveryDis" ></question-text>
+            <question-text v-show="gpra.SvcOtherRecoveryDis > 0" title="Other (Specify)" id="SvcOtherRecoverySpecDis" v-model="gpra.SvcOtherRecoverySpecDis"></question-text>
+        </section>
+    </div>
+</div>
+

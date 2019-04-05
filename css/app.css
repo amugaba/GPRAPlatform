@@ -1,0 +1,271 @@
+html,body {
+    margin: 0;
+    padding: 0;
+    height: 100%; /* needed for container min-height */
+    background: #eaeaea !important;
+}
+.wrapper {
+    max-width:980px;
+    margin: 0 auto;
+    background: white;
+    border: thin #9e9e9e solid;
+    position: relative;
+    height: auto !important;
+    min-height: 100%;"
+}
+#main {
+    margin: -20px auto 40px;
+    width: 95%;
+}
+
+/* HEADER AND FOOTER
+-------------------------------------------------- */
+#topbar {
+    background: #1f1f7b;
+    border-color: #000000;
+    border-radius: 0;
+    font-size: 25px !important;
+    height: 60px !important;
+    min-height: 60px !important;
+    font-family: "Times New Roman", serif;
+}
+.navbar-default .navbar-nav > li > a {
+    color: #ffffff !important;
+    padding-top: 18px !important;
+    padding-bottom: 12px !important;
+}
+#bottombar {
+    background: #f5f5f5;
+    text-align: center;
+}
+
+/* QUESTION SECTIONS
+-------------------------------------------------- */
+.pageTitle {
+    text-align: center;
+    font-size: 24px;
+    margin: 30px auto 20px;
+}
+.explanationBox {
+    border: thin solid #333;
+    padding: 10px;
+    margin: 10px;
+    background: #cccbff
+}
+.title {
+    font-size: 18px;
+    font-weight: normal;
+}
+.subheader .title {
+    font-size: 14px;
+    font-weight: bold;
+}
+.reminderText {
+    font-size: 14px;
+    font-weight: normal;
+    font-style: italic;
+}
+.question-block {
+    padding: 5px;
+}
+.question-block.type-checkbox {
+    padding: 0;
+}
+.subquestion {
+    padding-left: 40px;
+    padding-top: 10px;
+}
+.answers {
+    margin: 0;
+}
+.answers label {
+    font-weight: normal;
+    padding-left: 5px;
+}
+section {
+    padding: 20px 0;
+    border-bottom: thin solid #b8b8b8;
+}
+.fadeslow-enter-active, .fadeslow-leave-active {
+    transition: opacity 0.5s;
+}
+.fadeslow-enter, .fadeslow-leave-to /* .fade-leave-active below version 2.1.8 */ {
+    opacity: 0;
+}
+
+/* HEADER & INPUTS SIZES
+-------------------------------------------------- */
+.header-small .header {
+    width: 150px;
+}
+.header-med .header {
+    width: 250px;
+}
+.header-large .header {
+    width: 350px;
+}
+.header-xlarge .header {
+    width: 520px;
+}
+.header-services .header {
+    width: 320px;
+}
+.input-small input {
+    width: 100px;
+}
+.label-small label {
+    width: 100px;
+}
+.inline-header .header {
+    display: inline-block;
+}
+.condensed .question-block {
+    padding: 0;
+}
+.condensed .header .title {
+    font-size: 16px;
+}
+.condensed .type-radio label {
+    padding: 8px 20px;
+}
+
+/* VALIDATION ERROR
+-------------------------------------------------- */
+div.error {
+    box-shadow: 0 0 5px #ff0000;
+    border: solid thin #ff5656;
+}
+.error-message {
+    color: red;
+    font-style: italic;
+}
+
+/* TEXT INPUTS
+-------------------------------------------------- */
+.type-text .header {
+    display: inline-block;
+    margin-right: 20px;
+}
+.type-text .answers {
+    display: inline-block;
+}
+.type-text input {
+    padding: 6px 8px;
+    vertical-align: middle;
+    border: 1px solid #ddd;
+    border-radius: 3px;
+    box-shadow: inset 0 1px 2px rgba(0,0,0,0.075);
+}
+.type-text input:focus {
+    border-color: #66afe9;
+    outline: 0;
+    -webkit-box-shadow: inset 0 1px 1px rgba(0,0,0,.075), 0 0 8px rgba(102, 175, 233, .6);
+    box-shadow: inset 0 1px 1px rgba(0,0,0,.075), 0 0 8px rgba(102, 175, 233, .6);
+}
+table .type-text input {
+    width: 100%;
+}
+
+/* SELECT INPUTS
+-------------------------------------------------- */
+table .type-select select {
+    margin: 0;
+    padding: 0;
+    width: 100%;
+}
+
+/* RADIO INPUTS
+-------------------------------------------------- */
+.type-radio label {
+    text-align: left;
+    cursor: pointer;
+    background: #f1f1f1;
+    background: rgba(0,0,0,.01);
+    border: 1px solid rgba(0,0,0,.1);
+    transition: background .2s ease-in-out;
+    padding: 11px 20px;
+    display: inline-block;
+    width: 100%;
+    -webkit-border-radius: 2px;
+    -moz-border-radius: 2px;
+    -ms-border-radius: 2px;
+    -o-border-radius: 2px;
+    border-radius: 2px;
+    font-weight: normal;
+}
+.type-radio label:hover {
+    background: #bdb5b5;
+}
+.type-radio label.selected {
+    background: #465d8b;
+    color: white;
+}
+.type-radio input {
+    display: none;
+}
+.type-radio.columns-halves label {
+    width: 49%;
+}
+.type-radio.columns-thirds label {
+    width: 33%;
+}
+.type-radio.columns-fourths label {
+    width: 24%;
+}
+.type-radio.columns-fifths label {
+    width: 19%;
+}
+.type-radio.columns-sixths label {
+    width: 16%;
+}
+.type-radio.columns-sevenths label {
+    width: 13.5%;
+}
+.type-radio.columns-fit-life label {
+    width: auto;
+    min-width: 174px;
+}
+.type-radio.columns-fit-satisfied label {
+    width: auto;
+    min-width: 157px;
+}
+.type-radio.flex .answers {
+    display: flex;
+    align-items: stretch;
+    justify-content: space-between;
+}
+.type-radio.flex label {
+    width: auto;
+    flex: auto;
+    margin-right: 5px;
+}
+.type-radio .header {
+    margin-bottom: 10px;
+}
+.type-radio.inline label, .inline .type-radio label {
+    width: auto;
+}
+.type-radio.inline .answers, .inline .type-radio .answers {
+    display: inline-block;
+}
+.type-radio.inline .header, .inline .type-radio .header {
+    display: inline-block;
+    margin-right: 20px;
+}
+
+/* CHECKBOX INPUTS
+-------------------------------------------------- */
+.type-checkbox-only input {
+    margin: 0;
+    padding: 0;
+    display: inline-block;
+    cursor: pointer;
+    transform: scale(2.5);
+}
+
+/* OTHER
+-------------------------------------------------- */
+.table-centered td {
+    vertical-align: middle !important;
+    text-align: center;
+}

@@ -1,0 +1,14 @@
+<div class="pageTitle">
+    <h3>I: Follow-up Status</h3>
+</div>
+
+<section>
+    <question-radio title="What is the follow-up status of the client?"
+                    id="FLWPStatus" v-model="gpra.FLWPStatus" :options="optionSets.FLWPStatus"></question-radio>
+    <question-text v-show="gpra.FLWPStatus == 32" title="Other (Specify)"
+                   id="FLWPStatusSpec" v-model="gpra.FLWPStatusSpec"></question-text>
+</section>
+<section>
+    <question-radio title="Is the client still receiving services from your program?"
+                    id="ReceivingServices" v-model="gpra.ReceivingServices" :options="optionSets.YesNo"></question-radio>
+</section>

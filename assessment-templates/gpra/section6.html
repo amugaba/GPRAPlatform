@@ -1,0 +1,38 @@
+<div class="pageTitle">
+    <h3>D: Education, Employment, and Income</h3>
+</div>
+
+<section>
+    <question-radio title="Are you currently enrolled in school or a job training program? If enrolled, is that full time or part time?"
+                    id="TrainingProgram" v-model="gpra.TrainingProgram" :options="optionSets.TrainingProgram"></question-radio>
+    <question-text v-show="gpra.TrainingProgram == 4" title="Other (Specify)" id="TrainingProgramSpec" v-model="gpra.TrainingProgramSpec"></question-text>
+</section>
+<section>
+    <question-select title="What is the highest level of education you have finished, whether or not you received a degree?"
+                    id="EducationYears" v-model="gpra.EducationYears" :options="optionSets.EducationYears"></question-select>
+</section>
+<section>
+    <question-radio title="Are you currently employed?"
+                    id="EmployStatus" v-model="gpra.EmployStatus" :options="optionSets.EmployStatus"></question-radio>
+    <question-text v-show="gpra.EmployStatus == 0" title="Other (Specify)" id="EmployStatusSpec" v-model="gpra.EmployStatusSpec"></question-text>
+</section>
+<section>
+    <div class="header">
+        <span class="title">Approximately, how much money did YOU receive (pre-tax individual income) in the past 30 days from the following:</span>
+        <span class="reminderText">(Round to the nearest dollar.)</span>
+    </div>
+    <div class="subquestion header-med">
+        <question-text title="Wages" id="IncomeWages" v-model="gpra.IncomeWages"></question-text>
+        <question-text title="Public Assistance" id="IncomePubAssist" v-model="gpra.IncomePubAssist"></question-text>
+        <question-text title="Retirement" id="IncomeRetirement" v-model="gpra.IncomeRetirement"></question-text>
+        <question-text title="Disability" id="IncomeDisability" v-model="gpra.IncomeDisability"></question-text>
+        <question-text title="Non-Legal Income" id="IncomeNonLegal" v-model="gpra.IncomeNonLegal"></question-text>
+        <question-text title="Family or Friends" id="IncomeFamFriends" v-model="gpra.IncomeFamFriends"></question-text>
+        <question-text title="Other" id="IncomeOther" v-model="gpra.IncomeOther"></question-text>
+        <question-text v-show="gpra.IncomeOther > 0" title="Other (Specify)" id="IncomeOtherSpec" v-model="gpra.IncomeOtherSpec"></question-text>
+    </div>
+</section>
+<section>
+    <question-radio title="Have you enough money to meet your needs?"
+                    id="EnoughMoneyForNeeds" v-model="gpra.EnoughMoneyForNeeds" :options="optionSets.NeedsScale"></question-radio>
+</section>

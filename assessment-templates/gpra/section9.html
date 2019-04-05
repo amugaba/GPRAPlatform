@@ -1,0 +1,31 @@
+<div class="pageTitle">
+    <h3>F: Violence and Trauma</h3>
+</div>
+
+<section>
+    <question-radio title="Have you ever experienced violence or trauma in any setting (including community or school violence;
+        domestic violence; physical, psychological, or sexual maltreatment/assault within or outside of the family; natural disaster;
+        terrorism; neglect; or traumatic grief)?" class="columns-fourths"
+                    id="AnyViolence" v-model="gpra.AnyViolence" :options="optionSets.YesNoRD"></question-radio>
+    <transition name="fadeslow">
+        <div v-show="gpra.AnyViolence == 1" class="subquestion">
+            <div class="header">
+                <span class="title">Did any of these experiences feel so frightening, horrible, or upsetting that, in the past and/or the present, you:</span>
+            </div>
+            <div class="subheader">
+                <question-radio title="Have had nightmares about it or thought about it when you did not want to?" class="columns-fourths"
+                                id="Nightmares" v-model="gpra.Nightmares" :options="optionSets.YesNoRD"></question-radio>
+                <question-radio title="Tried hard not to think about it or went out of your way to avoid situations that remind you of it?" class="columns-fourths"
+                                id="TriedHard" v-model="gpra.TriedHard" :options="optionSets.YesNoRD"></question-radio>
+                <question-radio title="Were constantly on guard, watchful, or easily startled?" class="columns-fourths"
+                                id="ConstantGuard" v-model="gpra.ConstantGuard" :options="optionSets.YesNoRD"></question-radio>
+                <question-radio title="Felt numb and detached from others, activities, or your surroundings?" class="columns-fourths"
+                                id="NumbAndDetach" v-model="gpra.NumbAndDetach" :options="optionSets.YesNoRD"></question-radio>
+            </div>
+        </div>
+    </transition>
+</section>
+<section>
+    <question-radio title="In the past 30 days, how often have you been hit, kicked, slapped, or otherwise physically hurt?" class="flex"
+                    id="PhysicallyHurt" v-model="gpra.PhysicallyHurt" :options="optionSets.PhysicallyHurt"></question-radio>
+</section>

@@ -1,0 +1,105 @@
+<div class="pageTitle">
+    <h3>F: Mental and Physical Health Problems and Treatment/Recovery</h3>
+</div>
+
+<section>
+    <question-radio title="How would you rate your overall health right now?" class="columns-fifths"
+                    id="HealthStatus" v-model="gpra.HealthStatus" :options="optionSets.HealthScale"></question-radio>
+</section>
+<section>
+    <div class="header">
+        <span class="title">During the past 30 days, how many nights did you receive inpatient treatment for:</span>
+    </div>
+    <div class="subquestion header-med input-small">
+        <question-text title="Physical complaint" id="InpatientPhysicalNights" v-model="gpra.InpatientPhysicalNights"></question-text>
+        <question-text title="Mental or emotional difficulties" id="InpatientMentalNights" v-model="gpra.InpatientMentalNights"></question-text>
+        <question-text title="Alcohol or substance abuse" id="InpatientAlcoholSANights" v-model="gpra.InpatientAlcoholSANights"></question-text>
+    </div>
+</section>
+<section>
+    <div class="header">
+        <span class="title">During the past 30 days, how many times did you receive outpatient treatment for:</span>
+    </div>
+    <div class="subquestion header-med input-small">
+        <question-text title="Physical complaint" id="OutpatientPhysicalTimes" v-model="gpra.OutpatientPhysicalTimes"></question-text>
+        <question-text title="Mental or emotional difficulties" id="OutpatientMentalTimes" v-model="gpra.OutpatientMentalTimes"></question-text>
+        <question-text title="Alcohol or substance abuse" id="OutpatientAlcoholSATimes" v-model="gpra.OutpatientAlcoholSATimes"></question-text>
+    </div>
+</section>
+<section>
+    <div class="header">
+        <span class="title">During the past 30 days, how many times did you receive emergency room treatment for:</span>
+    </div>
+    <div class="subquestion header-med input-small">
+        <question-text title="Physical complaint" id="ERPhysicalTimes" v-model="gpra.ERPhysicalTimes"></question-text>
+        <question-text title="Mental or emotional difficulties" id="ERMentalTimes" v-model="gpra.ERMentalTimes"></question-text>
+        <question-text title="Alcohol or substance abuse" id="ERAlcoholSATimes" v-model="gpra.ERAlcoholSATimes"></question-text>
+    </div>
+</section>
+<section>
+    <question-radio title="During the past 30 days, did you engage in sexual activity?" class="columns-fourths"
+                    id="SexActivity" v-model="gpra.SexActivity" :options="optionSets.YesNoNotPermitted"></question-radio>
+    <transition name="fadeslow">
+        <div v-show="gpra.SexActivity == 1" class="subquestion header-xlarge">
+            <question-text title="How many sexual contacts (vaginal, oral, or anal) did you have?" id="SexContacts" v-model="gpra.SexContacts"></question-text>
+            <question-text title="How many unprotected sexual contacts did you have?" id="SexUnprot" v-model="gpra.SexUnprot"></question-text>
+            <transition name="fadeslow">
+                <div v-show="gpra.SexUnprot > 0">
+                    <div class="header">
+                        <span class="title">How many of those unprotected sexual contacts were with an individual who is/was...</span>
+                    </div>
+                    <div class="subquestion">
+                        <question-text title="HIV positive or has AIDS" id="SexUnprotHIVAids" v-model="gpra.SexUnprotHIVAids"></question-text>
+                        <question-text title="An injection drug user" id="SexUnprotInjDrugUser" v-model="gpra.SexUnprotInjDrugUser"></question-text>
+                        <question-text title="High on some substance" id="SexUnprotHigh" v-model="gpra.SexUnprotHigh"></question-text>
+                    </div>
+                </div>
+            </transition>
+        </div>
+    </transition>
+</section>
+<section>
+    <question-radio title="Have you ever been tested for HIV?" class="columns-fourths"
+                    id="fHIVTest" v-model="gpra.fHIVTest" :options="optionSets.YesNoRD"></question-radio>
+    <question-radio v-if="gpra.fHIVTest == 1" title="Do you know the results of your HIV testing?" class="columns-fourths subquestion"
+                    id="fHIVTestResult" v-model="gpra.fHIVTestResult" :options="optionSets.YesNoRD"></question-radio>
+</section>
+<section>
+    <question-radio title="How would you rate your quality of life?" class="flex"
+                    id="LifeQuality" v-model="gpra.LifeQuality" :options="optionSets.LifeQuality"></question-radio>
+</section>
+<section>
+    <question-radio title="How satisfied are you with your health?" class="flex"
+                    id="HealthSatisfaction" v-model="gpra.HealthSatisfaction" :options="optionSets.SatisfactionScale"></question-radio>
+</section>
+<section>
+    <question-radio title="Do you have enough energy for everyday life?" class="flex"
+                    id="EnoughEnergyForEverydayLife" v-model="gpra.EnoughEnergyForEverydayLife" :options="optionSets.NeedsScale"></question-radio>
+</section>
+<section>
+    <question-radio title="How satisfied are you with your ability to perform your daily activities?" class="flex"
+                    id="PerformDailyActivitiesSatisfaction" v-model="gpra.PerformDailyActivitiesSatisfaction" :options="optionSets.SatisfactionScale"></question-radio>
+</section>
+<section>
+    <question-radio title="How satisfied are you with yourself?" class="flex"
+                    id="SelfSatisfaction" v-model="gpra.SelfSatisfaction" :options="optionSets.SatisfactionScale"></question-radio>
+</section>
+<section>
+    <div class="header">
+        <span class="title">In the past 30 days, not due to your use of alcohol or drugs, how many days have you:</span>
+    </div>
+    <div class="subquestion header-xlarge input-small">
+        <question-text title="Experienced serious depression" id="Depression" v-model="gpra.Depression"></question-text>
+        <question-text title="Experienced serious anxiety or tension" id="Anxiety" v-model="gpra.Anxiety"></question-text>
+        <question-text title="Experienced hallucinations" id="Hallucinations" v-model="gpra.Hallucinations"></question-text>
+        <question-text title="Experienced trouble understanding, concentrating, or remembering" id="BrainFunction" v-model="gpra.BrainFunction"></question-text>
+        <question-text title="Experienced trouble controlling violent behavior" id="ViolentBehavior" v-model="gpra.ViolentBehavior"></question-text>
+        <question-text title="Attempted suicide" id="Suicide" v-model="gpra.Suicide"></question-text>
+        <question-text title="Been prescribed medication for psychological/emotional problem" id="PsycholEmotMedication" v-model="gpra.PsycholEmotMedication"></question-text>
+    </div>
+    <div v-show="gpra.Depression > 0 || gpra.Anxiety > 0 || gpra.Hallucinations > 0 || gpra.BrainFunction > 0 || gpra.ViolentBehavior > 0 || gpra.Suicide > 0 || gpra.PsycholEmotMedication > 0 "
+        style="margin-top: 20px">
+        <question-radio title="How much have you been bothered by these psychological or emotional problems in the past 30 days?" class="columns-fifths"
+                        id="PsycholEmotImpact" v-model="gpra.PsycholEmotImpact" :options="optionSets.PsycholEmotImpact"></question-radio>
+    </div>
+</section>

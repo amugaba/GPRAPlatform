@@ -1,0 +1,152 @@
+<div class="pageTitle">
+    <h3>A: Demographics</h3>
+</div>
+
+<section>
+    <question-radio title="What is your gender?" id="GenderCode" v-model="gpra.GenderCode" :options="optionSets.Gender"></question-radio>
+    <question-text v-show="gpra.GenderCode==4" title="Other (Specify)" id="GenderOtherSpecify" v-model="gpra.GenderOtherSpecify"></question-text>
+</section>
+<section>
+    <question-radio title="Are you Hispanic or Latino?" id="HispanicLatino" v-model="gpra.HispanicLatino" :options="optionSets.YesNoR" class="columns-thirds"></question-radio>
+    <transition name="fadeslow">
+        <div v-show="gpra.HispanicLatino == 1" class="subquestion question-block">
+            <div class="header">
+                <span class="title">What ethnic group do you consider yourself?</span>
+                <span class="reminderText">(You may select more than one.)</span>
+            </div>
+            <div class="answers">
+                <question-checkbox title="Central American" id="EthnicCentralAmerican" v-model="gpra.EthnicCentralAmerican"></question-checkbox>
+                <question-checkbox title="Cuban" id="EthnicCuban" v-model="gpra.EthnicCuban"></question-checkbox>
+                <question-checkbox title="Dominican" id="EthnicDominican" v-model="gpra.EthnicDominican"></question-checkbox>
+                <question-checkbox title="Mexican" id="EthnicMexican" v-model="gpra.EthnicMexican"></question-checkbox>
+                <question-checkbox title="Puerto Rican" id="EthnicPuertoRican" v-model="gpra.EthnicPuertoRican"></question-checkbox>
+                <question-checkbox title="South American" id="EthnicSouthAmerican" v-model="gpra.EthnicSouthAmerican"></question-checkbox>
+                <question-checkbox title="Other" id="EthnicOther" v-model="gpra.EthnicOther"></question-checkbox>
+                <question-text v-show="gpra.EthnicOther==1" title="Other (Specify)" id="EthnicOtherSpec" v-model="gpra.EthnicOtherSpec"></question-text>
+            </div>
+        </div>
+    </transition>
+</section>
+<section>
+    <div class="question-block">
+        <div class="header">
+            <span class="title">What is your race?</span>
+            <span class="reminderText">(You may select more than one.)</span>
+        </div>
+        <div class="answers">
+            <question-checkbox title="Black or African American" id="RaceBlack" v-model="gpra.RaceBlack"></question-checkbox>
+            <question-checkbox title="Asian" id="RaceAsian" v-model="gpra.RaceAsian"></question-checkbox>
+            <question-checkbox title="Native Hawaiian or other Pacific Islander" id="RaceNativeHawaiian" v-model="gpra.RaceNativeHawaiian"></question-checkbox>
+            <question-checkbox title="Alaska Native" id="RaceAlaskaNative" v-model="gpra.RaceAlaskaNative"></question-checkbox>
+            <question-checkbox title="White" id="RaceWhite" v-model="gpra.RaceWhite"></question-checkbox>
+            <question-checkbox title="American Indian" id="RaceAmericanIndian" v-model="gpra.RaceAmericanIndian"></question-checkbox>
+        </div>
+    </div>
+</section>
+<section>
+    <question-text title="What year were you born?" id="BirthYear" v-model="gpra.BirthYear"></question-text>
+</section>
+<section>
+    <question-radio title="Have you ever served in the Armed Forces, in the Reserves, or in the National Guard? [IF SERVED] In which area, the Armed Forces, Reserves, or National Guard did you serve?"
+                    id="MilitaryServed" v-model="gpra.MilitaryServed" :options="optionSets.MilitaryServed"></question-radio>
+    <transition name="fadeslow">
+        <div v-show="gpra.MilitaryServed > 0" class="subquestion">
+            <question-radio title="Are you currently on active duty in the Armed Forces, in the Reserves, or in the National Guard? [IF ACTIVE] In which area, the Armed Forces, Reserves, or National Guard?"
+                            id="ActiveDuty" v-model="gpra.ActiveDuty" :options="optionSets.ActiveDuty"></question-radio>
+            <div class="question-block">
+                <div class="header">
+                    <span class="title">Have you ever been deployed to a combat zone?</span>
+                    <span class="reminderText">(Check all that apply.)</span>
+                </div>
+                <div class="condensed answers">
+                    <question-checkbox title="Iraq or Afghanistan (e.g., Operation Enduring Freedom [OEF]/ Operation Iraqi Freedom [OIF]/ Operation New Dawn [OND])"
+                                       id="IraqAfghanistan" v-model="gpra.IraqAfghanistan"></question-checkbox>
+                    <question-checkbox title="Persian Gulf (Operation Desert Shield/Desert Storm)" id="PersianGulf" v-model="gpra.PersianGulf"></question-checkbox>
+                    <question-checkbox title="Vietnam/Southeast Asia" id="VietnamSoutheastAsia" v-model="gpra.VietnamSoutheastAsia"></question-checkbox>
+                    <question-checkbox title="Korea" id="Korea" v-model="gpra.Korea"></question-checkbox>
+                    <question-checkbox title="WWII" id="WWII" v-model="gpra.WWII"></question-checkbox>
+                    <question-checkbox title="Deployed To A Combat Zone Not Listed Above (E.G., Bosnia/Somalia)" id="DeployedCombatZone" v-model="gpra.DeployedCombatZone"></question-checkbox>
+                </div>
+            </div>
+        </div>
+    </transition>
+</section>
+<section>
+    <question-radio title="Is anyone in your family or someone close to you on active duty in the Armed Forces, in the Reserves, or in the National Guard or separated or retired from the Armed Forces, Reserves, or National Guard?"
+                    id="FamilyActiveDuty" v-model="gpra.FamilyActiveDuty" :options="optionSets.FamilyActiveDuty"></question-radio>
+    <transition name="fadeslow">
+        <div v-show="gpra.FamilyActiveDuty > 0" class="subquestion">
+            <div class="question-block">
+                <div class="header">
+                    <span class="title">For up to 6 people, specify the Service Member's relationship to you and whether they experienced any of the following:</span>
+                </div>
+                <table class="table table-bordered table-centered condensed">
+                    <tr>
+                        <td style="width: 28%; text-align: left">Relationship</td> <!--TBD need other specify text boxes, put placeholder text in boxes since no room for label-->
+                        <td style="width: 12%">
+                            <question-select id="ServiceMemRelationship1" v-model="gpra.ServiceMemRelationship1" :options="optionSets.FamilyRelationship"></question-select>
+                            <question-text v-show="gpra.ServiceMemRelationship1 == 8" id="ServiceMemExpOther1" v-model="gpra.ServiceMemExpOther1"></question-text>
+                        </td>
+                        <td style="width: 12%">
+                            <question-select id="ServiceMemRelationship2" v-model="gpra.ServiceMemRelationship2" :options="optionSets.FamilyRelationship"></question-select>
+                            <question-text v-show="gpra.ServiceMemRelationship2 == 8" id="ServiceMemExpOther2" v-model="gpra.ServiceMemExpOther2"></question-text>
+                        </td>
+                        <td style="width: 12%">
+                            <question-select id="ServiceMemRelationship3" v-model="gpra.ServiceMemRelationship3" :options="optionSets.FamilyRelationship"></question-select>
+                            <question-text v-show="gpra.ServiceMemRelationship3 == 8" id="ServiceMemExpOther3" v-model="gpra.ServiceMemExpOther3"></question-text>
+                        </td>
+                        <td style="width: 12%">
+                            <question-select id="ServiceMemRelationship4" v-model="gpra.ServiceMemRelationship4" :options="optionSets.FamilyRelationship"></question-select>
+                            <question-text v-show="gpra.ServiceMemRelationship4 == 8" id="ServiceMemExpOther4" v-model="gpra.ServiceMemExpOther4"></question-text>
+                        </td>
+                        <td style="width: 12%">
+                            <question-select id="ServiceMemRelationship5" v-model="gpra.ServiceMemRelationship5" :options="optionSets.FamilyRelationship"></question-select>
+                            <question-text v-show="gpra.ServiceMemRelationship5 == 8" id="ServiceMemExpOther5" v-model="gpra.ServiceMemExpOther5"></question-text>
+                        </td>
+                        <td style="width: 12%">
+                            <question-select id="ServiceMemRelationship6" v-model="gpra.ServiceMemRelationship6" :options="optionSets.FamilyRelationship"></question-select>
+                            <question-text v-show="gpra.ServiceMemRelationship6 == 8" id="ServiceMemExpOther6" v-model="gpra.ServiceMemExpOther6"></question-text>
+                        </td>
+                    </tr>
+                    <tr class="inline condensed answers">
+                        <td style="text-align: left">Deployed in support of combat operations (e.g., Iraq or Afghanistan)</td>
+                        <td><question-checkbox-only id="ServiceMemExpDeployed1" v-model="gpra.ServiceMemExpDeployed1"></question-checkbox-only></td>
+                        <td><question-checkbox-only id="ServiceMemExpDeployed2" v-model="gpra.ServiceMemExpDeployed2"></question-checkbox-only></td>
+                        <td><question-checkbox-only id="ServiceMemExpDeployed3" v-model="gpra.ServiceMemExpDeployed3"></question-checkbox-only></td>
+                        <td><question-checkbox-only id="ServiceMemExpDeployed4" v-model="gpra.ServiceMemExpDeployed4"></question-checkbox-only></td>
+                        <td><question-checkbox-only id="ServiceMemExpDeployed5" v-model="gpra.ServiceMemExpDeployed5"></question-checkbox-only></td>
+                        <td><question-checkbox-only id="ServiceMemExpDeployed6" v-model="gpra.ServiceMemExpDeployed6"></question-checkbox-only></td>
+                    </tr>
+                    <tr class="inline condensed answers">
+                        <td style="text-align: left">Was physically injured during combat operations</td>
+                        <td><question-checkbox-only id="ServiceMemExpInjured1" v-model="gpra.ServiceMemExpInjured1"></question-checkbox-only></td>
+                        <td><question-checkbox-only id="ServiceMemExpInjured2" v-model="gpra.ServiceMemExpInjured2"></question-checkbox-only></td>
+                        <td><question-checkbox-only id="ServiceMemExpInjured3" v-model="gpra.ServiceMemExpInjured3"></question-checkbox-only></td>
+                        <td><question-checkbox-only id="ServiceMemExpInjured4" v-model="gpra.ServiceMemExpInjured4"></question-checkbox-only></td>
+                        <td><question-checkbox-only id="ServiceMemExpInjured5" v-model="gpra.ServiceMemExpInjured5"></question-checkbox-only></td>
+                        <td><question-checkbox-only id="ServiceMemExpInjured6" v-model="gpra.ServiceMemExpInjured6"></question-checkbox-only></td>
+                    </tr>
+                    <tr class="inline condensed answers">
+                        <td style="text-align: left">Developed combat stress symptoms/difficulties adjusting following deployment, including PTSD, depression, or suicidal thoughts</td>
+                        <td><question-checkbox-only id="ServiceMemExpCombatStress1" v-model="gpra.ServiceMemExpCombatStress1"></question-checkbox-only></td>
+                        <td><question-checkbox-only id="ServiceMemExpCombatStress2" v-model="gpra.ServiceMemExpCombatStress2"></question-checkbox-only></td>
+                        <td><question-checkbox-only id="ServiceMemExpCombatStress3" v-model="gpra.ServiceMemExpCombatStress3"></question-checkbox-only></td>
+                        <td><question-checkbox-only id="ServiceMemExpCombatStress4" v-model="gpra.ServiceMemExpCombatStress4"></question-checkbox-only></td>
+                        <td><question-checkbox-only id="ServiceMemExpCombatStress5" v-model="gpra.ServiceMemExpCombatStress5"></question-checkbox-only></td>
+                        <td><question-checkbox-only id="ServiceMemExpCombatStress6" v-model="gpra.ServiceMemExpCombatStress6"></question-checkbox-only></td>
+                    </tr>
+                    <tr class="inline condensed answers">
+                        <td style="text-align: left">Died or was killed</td>
+                        <td><question-checkbox-only id="ServiceMemExpDeceased1" v-model="gpra.ServiceMemExpDeceased1"></question-checkbox-only></td>
+                        <td><question-checkbox-only id="ServiceMemExpDeceased2" v-model="gpra.ServiceMemExpDeceased2"></question-checkbox-only></td>
+                        <td><question-checkbox-only id="ServiceMemExpDeceased3" v-model="gpra.ServiceMemExpDeceased3"></question-checkbox-only></td>
+                        <td><question-checkbox-only id="ServiceMemExpDeceased4" v-model="gpra.ServiceMemExpDeceased4"></question-checkbox-only></td>
+                        <td><question-checkbox-only id="ServiceMemExpDeceased5" v-model="gpra.ServiceMemExpDeceased5"></question-checkbox-only></td>
+                        <td><question-checkbox-only id="ServiceMemExpDeceased6" v-model="gpra.ServiceMemExpDeceased6"></question-checkbox-only></td>
+                    </tr>
+                </table>
+            </div>
+        </div>
+    </transition>
+</section>
+

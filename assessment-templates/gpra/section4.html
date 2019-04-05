@@ -1,0 +1,153 @@
+<div class="pageTitle">
+    <h3>B: Drug and Alcohol Use</h3>
+</div>
+
+<section>
+    <div class="header">
+        <span class="title">During the past 30 days, how many days have you used the following:</span>
+    </div>
+    <div class="header-large input-small subquestion">
+        <question-text title="Any alcohol" id="DAUseAlcoholDays" v-model="gpra.DAUseAlcoholDays"></question-text>
+        <question-text title="Alcohol to intoxication" reminder="5+ drinks in one sitting" id="DAUseAlcoholIntox5Days" v-model="gpra.DAUseAlcoholIntox5Days"></question-text>
+        <question-text title="Alcohol to intoxication" reminder="4 or fewer drinks in one sitting and felt high" id="DAUseAlcoholIntox4Days" v-model="gpra.DAUseAlcoholIntox4Days"></question-text>
+        <question-text title="Illegal drugs" id="DAUseIllegDrugsDays" v-model="gpra.DAUseIllegDrugsDays"></question-text>
+        <question-text title="Both alcohol and drugs" reminder="on the same day" id="DAUseBothDays" v-model="gpra.DAUseBothDays"></question-text>
+    </div>
+</section>
+<section>
+    <div class="header">
+        <span class="title">During the past 30 days, how many days have you used any of the following:</span>
+    </div>
+    <div class="subquestion" style="margin-top: 10px">
+    <table class="table table-bordered condensed">
+        <thead>
+        <tr style="font-weight: bold">
+            <th style="width:65%">Substance</th>
+            <th style="width:15%">Number of Days</th>
+            <th style="width:20%">Route</th>
+        </tr>
+        </thead>
+        <tbody style="text-align: right">
+        <tr>
+            <td class="h4">Cocaine/Crack</td>
+            <td><question-text id="CocaineCrackDays" v-model="gpra.CocaineCrackDays"></question-text></td>
+            <td><question-select id="CocaineCrackRoute" v-model="gpra.CocaineCrackRoute" :options="optionSets.DrugRoute"></question-select></td>
+        </tr>
+        <tr>
+            <td class="h4">Marijuana/Hashish <span class="reminderText">(Pot, Joints, Blunts, Chronic, Weed, Mary Jane)</span></td>
+            <td><question-text id="MarijuanaHashDays" v-model="gpra.MarijuanaHashDays"></question-text></td>
+            <td><question-select id="MarijuanaHashRoute" v-model="gpra.MarijuanaHashRoute" :options="optionSets.DrugRoute"></question-select></td>
+        </tr>
+        <tr>
+            <td class="h4">Heroin <span class="reminderText">(Smack, H, Junk, Skag)</span></td>
+            <td><question-text id="OpiatesHeroinDays" v-model="gpra.OpiatesHeroinDays"></question-text></td>
+            <td><question-select id="OpiatesHeroinRoute" v-model="gpra.OpiatesHeroinRoute" :options="optionSets.DrugRoute"></question-select></td>
+        </tr>
+        <tr>
+            <td class="h4">Morphine</td>
+            <td><question-text id="OpiatesMorphineDays" v-model="gpra.OpiatesMorphineDays"></question-text></td>
+            <td><question-select id="OpiatesMorphineRoute" v-model="gpra.OpiatesMorphineRoute" :options="optionSets.DrugRoute"></question-select></td>
+        </tr>
+        <tr>
+            <td class="h4">Dilaudid</td>
+            <td><question-text id="OpiatesDiluadidDays" v-model="gpra.OpiatesDiluadidDays"></question-text></td>
+            <td><question-select id="OpiatesDiluadidRoute" v-model="gpra.OpiatesDiluadidRoute" :options="optionSets.DrugRoute"></question-select></td>
+        </tr>
+        <tr>
+            <td class="h4">Demerol</td>
+            <td><question-text id="OpiatesDemerolDays" v-model="gpra.OpiatesDemerolDays"></question-text></td>
+            <td><question-select id="OpiatesDemerolRoute" v-model="gpra.OpiatesDemerolRoute" :options="optionSets.DrugRoute"></question-select></td>
+        </tr>
+        <tr>
+            <td class="h4">Percocet</td>
+            <td><question-text id="OpiatesPercocetDays" v-model="gpra.OpiatesPercocetDays"></question-text></td>
+            <td><question-select id="OpiatesPercocetRoute" v-model="gpra.OpiatesPercocetRoute" :options="optionSets.DrugRoute"></question-select></td>
+        </tr>
+        <tr>
+            <td class="h4">Darvon</td>
+            <td><question-text id="OpiatesDarvonDays" v-model="gpra.OpiatesDarvonDays"></question-text></td>
+            <td><question-select id="OpiatesDarvonRoute" v-model="gpra.OpiatesDarvonRoute" :options="optionSets.DrugRoute"></question-select></td>
+        </tr>
+        <tr>
+            <td class="h4">Codeine</td>
+            <td><question-text id="OpiatesCodeineDays" v-model="gpra.OpiatesCodeineDays"></question-text></td>
+            <td><question-select id="OpiatesCodeineRoute" v-model="gpra.OpiatesCodeineRoute" :options="optionSets.DrugRoute"></question-select></td>
+        </tr>
+        <tr>
+            <td class="h4">Tylenol 2, 3, 4</td>
+            <td><question-text id="OpiatesTylenolDays" v-model="gpra.OpiatesTylenolDays"></question-text></td>
+            <td><question-select id="OpiatesTylenolRoute" v-model="gpra.OpiatesTylenolRoute" :options="optionSets.DrugRoute"></question-select></td>
+        </tr>
+        <tr>
+            <td class="h4">OxyContin/Oxycodone</td>
+            <td><question-text id="OpiatesOxycoDays" v-model="gpra.OpiatesOxycoDays"></question-text></td>
+            <td><question-select id="OpiatesOxycoRoute" v-model="gpra.OpiatesOxycoRoute" :options="optionSets.DrugRoute"></question-select></td>
+        </tr>
+        <tr>
+            <td class="h4">Non-prescription methadone</td>
+            <td><question-text id="NonPresMethadoneDays" v-model="gpra.NonPresMethadoneDays"></question-text></td>
+            <td><question-select id="NonPresMethadoneRoute" v-model="gpra.NonPresMethadoneRoute" :options="optionSets.DrugRoute"></question-select></td>
+        </tr>
+        <tr>
+            <td class="h4">Hallucinogens/psychedelics, PCP <span class="reminderText">(Angel Dust, Ozone, Wack, Rocket Fuel)</span>, MDMA
+                <span class="reminderText">(Ecstasy, XTC, X, Adam)</span>, LSD <span class="reminderText">(Acid, Boomers, Yellow Sunshine)</span>,
+                    Mushrooms, or Mescaline</td>
+            <td><question-text id="HallucPsychDays" v-model="gpra.HallucPsychDays"></question-text></td>
+            <td><question-select id="HallucPsychRoute" v-model="gpra.HallucPsychRoute" :options="optionSets.DrugRoute"></question-select></td>
+        </tr>
+        <tr>
+            <td class="h4">Methamphetamine or other amphetamines <span class="reminderText">(Meth, Uppers, Speed, Ice, Chalk, Crystal, Glass, Fire, Crank)</span></td>
+            <td><question-text id="MethamDays" v-model="gpra.MethamDays"></question-text></td>
+            <td><question-select id="MethamRoute" v-model="gpra.MethamRoute" :options="optionSets.DrugRoute"></question-select></td>
+        </tr>
+        <tr>
+            <td class="h4">Benzodiazepines <span class="reminderText">Diazepam (Valium); Alprazolam (Xanax); Triazolam (Halcion); and Estasolam
+                (Prosom and Rohypnol, also known as roofies, roche, and cope)</span></td>
+            <td><question-text id="BenzodiazepinesDays" v-model="gpra.BenzodiazepinesDays"></question-text></td>
+            <td><question-select id="BenzodiazepinesRoute" v-model="gpra.BenzodiazepinesRoute" :options="optionSets.DrugRoute"></question-select></td>
+        </tr>
+        <tr>
+            <td class="h4">Barbiturates <span class="reminderText">Mephobarbital (Mebacut) and pentobarbital sodium (Nembutal)</span></td>
+            <td><question-text id="BarbituatesDays" v-model="gpra.BarbituatesDays"></question-text></td>
+            <td><question-select id="BarbituatesRoute" v-model="gpra.BarbituatesRoute" :options="optionSets.DrugRoute"></question-select></td>
+        </tr>
+        <tr>
+            <td class="h4">Non-prescription GHB <span class="reminderText">(known as Grievous Bodily Harm, Liquid Ecstasy, and Georgia Home Boy)</span></td>
+            <td><question-text id="NonPrescGhbDays" v-model="gpra.NonPrescGhbDays"></question-text></td>
+            <td><question-select id="NonPrescGhbRoute" v-model="gpra.NonPrescGhbRoute" :options="optionSets.DrugRoute"></question-select></td>
+        </tr>
+        <tr>
+            <td class="h4">Ketamine <span class="reminderText">(known as Special K or Vitamin K)</span></td>
+            <td><question-text id="KetamineDays" v-model="gpra.KetamineDays"></question-text></td>
+            <td><question-select id="KetamineRoute" v-model="gpra.KetamineRoute" :options="optionSets.DrugRoute"></question-select></td>
+        </tr>
+        <tr>
+            <td class="h4">Other tranquilizers, downers, sedatives, or hypnotics</td>
+            <td><question-text id="OtherTranquilizersDays" v-model="gpra.OtherTranquilizersDays"></question-text></td>
+            <td><question-select id="OtherTranquilizersRoute" v-model="gpra.OtherTranquilizersRoute" :options="optionSets.DrugRoute"></question-select></td>
+        </tr>
+        <tr>
+            <td class="h4">Inhalants <span class="reminderText">(poppers, snappers, rush, whippets)</span></td>
+            <td><question-text id="InhalantsDays" v-model="gpra.InhalantsDays"></question-text></td>
+            <td><question-select id="InhalantsRoute" v-model="gpra.InhalantsRoute" :options="optionSets.DrugRoute"></question-select></td>
+        </tr>
+        <tr>
+            <td><question-text title="Other illegal drugs (Specify)" id="OtherIllegalDrugsSpec" v-model="gpra.OtherIllegalDrugsSpec"></question-text></td>
+            <td><question-text id="OtherIllegalDrugsDays" v-model="gpra.OtherIllegalDrugsDays"></question-text></td>
+            <td><question-select id="OtherIllegalDrugsRoute" v-model="gpra.OtherIllegalDrugsRoute" :options="optionSets.DrugRoute"></question-select></td>
+        </tr>
+        </tbody>
+    </table>
+    </div>
+</section>
+<section>
+    <question-radio title="In the past 30 days, have you injected drugs?" class="columns-fourths"
+                    id="InjectedDrugs" v-model="gpra.InjectedDrugs" :options="optionSets.YesNoRD"></question-radio>
+    <transition name="fadeslow">
+        <div v-show="gpra.InjectedDrugs == 1" class="subquestion">
+            <question-radio title="In the past 30 days, how often did you use a syringe/needle, cooker, cotton, or water that someone else used?"
+                            id="ParaphenaliaUsedOthers" v-model="gpra.ParaphenaliaUsedOthers" :options="optionSets.InjectFreq"></question-radio>
+        </div>
+    </transition>
+</section>
+
