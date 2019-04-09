@@ -1,7 +1,7 @@
 <?php
-require_once dirname(__FILE__).'/config.php';
-require_once dirname(__FILE__).'/DataService.php';
-require_once dirname(__FILE__).'/Result.php';
+require_once dirname(__FILE__) . '/config.php';
+require_once dirname(__FILE__) . '/DataService.php';
+require_once dirname(__FILE__) . '/Result.php';
 
 try {
     $postdata = file_get_contents("php://input");

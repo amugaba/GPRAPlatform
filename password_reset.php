@@ -1,7 +1,7 @@
 <?php
-require_once "php/config.php";
-require_once "php/DataService.php";
-require_once "php/MailService.php";
+require_once "model/config.php";
+require_once "model/DataService.php";
+require_once "model/MailService.php";
 
 $displayForm = 0;
 $loginResult = null;

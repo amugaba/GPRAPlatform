@@ -1,7 +1,7 @@
 <?php
-require_once dirname(__FILE__).'/config.php';
-require_once dirname(__FILE__).'/mail/PHPMailerAutoload.php';
-require_once dirname(__FILE__).'/DataService.php';
+require_once dirname(__FILE__) . '/config.php';
+require_once dirname(__FILE__) . '/mail/PHPMailerAutoload.php';
+require_once dirname(__FILE__) . '/DataService.php';
 
 class MailService {
 

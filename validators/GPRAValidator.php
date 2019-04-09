@@ -32,12 +32,15 @@ class GPRAValidator extends Validator {
                     $this->gpra->$code = $question->default_value;
                 }
             }
-
-            //make sure option-based questions are using a valid option
-            if($question->option_set != null) {
+            //for option-based questions, ensure they are using a valid option
+            else if($question->option_set != null) {
                 if(!Validator::isValidOption($this->gpra->$code, $option_sets[$question->option_set])) {
                     $this->addError($code, 'Invalid option');
                 }
+            }
+            //for text responses, trim whitespace
+            else {
+                $this->gpra->$code = trim($this->gpra->$code);
             }
         }
 

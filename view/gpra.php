@@ -1,48 +1,18 @@
-<?php
-require_once "services/config.php";
-require_once "services/DataService.php";
-
-//check_login();
-if(!isset($_GET['id']))
-    die("Assessment ID missing.");//this should route to a proper error page
-if(!isset($_GET['section']))
-    die("Section ID missing.");//this should route to a proper error page
-$ds = DataService::getInstance();
-$assessment = $ds->getAssessment($_GET['id']);
-if($assessment == null)
-    die("Assessment ID invalid.");
-
-$current_section = intval($_GET['section']);
-//there should be a check of progress whether this page can be accessed
-
-$optionSets = $ds->getOptionSets();
-$answers = $ds->getAnswersByAssessment($assessment->id); //get all answers because sometimes old answers are needed for skip patterns
-$questions = $ds->getQuestionsBySection($assessment->assessment_type, $current_section);
-$errors_container = new stdClass();
-
-//all variables must be declared for Vue to set up 2-way binding
-foreach ($questions as $question) {
-    $code = $question->code;
-    $assessment->$code = null;
-    $errors_container->$code = null;
-}
-//populate answers
-foreach ($answers as $answer) {
-    $code = $answer->code;
-    $assessment->$code = $answer->value;
-}
-?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
     <title>GPRA Platform</title>
     <?php include_styles(); ?>
 </head>
 <body>
     <?php include_header(); ?>
 
-    <?php include_assessment_template($assessment->assessment_type, $current_section); ?>
+    <?php
+        if($this->assessment->assessment_type == AssessmentTypes::GPRAIntake || $this->assessment->assessment_type == AssessmentTypes::GPRADischarge
+            || $this->assessment->assessment_type == AssessmentTypes::GPRAFollowup) {
+            include dirname(__FILE__)."/gpra-sections/section".$this->section.".html";
+        }
+    ?>
     <br>
     <div style="text-align: center; font-size: 14pt">
         <h4>When you are finished, please click Finished below.</h4>
@@ -50,6 +20,7 @@ foreach ($answers as $answer) {
     </div>
 
     <?php include_footer(); ?>
+    <?php include_js(); ?>
 
     <script src="https://unpkg.com/vue-select@2.6.0/dist/vue-select.js"></script>
     <script type="application/javascript">
@@ -57,15 +28,15 @@ foreach ($answers as $answer) {
         vue = new Vue({
             el: '#main',
             data: {
-                gpra: <?php echo json_encode($assessment); ?>,
-                section: <?php echo json_encode($current_section); ?>,
-                errors: <?php echo json_encode($errors_container); ?>,
-                optionSets: <?php echo json_encode($optionSets); ?>
+                gpra: <?php echo json_encode($this->assessment); ?>,
+                section: <?php echo json_encode($this->section); ?>,
+                errors: <?php echo json_encode($this->errors_container); ?>,
+                optionSets: <?php echo json_encode($this->optionSets); ?>
             },
             methods: {
                 saveAssessment: function(){
                     this.clearErrors();
-                    ajax('saveAssessment', [this.gpra, this.section], function (result) {
+                    ajax('gpra/save', [this.gpra, this.section], function (result) {
                         let errors = result.data;
                         if(errors != null) {
                             vue.displayErrors(errors);

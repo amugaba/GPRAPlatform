@@ -1,14 +1,12 @@
 <?php
-require_once "php/config.php";
-require_once "php/DataService.php";
-require_once "php/Result.php";
+require_once "model/config.php";
+require_once "model/DataService.php";
+require_once "model/Result.php";
 
 check_login();
 
 $ds = DataService::getInstance();
-$unfinishedClients = $ds->getUnfinishedClientsByUser(getUserID());
 $error = null;
-$ask_verification = false;
 
 if(isset($_GET['method'])) {
     if($_GET['method'] == 'addClient') {
@@ -25,14 +23,8 @@ if(isset($_GET['method'])) {
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
     <title>Home - GPRA Portal</title>
     <?php include_styles(); ?>
-    <script type="application/javascript">
-        $(function() {
-            $('#clientsTable').DataTable();
-        });
-    </script>
 </head>
 <body>
     <?php include_header(); ?>
@@ -46,48 +38,17 @@ if(isset($_GET['method'])) {
         <input v-if="askVerification" type="button" value="I am sure" @click="verifyAddClient" class="btn btn-primary">
     </div>
 
-    <div class="pageTitle">Resume Unfinished Client</div>
-    <p style="text-align: center">Click on an unfinished item to go to that page.</p>
-    <table v-if="unfinishedClients.length" id="clientsTable" class="tablesorter">
-        <thead>
-        <tr>
-            <th>Participant ID</th>
-            <!--<th>Date</th>-->
-            <th>Data Consent</th>
-            <th>GPRA/ Demographics</th>
-            <th>Dosage Form</th>
-            <th>Testing Results</th>
-        </tr>
-        </thead>
-        <tbody>
-        <tr v-for="client in unfinishedClients">
-            <td width="15%">{{client.participant_id}}</td>
-            <!--<td width="15%">{{client.date | date}}</td>-->
-            <td width="15%"><img v-if="client.data_consent==1" src="img/green-check.png">
-                <a v-else href="#" @click="resumeClient(client.id,'data-consent.php')"><img  src="img/red-x.png"></a></td>
-            <td width="15%"><img v-if="client.gpra==1 || client.demographics==1" src="img/green-check.png">
-                <a v-else-if="client.consented==1" href="#" @click="resumeClient(client.id,'gpra.php')"><img  src="img/red-x.png"></a>
-                <a v-else href="#" @click="resumeClient(client.id,'demographics.php')"><img  src="img/red-x.png"></a></td>
-            <td width="15%"><img v-if="client.dosage==1" src="img/green-check.png">
-                <a v-else href="#" @click="resumeClient(client.id,'services-dosage.php')"><img  src="img/red-x.png"></a></td>
-            <td width="15%"><img v-if="client.testing==1" src="img/green-check.png">
-                <a v-else href="#" @click="resumeClient(client.id,'testing-results.php')"><img  src="img/red-x.png"></a></td>
-        </tr>
-        </tbody>
-    </table>
-    <p v-if="!unfinishedClients.length">There are no incomplete clients.</p><br>
-
     <div v-if="isAdmin" style="text-align: center">
         <a href="admin.php"><input type="button" value="Go to Admin Section" class="btn btn-primary"></a>
     </div>
 
     <?php include_footer(); ?>
+    <?php include_js(); ?>
 
 <script type="application/javascript">
     vue = new Vue({
         el: '#main',
         data: {
-            unfinishedClients: <?php echo json_encode($unfinishedClients); ?>,
             addClientError: <?php echo json_encode($error); ?>,
             askVerification: false,
             participantID: null,
@@ -95,7 +56,7 @@ if(isset($_GET['method'])) {
         },
         methods: {
             addClient: function () {
-                if(this.participantID == null || this.participantID.length != 5) {
+                if(this.participantID == null || this.participantID.length !== 5) {
                     vue.addClientError = {success: false, msg: "Participant ID must be 5 digits."};
                     return;
                 }

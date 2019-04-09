@@ -14,4 +14,5 @@ class GPRASections
     const SOCIAL = 10;
     const FOLLOWUP = 11;
     const DISCHARGE = 12;
+    const DISCHARGE_SERVICES = 13;
 }

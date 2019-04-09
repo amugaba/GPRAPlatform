@@ -1,7 +1,7 @@
 <?php
-require_once "php/config.php";
-require_once "php/DataService.php";
-require_once "php/Result.php";
+require_once "model/config.php";
+require_once "model/DataService.php";
+require_once "model/Result.php";
 
 if(isset($_GET['logout'])) {
     session_unset();
@@ -19,12 +19,7 @@ if(isset($_POST['login'])) {
         session_destroy();
         session_cache_expire(300);
         session_start();
-
-        $_SESSION['hiv_user_id'] = $user->id;
-        $_SESSION['hiv_user_name'] = $user->username;
-        $_SESSION['hiv_user_email'] = $user->email;
-        $_SESSION['hiv_admin'] = $user->admin;
-        $_SESSION['hiv_facility'] = $user->facility;
+        Session::setUser($user);
 
         header("Location: index.php");
     }
@@ -35,7 +30,6 @@ if(isset($_POST['login'])) {
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
     <title>Login - HIV Data Portal</title>
     <?php include_styles(); ?>
 </head>
@@ -70,6 +64,8 @@ if(isset($_POST['login'])) {
         </div>
     </div>
 </div>
+
+<?php include_js(); ?>
 
 <script type="application/javascript">
     vue = new Vue({

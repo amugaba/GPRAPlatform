@@ -10,9 +10,8 @@ function ajax(func, params, callback) {
 
     $.ajax({
         type: "POST",
-        url: HTTP_ROOT + "php/ajax-data.php",
+        url: HTTP_ROOT + func,
         data: JSON.stringify({
-            'function': func,
             'params': params
         }),
         contentType: "application/json; charset=utf-8",

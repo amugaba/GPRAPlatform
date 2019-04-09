@@ -1,7 +1,7 @@
 <?php
-require_once "php/config.php";
-require_once "php/DataService.php";
-require_once "php/Result.php";
+require_once "model/config.php";
+require_once "model/DataService.php";
+require_once "model/Result.php";
 
 check_login();
 check_admin();

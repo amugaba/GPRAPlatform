@@ -2,13 +2,13 @@
 /**
  * Provide service function to access data from database
  */
-require_once dirname(__FILE__).'/ConnectionManager.php';
-require_once dirname(__FILE__).'/Question.php';
-require_once dirname(__FILE__).'/QuestionOption.php';
-require_once dirname(__FILE__).'/Answer.php';
-require_once dirname(__FILE__).'/Assessment.php';
-require_once dirname(__FILE__).'/AssessmentTypes.php';
-require_once dirname(__FILE__).'/User.php';
+require_once dirname(__FILE__) . '/ConnectionManager.php';
+require_once dirname(__FILE__) . '/Question.php';
+require_once dirname(__FILE__) . '/QuestionOption.php';
+require_once dirname(__FILE__) . '/Answer.php';
+require_once dirname(__FILE__) . '/Assessment.php';
+require_once dirname(__FILE__) . '/AssessmentTypes.php';
+require_once dirname(__FILE__) . '/User.php';
 
 class DataService {
     public $connection;
@@ -216,11 +216,13 @@ class DataService {
         return $this->fetchAllObjects($result, User::class);
     }
 
-    /**Run mysql query after escaping input
+    /**
+     * Run mysql query after escaping input
      * @param $stmt string
      * @param $params array
      * @return bool|mysqli_result
-     * @throws Exception     */
+     * @throws Exception
+     */
     public function query($stmt, $params = null) {
         $this->last_raw_statement = $stmt;
         $this->last_params = $params;
