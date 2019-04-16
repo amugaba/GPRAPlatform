@@ -2,6 +2,13 @@
 
 class GPRA extends Assessment
 {
+    const TYPES = [AssessmentTypes::GPRAIntake, AssessmentTypes::GPRADischarge, AssessmentTypes::GPRAFollowup];
+    const SECTIONS = [
+        AssessmentTypes::GPRAIntake =>    [1,2,3,4,5,6,7,8,9,10],
+        AssessmentTypes::GPRADischarge => [1,4,5,6,7,8,9,10,12,13],
+        AssessmentTypes::GPRAFollowup =>  [1,4,5,6,7,8,9,10,11]
+        ];
+
     public $GrantNo;
     public $ClientID;
     public $ClientType;

@@ -1,5 +1,5 @@
 <?php
-require_once dirname(__FILE__).'/ValidationError.php';
+require_once __DIR__.'/ValidationError.php';
 
 class Validator {
 

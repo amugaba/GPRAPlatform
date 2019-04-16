@@ -3,13 +3,11 @@
 class Result
 {
     public $success;
-    public $msg;
-    public $data;
+    public $data; //used for messages as well
 
-    public function __construct($success, $message, $data = null)
+    public function __construct($success, $data = null)
     {
         $this->success = $success;
-        $this->msg = $message;
         $this->data = $data;
     }
 }

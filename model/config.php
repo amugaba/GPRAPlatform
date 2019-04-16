@@ -8,11 +8,11 @@
 
 if(strpos($_SERVER['HTTP_HOST'], "localhost") !== false) {
     define("DEBUG",true);
-    define("HTTP_ROOT", "http://".$_SERVER['HTTP_HOST'] ."/GPRAPlatform/");
+    define("HTTP_ROOT", "http://".$_SERVER['HTTP_HOST']);
 }
 else {
     define("DEBUG",false);
-    define("HTTP_ROOT", "https://" . $_SERVER['HTTP_HOST'] . "/GPRAPlatform/");
+    define("HTTP_ROOT", "https://" . $_SERVER['HTTP_HOST']);
 }
 
 if(DEBUG) {
@@ -31,16 +31,17 @@ session_start();
 date_default_timezone_set('America/New_York');
 
 function include_styles() {
-    include dirname(__FILE__) . "/../inc/styles.php";
+    require __DIR__ . "/../inc/styles.php";
 }
 function include_js() {
-    include dirname(__FILE__) . "/../inc/scripts.php";
+    require __DIR__ . "/../inc/scripts.php";
 
     //not sure if all of this is needed
     $root = HTTP_ROOT;
     $debug = DEBUG ? 'true' : 'false';
     $admin = isAdmin() ? 'true' : 'false';
     $session = json_encode(Session::copy());
+    $csrf = csrf_token();
     echo "
         <script>
             HTTP_ROOT = '$root';
@@ -48,14 +49,22 @@ function include_js() {
             Vue.prototype.isAdmin = $admin;
             Vue.prototype.hostname = '$root';
             Vue.prototype.session = $session;
+            $.ajaxSetup({
+                headers: {
+                    'X-CSRF-TOKEN': '$csrf'
+                }
+            });
         </script>
     ";
 }
 function include_header() {
-    include dirname(__FILE__) . "/../inc/navbar.php";
+    include __DIR__ . "/../inc/navbar.php";
+}
+function include_header_no_nav() {
+    include __DIR__ . "/../inc/header-no-nav.php";
 }
 function include_footer() {
-    include dirname(__FILE__) . "/../inc/footer.php";
+    include __DIR__ . "/../inc/footer.php";
 }
 
 function echo_self() {
@@ -87,7 +96,7 @@ function isAdmin()
 
 function include_assessment_template($assessment_type, $section) {
     if($assessment_type == AssessmentTypes::GPRAIntake || $assessment_type == AssessmentTypes::GPRADischarge || $assessment_type == AssessmentTypes::GPRAFollowup) {
-        include dirname(__FILE__)."/../assessment-templates/gpra/section".$section.".html";
+        include __DIR__."/../assessment-templates/gpra/section".$section.".html";
     }
 }
 

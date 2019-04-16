@@ -1,7 +1,7 @@
 <?php
-require_once dirname(__FILE__) . '/config.php';
-require_once dirname(__FILE__) . '/DataService.php';
-require_once dirname(__FILE__) . '/Result.php';
+require_once __DIR__ . '/config.php';
+require_once __DIR__ . '/DataService.php';
+require_once __DIR__ . '/Result.php';
 
 try {
     $postdata = file_get_contents("php://input");
@@ -28,7 +28,7 @@ try {
         $option_sets = $ds->getOptionSets();
 
         if ($type == AssessmentTypes::GPRAIntake || $type == AssessmentTypes::GPRADischarge || $type == AssessmentTypes::GPRAFollowup) {
-            require_once dirname(__FILE__) . '/../validators/GPRAValidator.php';
+            require_once __DIR__ . '/../validators/GPRAValidator.php';
             $validator = new GPRAValidator();
             $errors = $validator->validate($assessment, $questions, $option_sets, $section);
             $assessment = $validator->getProcessedGPRA();

@@ -1,17 +1,12 @@
 <?php
-require_once dirname(__FILE__) . '/config.php';
-require_once dirname(__FILE__) . '/mail/PHPMailerAutoload.php';
-require_once dirname(__FILE__) . '/DataService.php';
 
 class MailService {
 
-    private $admin_name = 'Sara Tidd';
-    private $admin_email = "setidd@indiana.edu";
-    private $admin_html = "<a href='mailto:setidd@indiana.edu'>setidd@indiana.edu</a>";
-    private $html_root = "https://iprc.iu.edu/hivprevention";
+    private $html_root = "http://localhost-gpra";
 
     /**
      * @param $user User
+     * @throws Exception
      */
     public function sendPasswordReset($user)
     {
@@ -25,9 +20,9 @@ class MailService {
         }
         $ds = DataService::getInstance();
         $ds->setResetCode($user->id, $randomString);
-        $url = $this->html_root."/password_reset.php?id=$user->id&code=$randomString";
+        $url = $this->html_root."/login/doReset?id=$user->id&code=$randomString";
 
-        $mailer = $this->createMail("HIV Prevention Portal: Password Reset");
+        $mailer = $this->createMail("GPRA Portal: Password Reset");
         $body = "<p>A password reset was requested for your account. To reset your password, click the following link and enter a new password on that page.</p>
             <p>$url</p>
             <p>If you do not wish to reset your password, you may ignore this email.</p>";
@@ -40,7 +35,7 @@ class MailService {
     public function sendErrorMessage($msg, $func, $data, $page) {
         $user = getUsername();
 
-        $mailer = $this->createMail("HIV Prevention Portal Error");
+        $mailer = $this->createMail("GPRA Portal Error");
         $body = "$msg<p>User: $user</p><p>Page: $page</p><p>Function: $func</p><p>Data: $data</p>";
 
         $mailer->msgHTML($body);

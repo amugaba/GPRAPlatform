@@ -9,17 +9,17 @@
                 <span class="icon-bar"></span>
                 <span class="icon-bar"></span>
             </button>
-            <a class="navbar-brand" href="<?php echo HTTP_ROOT; ?>index.php" style="padding: 0 10px"><img src="<?php echo HTTP_ROOT; ?>img/kfl100.png" style="height: 50px; margin-top: 5px"></a>
+            <a class="navbar-brand" href="<?php echo HTTP_ROOT; ?>" style="padding: 0 10px"><img src="<?php echo HTTP_ROOT; ?>/img/kfl100.png" style="height: 50px; margin-top: 5px"></a>
         </div>
 
         <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
             <ul class="nav navbar-nav">
-                <li><a href="<?php echo HTTP_ROOT; ?>index.php">HIV/Hep-C Data Collection Portal</a></li>
+                <li><a href="<?php echo HTTP_ROOT; ?>">GPRA Data Collection Portal</a></li>
             </ul>
 
             <ul class="nav navbar-nav navbar-right">
                 <li><a href="#" onclick="$('#topbar').hide()">Hide</a></li>
-                <li><a href="<?php echo HTTP_ROOT; ?>login.php?logout">Logout</a></li>
+                <li><a href="/login/logout">Logout</a></li>
             </ul>
         </div><!-- /.navbar-collapse -->
     </div><!-- /.container-fluid -->
@@ -28,3 +28,10 @@
 <div class="container" id="main">
     <div class="row">
         <div id="errorlog"></div>
+        <div id="overlay-box" class="overlay-box">
+            <div style="display: table-cell; vertical-align: middle">
+                <img id="overlay-success" src="<?php echo HTTP_ROOT ?>/img/checkmark.png">
+                <img id="overlay-error" src="<?php echo HTTP_ROOT ?>/img/redx.png">
+                <span id="overlay-message"></span>
+            </div>
+        </div>

@@ -6,26 +6,39 @@
 
 require_once "model/config.php";
 
+
+
+
+
+
 $uri = $_SERVER['REQUEST_URI']; //this is the base URL + the query string
 $method = $_SERVER['REQUEST_METHOD'];//GET or POST
 
 //remove base directory, remove trailing slash, and split into parts
-$uri = str_replace("/GPRAPlatform/", "", $uri);
-$uri = rtrim($uri, '/');
+//$uri = str_replace("/GPRAPlatform/", "", $uri);
+$uri = trim($uri, '/');
 $parts = explode('/', $uri);
 foreach ($parts as &$part) {
     $part = strtolower($part);
 }
 
-$controller = $parts[0] ?? invalidRoute();
-$action = $parts[1] ?? invalidRoute();
+if($parts[0] == null || $parts[0] == '' || $parts[0] == 'index.php')
+    $controller = 'home';
+else
+    $controller = $parts[0];
+$action = $parts[1] ?? 'view';
 $parameters = null;
 if (count($parts) > 2) {
     $parameters = array_splice($parts, 2);
 }
 
-if ($controller === 'gpra') {
-    require_once dirname(__FILE__) . '/controller/GPRAController.php';
+if ($controller === 'home') {
+    require_once __DIR__ . '/controller/HomeController.php';
+    $controller = new HomeController($method, $action, $parameters);
+    $controller->processRequest();
+}
+else if ($controller === 'gpra') {
+    require_once __DIR__ . '/controller/GPRAController.php';
     $controller = new GPRAController($method, $action, $parameters);
     $controller->processRequest();
 } else {

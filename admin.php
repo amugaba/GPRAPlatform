@@ -46,15 +46,15 @@ if(isset($_GET['method']) && $_GET['method'] == 'resumeClient') {
         <tr v-for="client in unfinishedClients">
             <td width="15%">{{client.participant_id}}</td>
             <!--<td width="15%">{{client.date | date}}</td>-->
-            <td width="15%"><img v-if="client.data_consent==1" src="img/green-check.png">
-                <a v-else href="#" @click="resumeClient(client.id,'data-consent.php')"><img  src="img/red-x.png"></a></td>
-            <td width="15%"><img v-if="client.gpra==1 || client.demographics==1" src="img/green-check.png">
-                <a v-else-if="client.consented==1" href="#" @click="resumeClient(client.id,'gpra.php')"><img  src="img/red-x.png"></a>
-                <a v-else href="#" @click="resumeClient(client.id,'demographics.php')"><img  src="img/red-x.png"></a></td>
-            <td width="15%"><img v-if="client.services==1" src="img/green-check.png">
-                <a v-else href="#" @click="resumeClient(client.id,'services-dosage.php')"><img  src="img/red-x.png"></a></td>
-            <td width="15%"><img v-if="client.testing==1" src="img/green-check.png">
-                <a v-else href="#" @click="resumeClient(client.id,'testing-results.php')"><img  src="img/red-x.png"></a></td>
+            <td width="15%"><img v-if="client.data_consent==1" src="public/img/green-check.png">
+                <a v-else href="#" @click="resumeClient(client.id,'data-consent.php')"><img  src="public/img/red-x.png"></a></td>
+            <td width="15%"><img v-if="client.gpra==1 || client.demographics==1" src="public/img/green-check.png">
+                <a v-else-if="client.consented==1" href="#" @click="resumeClient(client.id,'gpra.php')"><img  src="public/img/red-x.png"></a>
+                <a v-else href="#" @click="resumeClient(client.id,'demographics.php')"><img  src="public/img/red-x.png"></a></td>
+            <td width="15%"><img v-if="client.services==1" src="public/img/green-check.png">
+                <a v-else href="#" @click="resumeClient(client.id,'services-dosage.php')"><img  src="public/img/red-x.png"></a></td>
+            <td width="15%"><img v-if="client.testing==1" src="public/img/green-check.png">
+                <a v-else href="#" @click="resumeClient(client.id,'testing-results.php')"><img  src="public/img/red-x.png"></a></td>
         </tr>
         </tbody>
     </table>

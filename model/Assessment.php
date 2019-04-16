@@ -7,6 +7,7 @@ class Assessment
     public $client_id;
     public $user_id;
     public $episode_id;
+    public $created_date;
     public $class = Assessment::class;
 
     public function fill($dbobj)
@@ -16,5 +17,6 @@ class Assessment
         $this->client_id = isset($dbobj->client_id) ? intval($dbobj->client_id) : null;
         $this->user_id = isset($dbobj->user_id) ? intval($dbobj->user_id) : null;
         $this->episode_id = isset($dbobj->episode_id) ? intval($dbobj->episode_id) : null;
+        $this->created_date = isset($dbobj->created_date) ? $dbobj->created_date : null;
     }
 }

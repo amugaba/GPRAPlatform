@@ -1,0 +1,13 @@
+<?php
+use Pecee\SimpleRouter\SimpleRouter as Router;
+
+
+Router::csrfVerifier(new CsrfVerifier());
+
+Router::controller('/login', LoginController::class);
+
+Router::group(['middleware' => Auth::class], function () {
+    Router::get('/', 'HomeController@getIndex');
+    Router::controller('/home', HomeController::class);
+    Router::controller('/gpra', GPRAController::class);
+});

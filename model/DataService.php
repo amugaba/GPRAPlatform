@@ -2,13 +2,6 @@
 /**
  * Provide service function to access data from database
  */
-require_once dirname(__FILE__) . '/ConnectionManager.php';
-require_once dirname(__FILE__) . '/Question.php';
-require_once dirname(__FILE__) . '/QuestionOption.php';
-require_once dirname(__FILE__) . '/Answer.php';
-require_once dirname(__FILE__) . '/Assessment.php';
-require_once dirname(__FILE__) . '/AssessmentTypes.php';
-require_once dirname(__FILE__) . '/User.php';
 
 class DataService {
     public $connection;
@@ -38,6 +31,93 @@ class DataService {
         return DataService::$instance;
     }
 
+    /**
+     * @param $id int
+     * @return Client
+     * @throws Exception
+     */
+    public function getClient($id) {
+        $result = $this->query("SELECT * FROM clients WHERE id=?", [$id]);
+        return $this->fetchObject($result, Client::class);
+    }
+
+    /**
+     * @param $uid string
+     * @return bool
+     * @throws Exception
+     */
+    public function addClient($uid) {
+        $success = $this->query("INSERT IGNORE INTO clients SET uid='?'", [$uid]);
+        if($success)
+            return $this->connection->insert_id;
+        return null;
+    }
+
+    /**
+     * @param $uid string
+     * @return Client[]
+     * @throws Exception
+     */
+    public function searchClients($uid) {
+        $result = $this->query("SELECT * FROM clients WHERE uid LIKE '%?%'", [$uid]);
+        return $this->fetchAllObjects($result, Client::class);
+    }
+
+    /** @param Client $item
+     * @throws Exception
+     */
+    public
+    function updateClient($item)
+    {
+        $this->query("UPDATE clients SET uid=? WHERE id=?",
+            [$item->uid, $item->id]);
+    }
+
+    /** @param int $id
+     * @return Episode
+     * @throws Exception
+     */
+    public function getEpisode($id)
+    {
+        $result = $this->query("SELECT * FROM episodes WHERE id=?", [$id]);
+        return $this->fetchObject($result, Episode::class);
+    }
+
+    /** @param int $client_id
+     * @return Episode[]
+     * @throws Exception
+     */
+    public
+    function getEpisodesByClient($client_id)
+    {
+        $result = $this->query("SELECT * FROM episodes WHERE client_id=?", [$client_id]);
+        return $this->fetchAllObjects($result, Episode::class);
+    }
+
+    /** @param int $client_id
+     * @return int
+     * @throws Exception
+     */
+    public
+    function addEpisode($client_id)
+    {
+        //get the current episode number
+        $result = $this->query("SELECT MAX(number) FROM episodes WHERE client_id=?", [$client_id]);
+        $current_number = $result->fetch_row()[0];
+
+        $this->query("INSERT INTO episodes (client_id, number, start_date) VALUES (?, ?, '?')", [$client_id, $current_number+1, date('Y-m-d')]);
+        return $this->connection->insert_id;
+    }
+
+    /** @param int $id
+     * @throws Exception
+     */
+    public
+    function deleteEpisode($id)
+    {
+        $this->query("DELETE FROM episodes WHERE id=?", [$id]);
+    }
+
     /** @param int $id
      * @return Assessment
      * @throws Exception
@@ -46,6 +126,27 @@ class DataService {
     {
         $result = $this->query("SELECT * FROM assessments WHERE id=?", [$id]);
         return $this->fetchObject($result, Assessment::class);
+    }
+
+    /** @param int $episode_id
+     * @return Assessment[]
+     * @throws Exception
+     */
+    public function getAssessmentsByEpisode($episode_id)
+    {
+        $result = $this->query("SELECT * FROM assessments WHERE episode_id=?", [$episode_id]);
+        return $this->fetchAllObjects($result, Assessment::class);
+    }
+
+    /**
+     * @param int $client_id
+     * @return Assessment[]
+     * @throws Exception
+     */
+    public function getAssessmentsByClient($client_id)
+    {
+        $result = $this->query("SELECT * FROM assessments WHERE client_id=?", [$client_id]);
+        return $this->fetchAllObjects($result, Assessment::class);
     }
 
     /**
@@ -173,6 +274,9 @@ class DataService {
      */
     public function checkResetCode ($user_id, $code)
     {
+        if($code == null)
+            return false;
+
         $result = $this->query("SELECT reset_code FROM users WHERE id=?",[$user_id]);
 
         if($row = $result->fetch_object()) {
@@ -190,7 +294,7 @@ class DataService {
     public function updatePassword($password, $user_id)
     {
         $hash = password_hash($password, PASSWORD_DEFAULT);
-        $result = $this->query("UPDATE users SET password='?' WHERE id=?",[$hash,$user_id]);
+        $result = $this->query("UPDATE users SET password='?', reset_code=NULL WHERE id=?",[$hash,$user_id]);
 
         return $result != null;
     }

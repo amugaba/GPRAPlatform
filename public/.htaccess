@@ -1,0 +1,4 @@
+Options +FollowSymLinks
+RewriteEngine On
+RewriteCond %{REQUEST_URI} !(\.map|\.css|\.js|\.png|\.jpg|\.gif|robots\.txt|test.php|\.ico)$ [NC]
+RewriteRule ^(.*)$ index.php [NC,L]

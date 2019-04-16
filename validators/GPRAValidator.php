@@ -1,5 +1,5 @@
 <?php
-require_once dirname(__FILE__).'/Validator.php';
+require_once __DIR__.'/Validator.php';
 
 class GPRAValidator extends Validator {
 
