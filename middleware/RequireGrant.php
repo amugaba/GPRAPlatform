@@ -1,0 +1,62 @@
+<?php
+
+use Pecee\Http\Middleware\IMiddleware;
+use Pecee\Http\Exceptions\MalformedUrlException;
+use Pecee\Http\Request;
+
+class RequireGrant implements IMiddleware
+{
+    protected $except = ['/login','/home/grantlist','/home/index*'];
+
+    public function __construct()
+    {
+    }
+
+    /**
+     * Check if the url matches the urls in the except property
+     * @param Request $request
+     * @return bool
+     */
+    protected function skip(Request $request): bool
+    {
+        if ($this->except === null || \count($this->except) === 0) {
+            return false;
+        }
+
+        $max = \count($this->except) - 1;
+
+        for ($i = $max; $i >= 0; $i--) {
+            $url = $this->except[$i];
+
+            $url = rtrim($url, '/');
+            if ($url[\strlen($url) - 1] === '*') {
+                $url = rtrim($url, '*');
+                $skip = $request->getUrl()->contains($url);
+            } else {
+                $skip = ($url === $request->getUrl()->getOriginalUrl());
+            }
+
+            if ($skip === true) {
+                return true;
+            }
+        }
+
+        return false;
+    }
+
+    /**
+     * Handle request. Check if user is logged in.
+     *
+     * @param Request $request
+     * @throws MalformedUrlException
+     */
+    public function handle(Request $request): void
+    {
+        if ($this->skip($request) === false)
+        {
+            if(\Session::getGrant() == null) {
+                response()->redirect('/home/grantlist');
+            }
+        }
+    }
+}

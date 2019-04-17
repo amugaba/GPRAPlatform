@@ -146,6 +146,7 @@ function globalErrorHandler ($code, $message, $file, $line, $context) {
  * @param Exception $ex
  */
 function globalExceptionHandler ($ex) {
+    ob_end_clean();
     $msg = '<b>' . get_class($ex) . ' (' .  $ex->getCode() .')</b> thrown in <b>' . $ex->getFile() . '</b> on line <b>'
         . $ex->getLine(). '</b><br>' . $ex->getMessage()
         . str_replace('#','<br>#', $ex->getTraceAsString()).'<br>';

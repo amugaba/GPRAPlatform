@@ -1,0 +1,16 @@
+{
+    "require": {
+        "pecee/simple-router": "4.2.0.6",
+        "ext-json": "*",
+        "ext-mysqli": "*"
+    },
+    "autoload": {
+        "classmap": [
+            "model/",
+            "controller/",
+            "view/",
+            "middleware/",
+            "validators/"
+        ]
+    }
+}

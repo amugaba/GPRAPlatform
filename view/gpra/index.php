@@ -2,10 +2,10 @@
 <html lang="en">
 <head>
     <title>GPRA Platform</title>
-    <?php include_styles(); ?>
+    <?php $this->includeStyles(); ?>
 </head>
 <body>
-    <?php include_header(); ?>
+    <?php $this->includeHeader(); ?>
 
     <?php include __DIR__ . "/sections/section" .$this->section.".html"; ?>
 
@@ -14,8 +14,8 @@
         <input type="button" value="Finished" @click="saveAssessment()" class="btn btn-primary" style="font-size: 18px"><br>
     </div>
 
-    <?php include_footer(); ?>
-    <?php include_js(); ?>
+    <?php $this->includeFooter(); ?>
+    <?php $this->includeScripts(); ?>
 
     <script src="https://unpkg.com/vue-select@2.6.0/dist/vue-select.js"></script>
     <script type="application/javascript">

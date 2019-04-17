@@ -1,37 +1,90 @@
-<div class="wrapper">
-<nav class="navbar navbar-default" id="topbar">
-    <div class="container-fluid">
-        <!-- Brand and toggle get grouped for better mobile display -->
-        <div class="navbar-header">
-            <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1" aria-expanded="false">
-                <span class="sr-only">Toggle navigation</span>
-                <span class="icon-bar"></span>
-                <span class="icon-bar"></span>
-                <span class="icon-bar"></span>
-            </button>
-            <a class="navbar-brand" href="<?php echo HTTP_ROOT; ?>" style="padding: 0 10px"><img src="<?php echo HTTP_ROOT; ?>/img/kfl100.png" style="height: 50px; margin-top: 5px"></a>
-        </div>
+<div id="wrapper">
+<nav class="navbar navbar-expand navbar-dark bg-dark" id="topbar">
+    <a class="navbar-brand" href="<?php echo HTTP_ROOT; ?>">
+        <?php echo Session::getGrant() == null ? 'GPRA Data Collection Portal' : Session::getGrant()->name . ' (' . Session::getGrant()->grantno .')'; ?>
+    </a>
 
-        <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
-            <ul class="nav navbar-nav">
-                <li><a href="<?php echo HTTP_ROOT; ?>">GPRA Data Collection Portal</a></li>
-            </ul>
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarCollapse" aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+    </button>
 
-            <ul class="nav navbar-nav navbar-right">
-                <li><a href="#" onclick="$('#topbar').hide()">Hide</a></li>
-                <li><a href="/login/logout">Logout</a></li>
-            </ul>
-        </div><!-- /.navbar-collapse -->
-    </div><!-- /.container-fluid -->
+    <div class="collapse navbar-collapse" id="navbarCollapse">
+        <ul class="navbar-nav ml-auto">
+            <li class="nav-item dropdown">
+                <a class="nav-link dropdown-toggle" href="https://example.com" id="navdropdown" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    User: <?php echo Session::getUser()->name; ?>
+                </a>
+                <div class="dropdown-menu" aria-labelledby="navdropdown">
+                    <a class="dropdown-item" href="/home/profile">My Profile</a>
+                    <a class="dropdown-item" href="/login/doReset">Change Password</a>
+                    <a class="dropdown-item" href="/login/logout">Logout</a>
+                </div>
+            </li>
+        </ul>
+    </div>
 </nav>
 
-<div class="container" id="main">
-    <div class="row">
-        <div id="errorlog"></div>
-        <div id="overlay-box" class="overlay-box">
-            <div style="display: table-cell; vertical-align: middle">
-                <img id="overlay-success" src="<?php echo HTTP_ROOT ?>/img/checkmark.png">
-                <img id="overlay-error" src="<?php echo HTTP_ROOT ?>/img/redx.png">
-                <span id="overlay-message"></span>
+<div id="overlay-box" class="overlay-box">
+    <div style="display: table-cell; vertical-align: middle">
+        <img id="overlay-success" src="<?php echo HTTP_ROOT ?>/img/checkmark.png">
+        <img id="overlay-error" src="<?php echo HTTP_ROOT ?>/img/redx.png">
+        <span id="overlay-message"></span>
+    </div>
+</div>
+
+<div id="main" class="container-fluid">
+    <div class="row" v-cloak>
+        <nav class="col-md-3 col-lg-2 d-none d-md-block bg-light sidebar">
+            <div class="sidebar-sticky">
+                <ul class="nav flex-column">
+                    <li class="nav-item">
+                        <a class="nav-link active" href="/">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-home"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path><polyline points="9 22 9 12 15 12 15 22"></polyline></svg>
+                            Dashboard <span class="sr-only">(current)</span>
+
+                        </a>
+                    </li>
+                    <?php if($this->client == null) { ?>
+                        <li class="nav-item">
+                            <a class="nav-link disabled" href="#">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-file-text"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path><polyline points="14 2 14 8 20 8"></polyline><line x1="16" y1="13" x2="8" y2="13"></line><line x1="16" y1="17" x2="8" y2="17"></line><polyline points="10 9 9 9 8 9"></polyline></svg>
+                                Client
+                            </a>
+                        </li>
+                    <?php } else { ?>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/home/client?id=<?= $this->client->id ?>">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-users"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path><circle cx="9" cy="7" r="4"></circle><path d="M23 21v-2a4 4 0 0 0-3-3.87"></path><path d="M16 3.13a4 4 0 0 1 0 7.75"></path></svg>
+                            Client: <?= $this->client->uid ?>
+                        </a>
+                    </li>
+                    <?php }
+                    if($this->assessment == null) { ?>
+                    <li class="nav-item">
+                        <a class="nav-link disabled" href="#">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-file-text"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path><polyline points="14 2 14 8 20 8"></polyline><line x1="16" y1="13" x2="8" y2="13"></line><line x1="16" y1="17" x2="8" y2="17"></line><polyline points="10 9 9 9 8 9"></polyline></svg>
+                            Assessment
+                        </a>
+                    </li>
+                    <?php } ?>
+
+                    <?php $this->includeSidebarSections(); ?>
+
+                    <li class="nav-item">
+                        <a class="nav-link" href="#">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-file"><path d="M13 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V9z"></path><polyline points="13 2 13 9 20 9"></polyline></svg>
+                            Orders
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-bar-chart-2"><line x1="18" y1="20" x2="18" y2="10"></line><line x1="12" y1="20" x2="12" y2="4"></line><line x1="6" y1="20" x2="6" y2="14"></line></svg>
+                            Reports
+                        </a>
+                    </li>
+                </ul>
             </div>
-        </div>
+        </nav>
+
+        <div id="main2" class="col-md-9 ml-sm-auto col-lg-10 px-4">
+            <div id="errorlog"></div>

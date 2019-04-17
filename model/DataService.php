@@ -18,7 +18,57 @@ class DataService {
     {
         $cm = new ConnectionManager();
         $this->connection = mysqli_connect($cm->server, $cm->username, $cm->password, $cm->databasename, $cm->port);
+        $this->connection->set_charset('utf8');
+        $this->connection->options(MYSQLI_OPT_INT_AND_FLOAT_NATIVE, TRUE);
         $this->throwExceptionOnError();
+    }
+
+    /** @param int $id
+     * @return Grant
+     * @throws Exception
+     */
+    public function getGrant($id)
+    {
+        $result = $this->query("SELECT * FROM grants WHERE id=?", [$id]);
+        return $this->fetchObject($result, Grant::class);
+    }
+
+    /** @param $user_id $id
+     * @return Grant[]
+     * @throws Exception
+     */
+    public function getGrantsByUser($user_id)
+    {
+        $result = $this->query("SELECT g.* FROM grants g JOIN user_grants ug ON g.id=ug.grant_id WHERE ug.user_id=?", [$user_id]);
+        return $this->fetchAllObjects($result, Grant::class);
+    }
+
+    /** @param Grant $item
+     * @return int
+     * @throws Exception
+     */
+    public function addGrant($item)
+    {
+        $this->query("INSERT INTO grants (name, grantee, grantno, target) VALUES ('?', '?', '?', ?)",
+            [$item->name, $item->grantee, $item->grantno, $item->target]);
+        return $this->connection->insert_id;
+    }
+
+    /** @param Grant $item
+     * @throws Exception
+     */
+    public function updateGrant($item)
+    {
+        $this->query("UPDATE grants SET name='?', grantee='?', grantno='?', target=? WHERE id=?",
+            [$item->name, $item->grantee, $item->grantno, $item->target, $item->id]);
+    }
+
+    /** @param int $id
+     * @throws Exception
+     */
+    public function deleteGrant($id)
+    {
+        $this->query("DELETE FROM grants WHERE id=?", [$id]);
     }
 
     /**
@@ -55,12 +105,31 @@ class DataService {
 
     /**
      * @param $uid string
+     * @param $grant_id int
+     * @param $recent_only bool
      * @return Client[]
      * @throws Exception
      */
-    public function searchClients($uid) {
-        $result = $this->query("SELECT * FROM clients WHERE uid LIKE '%?%'", [$uid]);
-        return $this->fetchAllObjects($result, Client::class);
+    public function searchClients($uid, $grant_id, $recent_only) {
+        $recent_clause = $recent_only ? 'AND (e.client_id, e.number) IN (SELECT client_id, MAX(number) FROM episodes GROUP BY client_id)' : '';
+
+        $result = $this->query("SELECT c.id, c.uid, e.id AS episode_id, e.number AS episode_number, e.start_date as episode_date,
+            a1.id AS intake_id, a1.status AS intake_status, 
+            a2.id AS discharge_id, a2.status AS discharge_status, 
+            a3.id AS followup_3mo_id, a3.status AS followup_3mo_status,
+            a4.id AS followup_6mo_id, a3.status AS followup_6mo_status
+            FROM clients c 
+            JOIN episodes e ON c.id=e.client_id
+            LEFT JOIN assessments a1 ON a1.client_id = c.id AND a1.assessment_type=1 AND a1.episode_id=e.id
+            LEFT JOIN assessments a2 ON a2.client_id = c.id AND a2.assessment_type=2 AND a1.episode_id=e.id
+            LEFT JOIN assessments a3 ON a3.client_id = c.id AND a3.assessment_type=3 AND a1.episode_id=e.id
+            LEFT JOIN assessments a4 ON a4.client_id = c.id AND a4.assessment_type=4 AND a1.episode_id=e.id
+            WHERE c.uid LIKE '%?%' AND c.grant_id=? $recent_clause",
+            [$uid, $grant_id]);
+
+        $clients = $this->fetchAllObjects($result, Client::class);
+
+        return $clients;
     }
 
     /** @param Client $item
@@ -243,8 +312,7 @@ class DataService {
      */
     public function loginUser ($username, $password)
     {
-        $result = $this->query("SELECT id, username, email, password, reset_code, admin, facility 
-                      FROM users WHERE username='?' OR email='?'",[$username, $username]);
+        $result = $this->query("SELECT * FROM users WHERE username='?' OR email='?'",[$username, $username]);
 
         if($row = $result->fetch_object()) {
             if(password_verify($password, $row->password)) {
@@ -306,7 +374,7 @@ class DataService {
      */
     public function getUserByEmail ($email)
     {
-        $result = $this->query("SELECT id, username, email FROM users WHERE email='?'",[$email]);
+        $result = $this->query("SELECT * FROM users WHERE email='?'",[$email]);
         return $this->fetchObject($result, User::class);
     }
 
@@ -316,7 +384,7 @@ class DataService {
      */
     public function getUsers()
     {
-        $result = $this->query("SELECT id, username, email FROM users");
+        $result = $this->query("SELECT * FROM users");
         return $this->fetchAllObjects($result, User::class);
     }
 
@@ -382,20 +450,27 @@ class DataService {
         $objs = [];
         while($row = $result->fetch_object()) {
             $obj = new $class;
-            $obj->fill($row);
+            //$obj->fill($row);
+            foreach($row as $key => $value) {
+                $obj->$key = $value; //maybe add auto int/float parsing here too
+            }
             $objs[] = $obj;
         }
 
         $result->free_result();
         return $objs;
     }
+
     /**@param $result mysqli_result
      * @param $class
      * @return mixed|null Returns null if no rows in result set. */
     public function fetchObject($result, $class) {
         if($row = $result->fetch_object()) {
             $obj = new $class;
-            $obj->fill($row);
+            //$obj->fill($row);
+            foreach($row as $key => $value) {
+                $obj->$key = $value; //maybe add auto int/float parsing here too
+            }
             $result->free_result();
             return $obj;
         }

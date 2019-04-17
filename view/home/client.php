@@ -2,10 +2,10 @@
 <html lang="en">
 <head>
     <title>Client - GPRA Portal</title>
-    <?php include_styles(); ?>
+    <?php $this->includeStyles(); ?>
 </head>
 <body>
-    <?php include_header(); ?>
+    <?php $this->includeHeader(); ?>
 
     <h3>Client: {{client.uid}}</h3>
 
@@ -61,8 +61,8 @@
         </div>
     </div>
 
-    <?php include_footer(); ?>
-    <?php include_js(); ?>
+    <?php $this->includeFooter(); ?>
+    <?php $this->includeScripts(); ?>
 
 <script type="application/javascript">
     vue = new Vue({

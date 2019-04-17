@@ -2,10 +2,10 @@
 <html lang="en">
 <head>
     <title>Home - GPRA Portal</title>
-    <?php include_styles(); ?>
+    <?php $this->includeStyles(); ?>
 </head>
 <body>
-    <?php include_header(); ?>
+    <?php $this->includeHeader(); ?>
 
     <div class="pageTitle">Add New Client</div>
     <div style="text-align: center">
@@ -18,24 +18,41 @@
     </div>
 
 
-    <div class="pageTitle">Search Existing Client</div>
-    <div style="text-align: center">
+    <div class="pageTitle">Search Client Records</div>
+    <form @submit.prevent="searchClients" style="text-align: center">
         <input type="text" v-model="searchID" placeholder="Client ID">
-        <input type="button" value="Search Clients" @click="searchClients" class="btn btn-primary">
-    </div>
+        <input type="submit" value="Search Clients" class="btn btn-primary"><br>
+        <label><input type="checkbox" v-model="findRecentOnly"> Find most recent episode only</label>
+    </form>
 
-    <div style="width: 250px; margin: 10px auto">
-        <b-table :fields="tableFields" :items="clients" :per-page="15" :current-page="currentPage" striped>
-            <template slot="id" slot-scope="data">
-                <a :href="'home/client?id='+data.value"><img src="/img/edit.png"></a>
-            </template>
-        </b-table>
-        <b-pagination v-show="clients.length>15" :total-rows="clients.length" :per-page="15" v-model="currentPage" style="float: right; margin-top: 0"></b-pagination>
-    </div>
+    <b-table :fields="tableFields" :items="clients" :per-page="15" :current-page="currentPage" hover bordered class="tablesorter">
+        <template slot="client" slot-scope="data">
+            <a :href="'/home/client?id='+data.item.id">{{data.item.uid}}</a>
+        </template>
+        <template slot="episode_date" slot-scope="data">
+            {{data.item.episode_date | date}}
+        </template>
+        <template slot="intake" slot-scope="data">
+            <a v-if="data.item.intake_id == null" :href="'/gpra/add?episode='+data.item.episode_id+'&type=1'">Add</a>
+            <a v-else :href="'/gpra/index?id='+data.item.intake_id">{{data.item.intake_status | assessmentStatus}}</a>
+        </template>
+        <template slot="followup3mo" slot-scope="data">
+            <a v-if="data.item.followup_3mo_id == null" :href="'/gpra/add?episode='+data.item.episode_id+'&type=3'">Add</a>
+            <a v-else :href="'/gpra/index?id='+data.item.followup_3mo_id">{{data.item.followup_3mo_status | assessmentStatus}}</a>
+        </template>
+        <template slot="followup6mo" slot-scope="data">
+            <a v-if="data.item.followup_6mo_id == null" :href="'/gpra/add?episode='+data.item.episode_id+'&type=4'">Add</a>
+            <a v-else :href="'/gpra/index?id='+data.item.followup_6mo_id">{{data.item.followup_6mo_status | assessmentStatus}}</a>
+        </template>
+        <template slot="discharge" slot-scope="data">
+            <a v-if="data.item.discharge_id == null" :href="'/gpra/add?episode='+data.item.episode_id+'&type=2'">Add</a>
+            <a v-else :href="'/gpra/index?id='+data.item.discharge_id">{{data.item.discharge_status | assessmentStatus}}</a>
+        </template>
+    </b-table>
+    <b-pagination v-show="clients.length>15" :total-rows="clients.length" :per-page="15" v-model="currentPage" style="float: right; margin-top: 0"></b-pagination>
 
-
-    <?php include_footer(); ?>
-    <?php include_js(); ?>
+    <?php $this->includeFooter(); ?>
+    <?php $this->includeScripts(); ?>
 
 <script type="application/javascript">
     vue = new Vue({
@@ -43,16 +60,22 @@
         data: {
             clients: [],
             searchID: null,
+            findRecentOnly: true,
             tableFields: [
-                {key: 'id', label: 'Open', sortable: false},
-                {key: 'uid', label: 'Client ID', sortable: true}
+                {key: 'client', label: 'Client', sortable: true},
+                {key: 'episode_number', label: 'Episode', sortable: true},
+                {key: 'episode_date', label: 'Intake Date', sortable: true},
+                {key: 'intake', label: 'Intake'},
+                {key: 'followup3mo', label: '3 Month'},
+                {key: 'followup6mo', label: '6 Month'},
+                {key: 'discharge', label: 'Discharge'},
                 ],
             currentPage: 1,
             result: <?php echo json_encode($this->result); ?>
         },
         methods: {
             searchClients: function () {
-                ajax('/home/searchClients',[this.searchID], function (result) {
+                ajax('/home/searchClients',[this.searchID, this.findRecentOnly], function (result) {
                     vue.clients = result.data;
                 });
             }

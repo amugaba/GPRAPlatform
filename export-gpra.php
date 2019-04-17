@@ -13,7 +13,7 @@ $gpras = $ds->getGPRAs();
 <head>
     <meta charset="UTF-8">
     <title>Export GPRAs - HIV Prevention Portal</title>
-    <?php include_styles(); ?>
+    <?php $this->includeStyles(); ?>
     <script type="application/javascript">
         $(function() {
             $('#gprasTable').DataTable();
@@ -21,7 +21,7 @@ $gpras = $ds->getGPRAs();
     </script>
 </head>
 <body>
-    <?php include_header(); ?>
+    <?php $this->includeHeader(); ?>
 
     <div class="pageTitle">GPRA Export</div>
     <div style="margin: 20px auto; text-align: center;">
@@ -58,7 +58,7 @@ $gpras = $ds->getGPRAs();
     <input type="button" value="Export Selected (SPARS)" @click="exportSelected(0)" class="btn btn-primary">
     <input type="button" value="Export Selected (Eval)" @click="exportSelected(1)" class="btn btn-primary">
 
-    <?php include_footer(); ?>
+    <?php $this->includeFooter(); ?>
 
 <script type="application/javascript">
     function selectCode(val) {

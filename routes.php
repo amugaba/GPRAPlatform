@@ -6,7 +6,7 @@ Router::csrfVerifier(new CsrfVerifier());
 
 Router::controller('/login', LoginController::class);
 
-Router::group(['middleware' => Auth::class], function () {
+Router::group(['middleware' => [Auth::class, RequireGrant::class]], function () {
     Router::get('/', 'HomeController@getIndex');
     Router::controller('/home', HomeController::class);
     Router::controller('/gpra', GPRAController::class);

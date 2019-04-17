@@ -32,11 +32,13 @@ class GPRAController extends Controller
         }
 
         $view = new View('gpra/index.php');
+        $view->addSidebarSection('gpra/sidebar.php');
         $view->section = $section;
         $view->assessment = $assessment;
         $view->optionSets = $optionSets;
         $view->errors_container = $errors_container;
         $view->sections = GPRA::SECTIONS[$assessment->assessment_type];
+        $view->client = $ds->getClient($assessment->client_id);
         return $view->render();
     }
 
@@ -72,6 +74,9 @@ class GPRAController extends Controller
 
         if(!in_array($section,GPRA::SECTIONS[$assessment->assessment_type]))
             throw new Exception("Input section not in valid sections for assessment type: ".$section);
+
+        if($assessment->grant_id != Session::getGrant()->id)
+            throw new Exception("Assessment ($assessment_id) does not belong to this grant");
     }
 
     /**

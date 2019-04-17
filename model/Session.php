@@ -3,9 +3,6 @@
  * Class Session
  * Handles session variables
  */
-require_once 'User.php';//needed to store objects in session data
-require_once 'Client.php';
-require_once 'Assessment.php';
 
 abstract class Session
 {
@@ -22,6 +19,21 @@ abstract class Session
      */
     static function setUser(User $user) {
         $_SESSION['user'] = $user;
+    }
+
+    /**
+     * @return Grant|null
+     */
+    static function getGrant() {
+        if(isset($_SESSION['grant']))
+            return $_SESSION['grant'];
+        return null;
+    }
+    /**
+     * @param Grant $grant
+     */
+    static function setGrant(Grant $grant) {
+        $_SESSION['grant'] = $grant;
     }
 
     /**
@@ -61,6 +73,7 @@ abstract class Session
     static function copy() {
         $obj = new stdClass();
         $obj->user = self::getUser();
+        $obj->grant = self::getGrant();
         $obj->client = self::getClient();
         $obj->assessment = self::getAssessment();
         return $obj;

@@ -52,9 +52,10 @@ class LoginController extends Controller
         }
     }
 
-    public function postLogout() {
+    public function getLogout() {
         session_unset();
         session_destroy();
+        redirect('/login');
     }
 
     /**

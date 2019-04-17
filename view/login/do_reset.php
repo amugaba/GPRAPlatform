@@ -2,10 +2,10 @@
 <html lang="en">
 <head>
     <title>Reset Password - GPRA Portal</title>
-    <?php include_styles(); ?>
+    <?php $this->includeStyles(); ?>
 </head>
 <body>
-    <?php include_header_no_nav(); ?>
+    <?php $this->includeHeaderNoNav(); ?>
 
     <div style="width: 340px; margin: 200px auto 0;" class="panel panel-default">
         <div class="panel-body">
@@ -29,8 +29,8 @@
         </div>
     </div>
 
-    <?php include_footer(); ?>
-    <?php include_js(); ?>
+    <?php $this->includeFooter(); ?>
+    <?php $this->includeScripts(); ?>
 
     <script type="application/javascript">
         vue = new Vue({

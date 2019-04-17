@@ -7,7 +7,30 @@ class HomeController extends Controller
      */
     public function getIndex()
     {
+        $grant_id = input('id');
+        if($grant_id != null) {
+            $ds = DataService::getInstance();
+            $grants = $ds->getGrantsByUser(Session::getUser()->id);
+            foreach ($grants as $grant) {
+                if($grant->id == $grant_id) {
+                    Session::setGrant($grant);
+                }
+            }
+            if(Session::getGrant() == null)
+                throw new Exception("User does not have access to grant with ID: ".$grant_id);
+        }
         $view = new View('home/index.php');
+        return $view->render();
+    }
+
+    /**
+     * @throws Exception
+     */
+    public function getGrantlist()
+    {
+        $ds = DataService::getInstance();
+        $view = new View('home/grantlist.php');
+        $view->grants = $ds->getGrantsByUser(Session::getUser()->id);
         return $view->render();
     }
 
@@ -60,9 +83,11 @@ class HomeController extends Controller
      * @throws Exception
      */
     public function postSearchClients() {
-        $uid = ajax_input()[0];
+        $data = ajax_input();
+        $uid = $data[0];
+        $recentOnly = $data[1];
         $ds = DataService::getInstance();
-        $clients = $ds->searchClients($uid);
+        $clients = $ds->searchClients($uid, Session::getGrant()->id, $recentOnly);
         ajax_output(true, $clients);
     }
 

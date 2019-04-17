@@ -3,6 +3,7 @@
 class User
 {
 	public $id;
+    public $name;
     public $username;
     public $email;
     public $admin;
@@ -14,6 +15,7 @@ class User
     public function fill($dbobj)
     {
         $this->id = isset($dbobj->id) ? $dbobj->id : null;
+        $this->name = isset($dbobj->name) ? $dbobj->name : null;
         $this->username = isset($dbobj->username) ? $dbobj->username : null;
         $this->email = isset($dbobj->email) ? $dbobj->email : null;
         $this->admin = isset($dbobj->admin) ? $dbobj->admin : null;

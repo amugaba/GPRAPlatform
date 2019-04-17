@@ -2,12 +2,16 @@
 
 class GPRA extends Assessment
 {
-    const TYPES = [AssessmentTypes::GPRAIntake, AssessmentTypes::GPRADischarge, AssessmentTypes::GPRAFollowup];
+    const TYPES = [AssessmentTypes::GPRAIntake, AssessmentTypes::GPRADischarge, AssessmentTypes::GPRA3MonthFollowup, AssessmentTypes::GPRA6MonthFollowup];
     const SECTIONS = [
         AssessmentTypes::GPRAIntake =>    [1,2,3,4,5,6,7,8,9,10],
         AssessmentTypes::GPRADischarge => [1,4,5,6,7,8,9,10,12,13],
-        AssessmentTypes::GPRAFollowup =>  [1,4,5,6,7,8,9,10,11]
+        AssessmentTypes::GPRA3MonthFollowup =>  [1,4,5,6,7,8,9,10,11],
+        AssessmentTypes::GPRA6MonthFollowup =>  [1,4,5,6,7,8,9,10,11]
         ];
+    const SECTION_LABELS = [1 => 'A. Record Management', 2 => 'A. Planned Services', 3 => 'A. Demographics', 4 => 'B. Drug and Alcohol Use',
+        5 => 'C. Family and Living Conditions', 6 => 'D. Education and Employment', 7 => 'E. Crime and Criminal Status',
+        8 => 'F. Health and Treatment/Recovery', 9 => 'F. Violence and Trauma'];
 
     public $GrantNo;
     public $ClientID;

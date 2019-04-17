@@ -132,7 +132,7 @@ Vue.filter('int', function(value) {
 Vue.filter('date', function(value) {
     if(value == null)
         return null;
-    return moment(value).format("MMM D, Y")
+    return moment(value).format("M/D/Y")
 });
 
 Vue.filter('assessmentType', function(value) {
@@ -142,6 +142,15 @@ Vue.filter('assessmentType', function(value) {
         case 3: return "GPRA Followup";
         default: return value;
     }
+});
+
+Vue.filter('assessmentStatus', function(status) {
+    switch(status) {
+        case 0: return "In Progress";
+        case 1: return "Complete";
+        case 2: return "Locked";
+    }
+    return status;
 });
 
 function isIE() {

@@ -19,7 +19,7 @@ if(isset($_GET['method']) && $_GET['method'] == 'resumeClient') {
 <head>
     <meta charset="UTF-8">
     <title>Admin - HIV Prevention Portal</title>
-    <?php include_styles(); ?>
+    <?php $this->includeStyles(); ?>
     <script type="application/javascript">
         $(function() {
             $('#clientsTable').DataTable();
@@ -27,7 +27,7 @@ if(isset($_GET['method']) && $_GET['method'] == 'resumeClient') {
     </script>
 </head>
 <body>
-    <?php include_header(); ?>
+    <?php $this->includeHeader(); ?>
 
     <div class="pageTitle">All Unfinished Clients</div>
     <p style="text-align: center">Click on an unfinished item to go to that page.</p>
@@ -69,7 +69,7 @@ if(isset($_GET['method']) && $_GET['method'] == 'resumeClient') {
         <input type="button" value="Testing Results" class="btn btn-primary" @click="exportTestingResults()"><br><br>
     </div>
 
-    <?php include_footer(); ?>
+    <?php $this->includeFooter(); ?>
 
 <script type="application/javascript">
     function selectCode(val) {
