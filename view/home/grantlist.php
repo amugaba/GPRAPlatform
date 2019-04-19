@@ -8,12 +8,14 @@
     <?php $this->includeHeader(); ?>
 
     <div class="pageTitle">Select a grant to continue:</div>
-    <table class="table table-striped">
+    <table class="table table-hover table-bordered">
+        <thead>
         <tr>
             <th>GFA</th>
             <th>Grantee</th>
             <th>Grant #</th>
         </tr>
+        </thead>
         <tr v-for="grant in grants">
             <td><a :href="'/home/index?id='+grant.id">{{grant.name}}</a></td>
             <td>{{grant.grantee}}</td>

@@ -136,10 +136,22 @@ Vue.filter('date', function(value) {
 });
 
 Vue.filter('assessmentType', function(value) {
+    value = parseInt(value);
     switch (value) {
         case 1: return "GPRA Intake";
         case 2: return "GPRA Discharge";
         case 3: return "GPRA Followup";
+        default: return value;
+    }
+});
+
+Vue.filter('gpraType', function(value) {
+    value = parseInt(value);
+    switch (value) {
+        case 1: return "Intake";
+        case 2: return "Discharge";
+        case 3: return "3-Month Followup";
+        case 4: return "6-Month Followup";
         default: return value;
     }
 });

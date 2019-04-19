@@ -7,11 +7,11 @@
 <body>
     <?php $this->includeHeaderNoNav(); ?>
 
-    <div style="width: 340px; margin: 200px auto 0;" class="panel panel-default">
-        <div class="panel-body">
-            <img src="/img/kfl100.png" style="height: 70px; margin: 0 auto; display: block"><br>
-            <h4 style="text-align: center">Reset email sent</h4>
-            <p>Check your email for a link to reset your password. If it doesn't appear within a few minutes, check your spam folder.</p>
+    <div class="panel float-center">
+        <div class="pageTitle" style="margin-top: 0">Reset email sent</div>
+        <p>Check your email for a link to reset your password. If it doesn't appear within a few minutes, check your spam folder.</p>
+        <div style="text-align: center; margin: 10px 0 0">
+            <a href="/login/">Return to Login</a>
         </div>
     </div>
 

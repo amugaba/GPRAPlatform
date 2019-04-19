@@ -46,6 +46,7 @@ class GPRAValidator extends Validator {
 
         //do custom validation based on section
         switch ($section) {
+            case 0: $this->validateSection0(); break;
             case 1: $this->validateSection1(); break;
             case 2: $this->validateSection2(); break;
             case 3: $this->validateSection3(); break;
@@ -68,21 +69,28 @@ class GPRAValidator extends Validator {
     public function getProcessedGPRA() {
         return $this->gpra;
     }
+
+    private function validateSection0()
+    {
+        if($this->gpra->ConductedInterview == 1) {
+            //date must be in the correct format and not in the future
+            $dateObj = DateTime::createFromFormat('m#d#Y', $this->gpra->InterviewDate);
+            if ($dateObj) {
+                $now = new DateTime('now');
+                if ($dateObj->getTimestamp() - $now->getTimestamp() > 0)
+                    $this->addError('InterviewDate', 'Date cannot be in the future');
+                $this->gpra->InterviewDate = $dateObj->format('m/d/Y');
+            } else {
+                $this->addError('InterviewDate', 'Invalid date');
+            }
+        }
+        else {
+            $this->gpra->InterviewDate = null;
+        }
+    }
     
     private function validateSection1()
     {
-        //date must be in the correct format and not in the future
-        $dateObj = DateTime::createFromFormat('m#d#Y',$this->gpra->InterviewDate);
-        if($dateObj) {
-            $now = new DateTime('now');
-            if($dateObj->getTimestamp() - $now->getTimestamp() > 0)
-                $this->addError('InterviewDate', 'Date cannot be in the future');
-            $this->gpra->InterviewDate = $dateObj->format('m/d/Y');
-        }
-        else {
-            $this->addError('InterviewDate', 'Invalid date');
-        }
-
         //at least one ICD Code must be specified
         if($this->gpra->ICD10CodeOne == null && $this->gpra->ICD10CodeTwo == null && $this->gpra->ICD10CodeThree == null) {
             $this->addError('ICD10CodeOne', 'At least one code must be chosen');

@@ -2,16 +2,42 @@
 
 class GPRA extends Assessment
 {
-    const TYPES = [AssessmentTypes::GPRAIntake, AssessmentTypes::GPRADischarge, AssessmentTypes::GPRA3MonthFollowup, AssessmentTypes::GPRA6MonthFollowup];
-    const SECTIONS = [
-        AssessmentTypes::GPRAIntake =>    [1,2,3,4,5,6,7,8,9,10],
-        AssessmentTypes::GPRADischarge => [1,4,5,6,7,8,9,10,12,13],
-        AssessmentTypes::GPRA3MonthFollowup =>  [1,4,5,6,7,8,9,10,11],
-        AssessmentTypes::GPRA6MonthFollowup =>  [1,4,5,6,7,8,9,10,11]
-        ];
-    const SECTION_LABELS = [1 => 'A. Record Management', 2 => 'A. Planned Services', 3 => 'A. Demographics', 4 => 'B. Drug and Alcohol Use',
-        5 => 'C. Family and Living Conditions', 6 => 'D. Education and Employment', 7 => 'E. Crime and Criminal Status',
-        8 => 'F. Health and Treatment/Recovery', 9 => 'F. Violence and Trauma'];
+    //GPRA types
+    const INTAKE = 1;
+    const DISCHARGE = 2;
+    const FOLLOWUP_3MONTH = 3;
+    const FOLLOWUP_6MONTH = 4;
+    const TYPES = [AssessmentTypes::GPRAIntake, AssessmentTypes::GPRADischarge, AssessmentTypes::GPRAFollowup];
+
+    /**
+     * The sections in a GPRA varies by type and whether an interview was conducted or not
+     * @param int $type
+     * @param bool $didInterview
+     * @return array
+     */
+    public static function getSections($type, $didInterview = true) {
+        if($type == AssessmentTypes::GPRAIntake)
+            return [0,1,2,3,4,5,6,7,8,9,10];
+        if($type == AssessmentTypes::GPRADischarge && $didInterview)
+            return [0,1,4,5,6,7,8,9,10,12,13];
+        if($type == AssessmentTypes::GPRADischarge && !$didInterview)
+            return [0,12,13];
+        if($type == AssessmentTypes::GPRAFollowup && $didInterview)
+            return [0,1,4,5,6,7,8,9,10,11];
+        if($type == AssessmentTypes::GPRAFollowup && !$didInterview)
+            return [0,11];
+        return [];
+    }
+
+    public static function getAssessmentType($gpra_type) {
+        if($gpra_type == GPRA::INTAKE)
+            return AssessmentTypes::GPRAIntake;
+        if($gpra_type == GPRA::DISCHARGE)
+            return AssessmentTypes::GPRADischarge;
+        if($gpra_type == GPRA::FOLLOWUP_3MONTH || $gpra_type == GPRA::FOLLOWUP_6MONTH)
+            return AssessmentTypes::GPRAFollowup;
+        return null;
+    }
 
     public $GrantNo;
     public $ClientID;

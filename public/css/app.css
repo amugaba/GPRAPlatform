@@ -3,7 +3,7 @@ html,body {
     padding: 0;
     height: 100%; /* needed for container min-height */
 }
-#main2 {
+#main {
     padding-top: 60px; /* Space for fixed navbar */
     position: relative;
     width: 100%;
@@ -14,6 +14,10 @@ html,body {
     margin: 0 auto;
 }
 [v-cloak] { display: none; }
+.footer {
+    margin-top: 20px;
+    min-height: 50px;
+}
 /* HEADER
 -------------------------------------------------- */
 #topbar {
@@ -72,8 +76,15 @@ html,body {
 -------------------------------------------------- */
 .pageTitle {
     text-align: center;
-    font-size: 24px;
+    font-size: 1.75rem;
+    font-weight: 500;
     margin: 30px auto 20px;
+}
+.sectionTitle {
+    text-align: left;
+    font-size: 1.5rem;
+    font-weight: 500;
+    margin-top: 30px;
 }
 .explanationBox {
     border: thin solid #333;
@@ -236,7 +247,7 @@ table .type-select select {
     width: 49%;
 }
 .type-radio.columns-thirds label {
-    width: 33%;
+    width: 32%;
 }
 .type-radio.columns-fourths label {
     width: 24%;
@@ -331,13 +342,30 @@ table .type-select select {
     display: none;
     opacity: 0;
 }
+.float-center {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    -moz-transform: translateX(-50%) translateY(-50%);
+    -webkit-transform: translateX(-50%) translateY(-50%);
+    transform: translateX(-50%) translateY(-50%);
+}
 tr.selected {
     background-color: #337ab7 !important;
     color: white;
 }
+.details {
+    font-size: 1.25rem;
+}
+.details label {
+    width: 150px;
+}
+.v-select .dropdown-toggle::after {
+    display: none;
+}
 /* BOOTSTRAP TABLE
 -------------------------------------------------- */
-.b-table.table>thead {
+.table>thead {
     background-color: #f3f3f3;
 }
 .b-table.table>tfoot>tr>th[aria-sort], .b-table.table>thead>tr>th[aria-sort] {
@@ -364,4 +392,21 @@ tr.selected {
     opacity: .4;
     content: "\2195";
     speak: none;
+}
+.b-pagination {
+    float: right;
+    margin-top: 0;
+}
+
+/* BOOTSTRAP PANEL
+-------------------------------------------------- */
+.panel {
+    margin-bottom: 20px;
+    background-color: #fff;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    -webkit-box-shadow: 0 1px 1px rgba(0, 0, 0, .05);
+    box-shadow: 0 1px 1px rgba(0, 0, 0, .05);
+    width: 400px;
+    padding: 15px;
 }

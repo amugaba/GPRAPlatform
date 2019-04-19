@@ -1,20 +1,12 @@
 <div class="pageTitle">
-    Section A: Record Management
+    Section A: Behavioral Health Diagnoses
 </div>
 
 <section>
-    <question-text title="Interview Date" reminder="MM-DD-YYYY" id="InterviewDate" v-model="gpra.InterviewDate"></question-text>
-</section>
-
-<section>
-    <h4>BEHAVIORAL HEALTH DIAGNOSES</h4>
-    <div class="explanationBox">
-        Please indicate the client’s current behavioral health diagnoses using the International Classification of Diseases,
-        10th revision, Clinical Modification (ICD-10-CM) codes listed below. Please note that some substance use disorder ICD-10-CM
-        codes have been crosswalked to the Diagnostic and Statistical Manual of Mental Disorders, Fifth Edition (DSM-5), descriptors.
-        You may specify a primary, secondary, and/or tertiary diagnosis.
+    <div class="header">
+        <span class="title">What are the client's current behavioral health diagnoses?</span><br>
+        <span class="reminderText">(Select from the ICD-10 codes listed below. You may specify a primary, secondary, and/or tertiary diagnosis.)</span>
     </div>
-
     <question-combobox title="Primary" id="ICD10CodeOne" v-model="gpra.ICD10CodeOne" :options="optionSets.ICDCode"></question-combobox>
     <question-combobox title="Secondary" id="ICD10CodeTwo" v-model="gpra.ICD10CodeTwo" :options="optionSets.ICDCode"></question-combobox>
     <question-combobox title="Tertiary" id="ICD10CodeThree" v-model="gpra.ICD10CodeThree" :options="optionSets.ICDCode"></question-combobox>
@@ -60,11 +52,9 @@
     </div>
 </section>
 
-<section>
-    <div v-if="gpra.assessment_type == 1">
+<section v-if="gpra.assessment_type == 1">
         <question-radio title="Was the client screened by your program for co-occurring mental health and substance use disorders?" class="columns-halves"
                         id="ClientIntake_CooccurringScreen" v-model="gpra.ClientIntake_CooccurringScreen" :options="optionSets.YesNo"></question-radio>
         <question-radio class="subquestion columns-halves" v-show="gpra.ClientIntake_CooccurringScreen == 1" title="Did the client screen positive for co-occurring mental health and substance use disorders?"
                         id="ClientIntake_CooccurringScreenStatus" v-model="gpra.ClientIntake_CooccurringScreenStatus" :options="optionSets.YesNo"></question-radio>
-    </div>
 </section>

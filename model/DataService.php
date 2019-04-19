@@ -93,13 +93,17 @@ class DataService {
 
     /**
      * @param $uid string
+     * @param $grant_id int
      * @return bool
      * @throws Exception
      */
-    public function addClient($uid) {
-        $success = $this->query("INSERT IGNORE INTO clients SET uid='?'", [$uid]);
-        if($success)
-            return $this->connection->insert_id;
+    public function addClient($uid, $grant_id) {
+        $success = $this->query("INSERT IGNORE INTO clients SET uid='?', grant_id=?", [$uid, $grant_id]);
+        if($success) {
+            $id = $this->connection->insert_id;
+            $this->query("UPDATE clients SET gpra_id=? WHERE id=?", [$id, $id]);//GPRA ID mirrors DB ID for now
+            return $id;
+        }
         return null;
     }
 
@@ -117,19 +121,39 @@ class DataService {
             a1.id AS intake_id, a1.status AS intake_status, 
             a2.id AS discharge_id, a2.status AS discharge_status, 
             a3.id AS followup_3mo_id, a3.status AS followup_3mo_status,
-            a4.id AS followup_6mo_id, a3.status AS followup_6mo_status
+            a4.id AS followup_6mo_id, a4.status AS followup_6mo_status
             FROM clients c 
             JOIN episodes e ON c.id=e.client_id
-            LEFT JOIN assessments a1 ON a1.client_id = c.id AND a1.assessment_type=1 AND a1.episode_id=e.id
-            LEFT JOIN assessments a2 ON a2.client_id = c.id AND a2.assessment_type=2 AND a1.episode_id=e.id
-            LEFT JOIN assessments a3 ON a3.client_id = c.id AND a3.assessment_type=3 AND a1.episode_id=e.id
-            LEFT JOIN assessments a4 ON a4.client_id = c.id AND a4.assessment_type=4 AND a1.episode_id=e.id
+            LEFT JOIN assessments a1 ON a1.client_id = c.id AND a1.gpra_type=1 AND a1.episode_id=e.id
+            LEFT JOIN assessments a2 ON a2.client_id = c.id AND a2.gpra_type=2 AND a2.episode_id=e.id
+            LEFT JOIN assessments a3 ON a3.client_id = c.id AND a3.gpra_type=3 AND a3.episode_id=e.id
+            LEFT JOIN assessments a4 ON a4.client_id = c.id AND a4.gpra_type=4 AND a4.episode_id=e.id
             WHERE c.uid LIKE '%?%' AND c.grant_id=? $recent_clause",
             [$uid, $grant_id]);
 
-        $clients = $this->fetchAllObjects($result, Client::class);
+        return $this->fetchAllObjects($result, Client::class);
+    }
 
-        return $clients;
+    /**
+     * @param $client_id int
+     * @return Client[]
+     * @throws Exception
+     */
+    public function getClientEpisodesWithGPRAs($client_id) {
+        $result = $this->query("SELECT c.id, c.uid, e.id AS episode_id, e.number AS episode_number, e.start_date as episode_date,
+            a1.id AS intake_id, a1.status AS intake_status, 
+            a2.id AS discharge_id, a2.status AS discharge_status, 
+            a3.id AS followup_3mo_id, a3.status AS followup_3mo_status,
+            a4.id AS followup_6mo_id, a4.status AS followup_6mo_status
+            FROM clients c 
+            JOIN episodes e ON c.id=e.client_id
+            LEFT JOIN assessments a1 ON a1.client_id = c.id AND a1.gpra_type=1 AND a1.episode_id=e.id
+            LEFT JOIN assessments a2 ON a2.client_id = c.id AND a2.gpra_type=2 AND a2.episode_id=e.id
+            LEFT JOIN assessments a3 ON a3.client_id = c.id AND a3.gpra_type=3 AND a3.episode_id=e.id
+            LEFT JOIN assessments a4 ON a4.client_id = c.id AND a4.gpra_type=4 AND a4.episode_id=e.id
+            WHERE c.id=?", [$client_id]);
+
+        return $this->fetchAllObjects($result, Client::class);
     }
 
     /** @param Client $item
@@ -219,6 +243,23 @@ class DataService {
     }
 
     /**
+     * @param $assessment_type int
+     * @param $episode_id int
+     * @param $client_id int
+     * @param $user_id int
+     * @param $grant_id int
+     * @param $gpra_type int
+     * @param $interview_conducted bool
+     * @return int
+     * @throws Exception
+     */
+    public function addAssessment($assessment_type, $episode_id, $client_id, $user_id, $grant_id, $gpra_type = null, $interview_conducted = null) {
+        $this->query("INSERT INTO assessments (assessment_type, client_id, user_id, grant_id, episode_id, created_date, gpra_type, interview_conducted) 
+            VALUES (?,?,?,?,?,'?',?,?)", [$assessment_type, $client_id, $user_id, $grant_id, $episode_id, date('Y-m-d'), $gpra_type, $interview_conducted]);
+        return $this->connection->insert_id;
+    }
+
+    /**
      * @return array
      * @throws Exception
      */
@@ -302,6 +343,19 @@ class DataService {
           JOIN assessment_questions aq ON aq.question_id=q.id 
           WHERE a.assessment_id=? AND aq.section=?", [$assessment_id, $section]);
         return $this->fetchAllObjects($result, Answer::class);
+    }
+
+    /**
+     * Progress is equal to the furthest/greatest section completed.
+     * @param $assessment_id int
+     * @param $progress int
+     * @param $completed bool
+     * @throws Exception
+     */
+    public function updateAssessmentProgress($assessment_id, $progress, $completed = false) {
+        $status = $completed ? 1 : 0;
+        $this->query("UPDATE assessments SET progress=GREATEST(progress, ?), status=GREATEST(status, ?) WHERE id=?",
+            [$progress, $status, $assessment_id]);
     }
 
     /**

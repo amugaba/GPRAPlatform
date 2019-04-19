@@ -25,7 +25,7 @@
         <label><input type="checkbox" v-model="findRecentOnly"> Find most recent episode only</label>
     </form>
 
-    <b-table :fields="tableFields" :items="clients" :per-page="15" :current-page="currentPage" hover bordered class="tablesorter">
+    <b-table :fields="tableFields" :items="clients" :per-page="15" :current-page="currentPage" hover bordered>
         <template slot="client" slot-scope="data">
             <a :href="'/home/client?id='+data.item.id">{{data.item.uid}}</a>
         </template>

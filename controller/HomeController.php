@@ -7,6 +7,7 @@ class HomeController extends Controller
      */
     public function getIndex()
     {
+        //if coming from grant list, set the grant in session
         $grant_id = input('id');
         if($grant_id != null) {
             $ds = DataService::getInstance();
@@ -19,6 +20,7 @@ class HomeController extends Controller
             if(Session::getGrant() == null)
                 throw new Exception("User does not have access to grant with ID: ".$grant_id);
         }
+
         $view = new View('home/index.php');
         return $view->render();
     }
@@ -41,24 +43,14 @@ class HomeController extends Controller
     {
         $ds = DataService::getInstance();
         $client = $ds->getClient(input('id'));
-        if($client == null)
+        if($client == null || $client->grant_id != Session::getGrant()->id)
             throw new Exception('Client ID invalid.');
-        Session::setClient($client);
 
-        $episodes = $ds->getEpisodesByClient($client->id);
-        $assessments = $ds->getAssessmentsByClient($client->id);
-
-        //group assessments by episode
-        $assessment_groups = [];
-        foreach ($episodes as $episode)
-            $assessment_groups[$episode->id] = [];
-        foreach ($assessments as $assessment)
-            $assessment_groups[$assessment->episode_id][] = $assessment;
+        $episodes = $ds->getClientEpisodesWithGPRAs($client->id);
 
         $view = new View('home/client.php');
         $view->client = $client;
         $view->episodes = $episodes;
-        $view->assessment_groups = $assessment_groups;
         return $view->render();
     }
 
@@ -70,13 +62,15 @@ class HomeController extends Controller
         //TBD validate ID
 
         $ds = DataService::getInstance();
-        $client_id = $ds->addClient($uid);
+        $client_id = $ds->addClient($uid, Session::getGrant()->id);
         if($client_id == null) {
             flash('result', new Result(false, 'A client with this ID already exists.'));
             redirect('/');
         }
-        else
-            redirect('/home/client');
+        else {
+            $ds->addEpisode($client_id);
+            redirect('/home/client?id=' . $client_id);
+        }
     }
 
     /**
@@ -95,13 +89,16 @@ class HomeController extends Controller
      * @throws Exception
      */
     public function postAddEpisode() {
+        $data = ajax_input();
+        $client_id = $data[0];
         $ds = DataService::getInstance();
-        $episode_id = $ds->addEpisode(Session::getClient()->id);
-        $episode = $ds->getEpisode($episode_id);
-        if($episode == null) {
+        $episode_id = $ds->addEpisode($client_id);
+
+        if(!($episode_id > 0)) {
             ajax_output(false, "Episode creation failed.");
         }
-        else
-            ajax_output(true, $episode);
+        else {
+            ajax_output(true);
+        }
     }
 }

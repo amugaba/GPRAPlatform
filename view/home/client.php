@@ -7,59 +7,37 @@
 <body>
     <?php $this->includeHeader(); ?>
 
-    <h3>Client: {{client.uid}}</h3>
-
-    <h3>Episodes</h3>
-    <p class="reminderText">Open an existing episode or add a new episode.</p>
-    <div class="row">
-        <div class="col-md-6">
-            <div style="width: 300px; margin: 10px">
-                <table class="table table-striped">
-                    <tr>
-                        <th>Open</th>
-                        <th>Episode #</th>
-                        <th>Start Date</th>
-                    </tr>
-                    <tr v-for="episode in episodes" :class="{selected: currentEpisode==episode}">
-                        <td><img src="/img/edit.png" @click="openEpisode(episode)"style="cursor: pointer"></td>
-                        <td>{{episode.number}}</td>
-                        <td>{{episode.start_date | date}}</td>
-                    </tr>
-                </table>
-            </div>
-        </div>
-        <div class="col-md-6">
-            <input type="button" value="Add New Episode" class="btn btn-primary" @click="addEpisode">
-        </div>
+    <div class="pageTitle">Client Profile</div>
+    <div class="details">
+        <label>Unique ID:</label> {{client.uid}}<br>
+        <label>GPRA ID:</label> {{client.gpra_id}}<br>
     </div>
 
-    <div v-show="currentEpisode != null">
-        <h3>Assessments</h3>
-        <p class="reminderText">Open an existing assessment or add a new one.</p>
-        <div class="row">
-            <div class="col-md-6">
-                <div style="width: 300px; margin: 10px">
-                    <table class="table table-striped">
-                        <tr>
-                            <th>Open</th>
-                            <th>Type</th>
-                            <th>Creation Date</th>
-                        </tr>
-                        <tr v-for="assessment in assessments">
-                            <td><a :href="'/gpra?id='+assessment.id"><img src="/img/edit.png"></a></td>
-                            <td>{{assessment.assessment_type | assessmentType}}</td>
-                            <td>{{assessment.created_date | date}}</td>
-                        </tr>
-                    </table>
-                </div>
-            </div>
-            <div class="col-md-6">
-                <input type="button" value="Add GPRA Intake" class="btn btn-primary input-block-fit">
-                <input type="button" value="Add GPRA Discharge" class="btn btn-primary input-block-fit">
-                <input type="button" value="Add GPRA Followup" class="btn btn-primary input-block-fit">
-            </div>
-        </div>
-    </div>
+    <div class="pageTitle">Episodes</div>
+    <b-table :fields="tableFields" :items="episodes" sort-by="episode_number" per-page="10" :current-page="currentPage" hover bordered>
+        <template slot="episode_date" slot-scope="data">
+            {{data.item.episode_date | date}}
+        </template>
+        <template slot="intake" slot-scope="data">
+            <a v-if="data.item.intake_id == null" :href="'/gpra/add?episode='+data.item.episode_id+'&type=1'">Add</a>
+            <a v-else :href="'/gpra/index?id='+data.item.intake_id">{{data.item.intake_status | assessmentStatus}}</a>
+        </template>
+        <template slot="followup3mo" slot-scope="data">
+            <a v-if="data.item.followup_3mo_id == null" :href="'/gpra/add?episode='+data.item.episode_id+'&type=3'">Add</a>
+            <a v-else :href="'/gpra/index?id='+data.item.followup_3mo_id">{{data.item.followup_3mo_status | assessmentStatus}}</a>
+        </template>
+        <template slot="followup6mo" slot-scope="data">
+            <a v-if="data.item.followup_6mo_id == null" :href="'/gpra/add?episode='+data.item.episode_id+'&type=4'">Add</a>
+            <a v-else :href="'/gpra/index?id='+data.item.followup_6mo_id">{{data.item.followup_6mo_status | assessmentStatus}}</a>
+        </template>
+        <template slot="discharge" slot-scope="data">
+            <a v-if="data.item.discharge_id == null" :href="'/gpra/add?episode='+data.item.episode_id+'&type=2'">Add</a>
+            <a v-else :href="'/gpra/index?id='+data.item.discharge_id">{{data.item.discharge_status | assessmentStatus}}</a>
+        </template>
+    </b-table>
+    <b-pagination v-show="episodes.length>10" :total-rows="episodes.length" per-page="10" v-model="currentPage"></b-pagination>
+
+    <input type="button" value="Add New Episode" class="btn btn-primary" @click="addEpisode">
 
     <?php $this->includeFooter(); ?>
     <?php $this->includeScripts(); ?>
@@ -71,26 +49,26 @@
             client: <?php echo json_encode($this->client); ?>,
             result: <?php echo json_encode($this->result); ?>,
             episodes: <?php echo json_encode($this->episodes); ?>,
-            assessmentGroups: <?php echo json_encode($this->assessment_groups); ?>,
-            currentEpisode: null,
-            assessments: []
+            tableFields: [
+                {key: 'episode_number', label: 'Episode', sortable: true},
+                {key: 'episode_date', label: 'Intake Date', sortable: true},
+                {key: 'intake', label: 'Intake'},
+                {key: 'followup3mo', label: '3 Month'},
+                {key: 'followup6mo', label: '6 Month'},
+                {key: 'discharge', label: 'Discharge'},
+            ],
+            currentPage: 1
         },
         methods: {
             addEpisode: function () {
-                ajax('/home/addEpisode',null, function (result) {
+                ajax('/home/addEpisode',[this.client.id], function (result) {
                     if(result.success) {
-                        vue.episodes.push(result.data);
-                        vue.currentEpisode = result.data;
+                        location.reload();
                     }
                     else
                         showOverlayMessage(result.data, false);
                 });
-            },
-            openEpisode: function(episode) {
-                this.currentEpisode = episode;
-                this.assessments = this.assessmentGroups[episode.id];
             }
-
         }
     })
 </script>
