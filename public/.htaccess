@@ -1,4 +1,8 @@
 Options +FollowSymLinks
 RewriteEngine On
+
+RewriteCond %{HTTPS} off
+RewriteRule ^(.*)$ https://%{HTTP_HOST}%{REQUEST_URI} [L,R=301]
+
 RewriteCond %{REQUEST_URI} !(\.map|\.css|\.js|\.png|\.jpg|\.gif|robots\.txt|test.php|\.ico)$ [NC]
 RewriteRule ^(.*)$ index.php [NC,L]
