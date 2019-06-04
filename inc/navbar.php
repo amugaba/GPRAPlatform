@@ -97,5 +97,5 @@
             </div>
         </nav>
 
-        <div id="main" class="col-md-9 ml-sm-auto col-lg-10 px-4" v-cloak>
+        <div id="main" class="col-md-9 ml-sm-auto col-lg-10 px-4" <?php if(!DEBUG) echo 'v-cloak'; ?>>
             <div id="errorlog"></div>

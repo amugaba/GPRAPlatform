@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="PublishConfigData" serverName="Angstrom">
+    <serverData>
+      <paths name="Angstrom">
+        <serverdata>
+          <mappings>
+            <mapping deploy="/gpra.angstrom-software.com" local="$PROJECT_DIR$/public" web="/" />
+            <mapping deploy="/gpra-app" local="$PROJECT_DIR$/" web="/" />
+          </mappings>
+        </serverdata>
+      </paths>
+    </serverData>
+  </component>
+</project>

@@ -23,7 +23,7 @@ class View
      */
     public function render(){
         $this->loadFlashData();
-        $path = View::VIEW_PATH.'\\'.$this->filename;
+        $path = View::VIEW_PATH.'/'.$this->filename;
         ob_start();
         if(file_exists($path))
         {
@@ -40,7 +40,7 @@ class View
     }
     public function includeSidebarSections() {
         foreach ($this->sidebar_sections as $filename) {
-            $path = View::VIEW_PATH.'\\'.$filename;
+            $path = View::VIEW_PATH.'/'.$filename;
             if(file_exists($path))
             {
                 include($path);

@@ -19,8 +19,17 @@ class DataService {
         $cm = new ConnectionManager();
         $this->connection = mysqli_connect($cm->server, $cm->username, $cm->password, $cm->databasename, $cm->port);
         $this->connection->set_charset('utf8');
-        $this->connection->options(MYSQLI_OPT_INT_AND_FLOAT_NATIVE, TRUE);
         $this->throwExceptionOnError();
+    }
+
+    /**
+     * @return DataService
+     * @throws Exception
+     */
+    public static function getInstance() {
+        if(DataService::$instance === null)
+            DataService::$instance = new DataService();
+        return DataService::$instance;
     }
 
     /** @param int $id
@@ -69,16 +78,6 @@ class DataService {
     public function deleteGrant($id)
     {
         $this->query("DELETE FROM grants WHERE id=?", [$id]);
-    }
-
-    /**
-     * @return DataService
-     * @throws Exception
-     */
-    public static function getInstance() {
-        if(DataService::$instance === null)
-            DataService::$instance = new DataService();
-        return DataService::$instance;
     }
 
     /**
@@ -457,9 +456,8 @@ class DataService {
         if($params != null) {
             for($i=0; $i<count($params); $i++) {
                 $val = $params[$i];
-                if($val === null) {
+                if($val === null)
                     $val = 'NULL';
-                }
                 if($val === true)
                     $val = 1;
                 if($val === false)
@@ -479,38 +477,32 @@ class DataService {
 
             //replace all ? marks starting from the end of the string
             for($i=count($positions)-1; $i>=0; $i--) {
-                //if ? surrounded by single quotes, it should be a string. But if val is NULL, remove single quotes so it's actually NULL (not a string)
-                if($params[$i] == 'NULL' && substr($stmt, $positions[$i] - 1, 3) == "'?'")
-                    $stmt = substr($stmt, 0, $positions[$i]-1) . 'NULL' . substr($stmt, $positions[$i] + 2);
-                //if ? is not in quotes, it's an integer. Convert empty string to NULL
-                else if($params[$i] == '' && substr($stmt, $positions[$i] - 1, 3) != "'?'")
+                if($params[$i] === 'NULL')
                     $stmt = substr($stmt, 0, $positions[$i]) . 'NULL' . substr($stmt, $positions[$i] + 1);
-                //for all other cases, simply use the parameter
                 else
-                    $stmt = substr($stmt, 0, $positions[$i]) . $params[$i] . substr($stmt, $positions[$i] + 1);
+                    $stmt = substr($stmt, 0, $positions[$i]) ."'". $params[$i] ."'". substr($stmt, $positions[$i] + 1);
             }
         }
 
         $this->last_full_statement = $stmt;
         $result = $this->connection->query($stmt);
         $this->throwExceptionOnError();
-
         return $result;
     }
+
     /**@param $result mysqli_result
      * @param $class
      * @return array     */
-    public function fetchAllObjects($result, $class) {
+    protected function fetchAllObjects($result, $class) {
         $objs = [];
+        $type_map = $this->getTypeMap($result);
         while($row = $result->fetch_object()) {
             $obj = new $class;
-            //$obj->fill($row);
             foreach($row as $key => $value) {
-                $obj->$key = $value; //maybe add auto int/float parsing here too
+                $obj->$key = $this->convertDataType($value, $type_map[$key]);
             }
             $objs[] = $obj;
         }
-
         $result->free_result();
         return $objs;
     }
@@ -518,19 +510,66 @@ class DataService {
     /**@param $result mysqli_result
      * @param $class
      * @return mixed|null Returns null if no rows in result set. */
-    public function fetchObject($result, $class) {
+    protected function fetchObject($result, $class) {
+        $type_map = $this->getTypeMap($result);
         if($row = $result->fetch_object()) {
             $obj = new $class;
-            //$obj->fill($row);
             foreach($row as $key => $value) {
-                $obj->$key = $value; //maybe add auto int/float parsing here too
+                $obj->$key = $this->convertDataType($value, $type_map[$key]);
             }
             $result->free_result();
             return $obj;
         }
-
         $result->free_result();
         return null;
+    }
+
+    /**
+     * @param $result mysqli_result
+     * @return array
+     */
+    protected function getTypeMap($result) {
+        $map = [];
+        $fields = $result->fetch_fields();
+        foreach($fields as $field) {
+            $map[$field->name] = $field->type;
+        }
+        return $map;
+    }
+
+    /**
+     * @param $val string
+     * @param $type int
+     * @return float|int|string
+     */
+    protected function convertDataType($val, $type) {
+        if($val == null)
+            return $val;
+        if(in_array($type, [1,2,3,8,9,16])) //tinyint, smallint, int, bigint, mediumint
+            return intval($val);
+        if(in_array($type, [4,5,246])) //float, double, decimal
+            return floatval($val);
+        return $val;
+    }
+
+    /**
+     * @param string $query Should be like INSERT INTO table (col1, col2, col3) VALUES (?, ?, ?)
+     * @param array $rows Should be an array of arrays of values
+     * @return bool|mysqli_result
+     * @throws Exception
+     */
+    protected function multiInsert($query, $rows) {
+        $pos1 = strrpos($query, '(');
+        $pos2 = strrpos($query, ')');
+        $base_query = substr($query, 0, $pos1);
+        $value_block = substr($query, $pos1, $pos2-$pos1+1);
+        $params = [];
+        foreach ($rows as $index => $row) {
+            $base_query .= $value_block.',';
+            $params = array_merge($params, $row);
+        }
+        $base_query = substr($base_query,0,strlen($base_query)-1);//remove trailing comma
+        return $this->query($base_query, $params);
     }
 
     /** Utility function to throw an exception if an error occurs while running a mysql command.

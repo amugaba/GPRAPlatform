@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="WebServers">
+    <option name="servers">
+      <webServer id="f774b91f-340c-45ff-a40e-0b4866337d68" name="Angstrom" url="https://gpra.angstrom-software.com">
+        <fileTransfer host="angstrom-software.com" port="22" rootFolder="/home/davtid4/" accessType="SFTP">
+          <advancedOptions>
+            <advancedOptions dataProtectionLevel="Private" shareSSLContext="true" />
+          </advancedOptions>
+          <option name="port" value="22" />
+        </fileTransfer>
+      </webServer>
+    </option>
+  </component>
+</project>

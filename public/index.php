@@ -10,6 +10,4 @@ use Pecee\Http\Request;
 
 require_once '../routes.php';
 
-//Router::setDefaultNamespace('\App\Controllers');
-
 Router::start();
