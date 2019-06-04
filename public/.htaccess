@@ -1,6 +1,7 @@
 Options +FollowSymLinks
 RewriteEngine On
 
+RewriteCond %{HTTP_HOST} !=localhost-gpra
 RewriteCond %{HTTPS} off
 RewriteRule ^(.*)$ https://%{HTTP_HOST}%{REQUEST_URI} [L,R=301]
 

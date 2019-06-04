@@ -58,7 +58,7 @@ class DataService {
      */
     public function addGrant($item)
     {
-        $this->query("INSERT INTO grants (name, grantee, grantno, target) VALUES ('?', '?', '?', ?)",
+        $this->query("INSERT INTO grants (name, grantee, grantno, target) VALUES (?, ?, ?, ?)",
             [$item->name, $item->grantee, $item->grantno, $item->target]);
         return $this->connection->insert_id;
     }
@@ -68,7 +68,7 @@ class DataService {
      */
     public function updateGrant($item)
     {
-        $this->query("UPDATE grants SET name='?', grantee='?', grantno='?', target=? WHERE id=?",
+        $this->query("UPDATE grants SET name=?, grantee=?, grantno=?, target=? WHERE id=?",
             [$item->name, $item->grantee, $item->grantno, $item->target, $item->id]);
     }
 
@@ -97,7 +97,7 @@ class DataService {
      * @throws Exception
      */
     public function addClient($uid, $grant_id) {
-        $success = $this->query("INSERT IGNORE INTO clients SET uid='?', grant_id=?", [$uid, $grant_id]);
+        $success = $this->query("INSERT IGNORE INTO clients SET uid=?, grant_id=?", [$uid, $grant_id]);
         if($success) {
             $id = $this->connection->insert_id;
             $this->query("UPDATE clients SET gpra_id=? WHERE id=?", [$id, $id]);//GPRA ID mirrors DB ID for now
@@ -127,8 +127,8 @@ class DataService {
             LEFT JOIN assessments a2 ON a2.client_id = c.id AND a2.gpra_type=2 AND a2.episode_id=e.id
             LEFT JOIN assessments a3 ON a3.client_id = c.id AND a3.gpra_type=3 AND a3.episode_id=e.id
             LEFT JOIN assessments a4 ON a4.client_id = c.id AND a4.gpra_type=4 AND a4.episode_id=e.id
-            WHERE c.uid LIKE '%?%' AND c.grant_id=? $recent_clause",
-            [$uid, $grant_id]);
+            WHERE c.uid LIKE ? AND c.grant_id=? $recent_clause",
+            ['%'.$uid.'%', $grant_id]);
 
         return $this->fetchAllObjects($result, Client::class);
     }
@@ -197,7 +197,7 @@ class DataService {
         $result = $this->query("SELECT MAX(number) FROM episodes WHERE client_id=?", [$client_id]);
         $current_number = $result->fetch_row()[0];
 
-        $this->query("INSERT INTO episodes (client_id, number, start_date) VALUES (?, ?, '?')", [$client_id, $current_number+1, date('Y-m-d')]);
+        $this->query("INSERT INTO episodes (client_id, number, start_date) VALUES (?, ?, ?)", [$client_id, $current_number+1, date('Y-m-d')]);
         return $this->connection->insert_id;
     }
 
@@ -254,7 +254,7 @@ class DataService {
      */
     public function addAssessment($assessment_type, $episode_id, $client_id, $user_id, $grant_id, $gpra_type = null, $interview_conducted = null) {
         $this->query("INSERT INTO assessments (assessment_type, client_id, user_id, grant_id, episode_id, created_date, gpra_type, interview_conducted) 
-            VALUES (?,?,?,?,?,'?',?,?)", [$assessment_type, $client_id, $user_id, $grant_id, $episode_id, date('Y-m-d'), $gpra_type, $interview_conducted]);
+            VALUES (?,?,?,?,?,?,?,?)", [$assessment_type, $client_id, $user_id, $grant_id, $episode_id, date('Y-m-d'), $gpra_type, $interview_conducted]);
         return $this->connection->insert_id;
     }
 
@@ -365,7 +365,7 @@ class DataService {
      */
     public function loginUser ($username, $password)
     {
-        $result = $this->query("SELECT * FROM users WHERE username='?' OR email='?'",[$username, $username]);
+        $result = $this->query("SELECT * FROM users WHERE username=? OR email=?",[$username, $username]);
 
         if($row = $result->fetch_object()) {
             if(password_verify($password, $row->password)) {
@@ -384,7 +384,7 @@ class DataService {
      */
     public function setResetCode ($user_id, $code)
     {
-        $this->query("UPDATE users SET reset_code='?' WHERE id=?",[$code, $user_id]);
+        $this->query("UPDATE users SET reset_code=? WHERE id=?",[$code, $user_id]);
     }
 
     /**
@@ -415,7 +415,7 @@ class DataService {
     public function updatePassword($password, $user_id)
     {
         $hash = password_hash($password, PASSWORD_DEFAULT);
-        $result = $this->query("UPDATE users SET password='?', reset_code=NULL WHERE id=?",[$hash,$user_id]);
+        $result = $this->query("UPDATE users SET password=?, reset_code=NULL WHERE id=?",[$hash,$user_id]);
 
         return $result != null;
     }
@@ -427,7 +427,7 @@ class DataService {
      */
     public function getUserByEmail ($email)
     {
-        $result = $this->query("SELECT * FROM users WHERE email='?'",[$email]);
+        $result = $this->query("SELECT * FROM users WHERE email=?",[$email]);
         return $this->fetchObject($result, User::class);
     }
 
