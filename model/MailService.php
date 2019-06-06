@@ -1,8 +1,7 @@
 <?php
+require_once __DIR__.'/config.php';
 
 class MailService {
-
-    private $html_root = "http://localhost-gpra";
 
     /**
      * @param $user User
@@ -20,7 +19,7 @@ class MailService {
         }
         $ds = DataService::getInstance();
         $ds->setResetCode($user->id, $randomString);
-        $url = $this->html_root."/login/doReset?id=$user->id&code=$randomString";
+        $url = HTTP_ROOT."/login/doReset?id=$user->id&code=$randomString";
 
         $mailer = $this->createMail("GPRA Portal: Password Reset");
         $body = "<p>A password reset was requested for your account. To reset your password, click the following link and enter a new password on that page.</p>
@@ -32,20 +31,51 @@ class MailService {
         $mailer->send();
     }
 
-    public function sendErrorMessage($msg, $func, $data, $page) {
-        $user = getUsername();
+    /**
+     * @param $user User
+     * @param $message string
+     * @throws Exception
+     */
+    public function sendUserFeedback($user, $message) {
+        $ds = DataService::getInstance();
+        $logs = $ds->getLogsByUser($user->email, 10);
+        $logHTML = "";
+        foreach ($logs as $log) {
+            $logHTML .= "
+            <tr>
+                <td>$log->datetime</td>
+                <td>$log->message</td>
+            </tr>";
+        }
 
-        $mailer = $this->createMail("GPRA Portal Error");
-        $body = "$msg<p>User: $user</p><p>Page: $page</p><p>Function: $func</p><p>Data: $data</p>";
+        $msgHTML = "
+        <style>
+            table {border: thin solid black}
+            td {border: thin solid black; padding: 5px}
+            th {border: thin solid black; padding: 5px; font-weight: bold; background-color: #c0c0c0}
+        </style>
+        <h2>Feedback/Issue Received</h2>
+        <b>User:</b> $user->name : $user->email<br><br>
+        <b>Message:</b> $message<br><br>
+        <h4>Recent Logs</h4>
+        <table>
+            <tr>
+                <th>DateTime</th>
+                <th>Message</th>
+            </tr>
+            $logHTML
+        </table>";
 
-        $mailer->msgHTML($body);
-        $mailer->addAddress('tiddd@indiana.edu', 'David Tidd');
-        $mailer->send();
+        $mail = $this->createMail('GPRA Platform Feedback from '.$user->name);
+        $mail->addAddress('tiddd@indiana.edu','David Tidd');
+        $mail->msgHTML($msgHTML);
+        $mail->send();
     }
 
     /**
      * @param $subject string
      * @return PHPMailer
+     * @throws Exception
      */
     public function createMail($subject)
     {

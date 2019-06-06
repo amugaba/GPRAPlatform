@@ -1,8 +1,8 @@
 /**
  * Created by tiddd on 9/27/2016.
  */
-var DEBUG = false;
-var HTTP_ROOT = '';
+let DEBUG = false;
+let HTTP_ROOT = '';
 
 function ajax(url, params, callback) {
     if(params == null)
@@ -34,44 +34,8 @@ function handleAjaxError(errorMessage) {
     if(DEBUG) {
         $("#errorlog").html(errorMessage);
     } else {
-        //location.href = HTTP_ROOT+'error.php'; //not implemented yet
+        location.href = HTTP_ROOT+'error';
     }
-}
-
-function sendMail(func, params, callback) {
-    if(params == null)
-        params = [];
-
-    $.ajax({
-        type: "POST",
-        url: HTTP_ROOT + "php/ajax-mail.php",
-        data: JSON.stringify({
-            'function': func,
-            'params': params
-        }),
-        contentType: "application/json; charset=utf-8",
-        dataType: "json",
-        success: function(result){
-            if(!result.success) {
-                alert(result.msg);
-            }
-            else {
-                callback(result);
-            }
-        },
-        failure: function(result) {
-            alert(result.msg);
-        },
-        error: function(jqXHR, textStatus, errorThrown) {
-            console.log(textStatus, errorThrown);
-            alert(errorThrown);
-        }
-    });
-}
-
-var months = ['January','February','March','April','May','June','July','August','September','October','November','December'];
-function getMonth(monthNum) {
-    return months[monthNum-1];
 }
 
 Vue.component('error', {

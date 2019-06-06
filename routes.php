@@ -10,4 +10,5 @@ Router::group(['middleware' => [Auth::class, RequireGrant::class]], function () 
     Router::get('/', 'HomeController@getIndex');
     Router::controller('/home', HomeController::class);
     Router::controller('/gpra', GPRAController::class);
+    Router::controller('/error', ErrorController::class);
 });

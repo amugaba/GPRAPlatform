@@ -10,10 +10,6 @@ class DataService {
     protected $last_params;
     protected $last_full_statement;
 
-    /**
-     * DataService constructor.
-     * @throws Exception
-     */
     protected function __construct ()
     {
         $cm = new ConnectionManager();
@@ -24,7 +20,6 @@ class DataService {
 
     /**
      * @return DataService
-     * @throws Exception
      */
     public static function getInstance() {
         if(DataService::$instance === null)
@@ -439,6 +434,27 @@ class DataService {
     {
         $result = $this->query("SELECT * FROM users");
         return $this->fetchAllObjects($result, User::class);
+    }
+
+    /**
+     * @param $message
+     * @throws Exception
+     */
+    public function logException($message) {
+        $user_email = Session::getUser() != null ? Session::getUser()->email : 'No user';
+        $this->query("INSERT INTO logs (message, user) VALUES (?,?)", [substr($message,0,2000), $user_email]);
+    }
+
+    /**
+     * @param $user_email string
+     * @param $limit int
+     * @return Log[]
+     * @throws Exception
+     */
+    public function getLogsByUser($user_email, $limit) {
+        $limit = intval($limit);
+        $result = $this->query("SELECT * FROM logs WHERE user=? ORDER BY id DESC LIMIT $limit", [$user_email]);
+        return $this->fetchAllObjects($result, Log::class);
     }
 
     /**
