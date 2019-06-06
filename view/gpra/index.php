@@ -64,8 +64,14 @@
                     newErrors.forEach(function(error) {
                         vue.errors[error.item_id] = error.message;
                     });
-                    if(newErrors.length > 0)
-                        location.href = '#'+newErrors[0].item_id;
+
+                    //scroll up to the first error on the page. If scrolling was done, move up extra so it's not hidden by fixed top navbar
+                    if(newErrors.length > 0) {
+                        let y = window.scrollY;
+                        location.href = '#' + newErrors[0].item_id;
+                        if(window.scrollY !== y)
+                            window.scrollBy(0, -70); //if
+                    }
                 }
             }
         });

@@ -96,8 +96,8 @@ html,body {
     font-weight: normal;
 }
 .subheader .title {
-    font-size: 14px;
-    font-weight: bold;
+    font-size: 16px;
+    font-weight: 500;
 }
 .reminderText {
     font-size: 14px;

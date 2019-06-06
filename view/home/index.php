@@ -11,7 +11,6 @@
     <div style="text-align: center">
         <form method="post" action="/home/addClient">
             <input type="hidden" name="csrf_token" value="<?= csrf_token(); ?>">
-            <input type="text" name="uid" placeholder="Client ID">
             <input type="submit" value="Create Client" class="btn btn-primary">
         </form>
         <result :field="result"></result>

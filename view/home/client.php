@@ -10,7 +10,6 @@
     <div class="pageTitle">Client Profile</div>
     <div class="details">
         <label>Unique ID:</label> {{client.uid}}<br>
-        <label>GPRA ID:</label> {{client.gpra_id}}<br>
     </div>
 
     <div class="pageTitle">Episodes</div>

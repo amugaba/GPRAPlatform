@@ -86,19 +86,25 @@ class DataService {
     }
 
     /**
-     * @param $uid string
      * @param $grant_id int
      * @return bool
      * @throws Exception
      */
-    public function addClient($uid, $grant_id) {
-        $success = $this->query("INSERT IGNORE INTO clients SET uid=?, grant_id=?", [$uid, $grant_id]);
-        if($success) {
-            $id = $this->connection->insert_id;
-            $this->query("UPDATE clients SET gpra_id=? WHERE id=?", [$id, $id]);//GPRA ID mirrors DB ID for now
-            return $id;
+    public function addClient($grant_id) {
+        //generate a random ID until it's unique
+        while(true) {
+            $length = 7;
+            $characters = '0123456789';
+            $charactersLength = strlen($characters);
+            $randomString = '';
+            for ($i = 0; $i < $length; $i++) {
+                $randomString .= $characters[rand(0, $charactersLength - 1)];
+            }
+            $success = $this->query("INSERT IGNORE INTO clients SET uid=?, grant_id=?", [$randomString, $grant_id]);
+            if($success)
+                break;
         }
-        return null;
+        return $this->connection->insert_id;
     }
 
     /**
@@ -148,16 +154,6 @@ class DataService {
             WHERE c.id=?", [$client_id]);
 
         return $this->fetchAllObjects($result, Client::class);
-    }
-
-    /** @param Client $item
-     * @throws Exception
-     */
-    public
-    function updateClient($item)
-    {
-        $this->query("UPDATE clients SET uid=? WHERE id=?",
-            [$item->uid, $item->id]);
     }
 
     /** @param int $id

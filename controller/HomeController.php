@@ -58,19 +58,10 @@ class HomeController extends Controller
      * @throws Exception
      */
     public function postAddClient() {
-        $uid = input('uid');
-        //TBD validate ID
-
         $ds = DataService::getInstance();
-        $client_id = $ds->addClient($uid, Session::getGrant()->id);
-        if($client_id == null) {
-            flash('result', new Result(false, 'A client with this ID already exists.'));
-            redirect('/');
-        }
-        else {
-            $ds->addEpisode($client_id);
-            redirect('/home/client?id=' . $client_id);
-        }
+        $client_id = $ds->addClient(Session::getGrant()->id);
+        $ds->addEpisode($client_id);
+        redirect('/home/client?id=' . $client_id);
     }
 
     /**
