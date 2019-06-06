@@ -8,19 +8,10 @@ class User
     public $email;
     public $admin;
     public $facility;
+    public $last_login;
 
     public const ADMIN = 'admin';
     public const USER = 'user';
-
-    public function fill($dbobj)
-    {
-        $this->id = isset($dbobj->id) ? $dbobj->id : null;
-        $this->name = isset($dbobj->name) ? $dbobj->name : null;
-        $this->username = isset($dbobj->username) ? $dbobj->username : null;
-        $this->email = isset($dbobj->email) ? $dbobj->email : null;
-        $this->admin = isset($dbobj->admin) ? $dbobj->admin : null;
-        $this->facility = isset($dbobj->facility) ? $dbobj->facility : null;
-    }
 
     /**
      * @param $security_level string

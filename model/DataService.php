@@ -361,13 +361,12 @@ class DataService {
     public function loginUser ($username, $password)
     {
         $result = $this->query("SELECT * FROM users WHERE username=? OR email=?",[$username, $username]);
+        $user = $this->fetchObject($result, User::class);
 
-        if($row = $result->fetch_object()) {
-            if(password_verify($password, $row->password)) {
-                $user = new User();
-                $user->fill($row);
-                return $user;
-            }
+        if($user != null && password_verify($password, $user->password)) {
+            $this->query("UPDATE users SET last_login=NOW() WHERE id=?",[$user->id]);
+            $user->password = null;//clear password so it's not stored in session
+            return $user;
         }
         return null;
     }
