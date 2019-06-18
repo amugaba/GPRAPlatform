@@ -24,8 +24,8 @@
         <label><input type="checkbox" v-model="findRecentOnly"> Find most recent episode only</label>
     </form>
 
-    <b-table :fields="tableFields" :items="clients" :per-page="15" :current-page="currentPage" hover bordered>
-        <template slot="client" slot-scope="data">
+    <b-table :fields="tableFields" :items="clients" :per-page="10" :current-page="currentPage" hover bordered sort-by="episode_date" sort-desc="true">
+        <template slot="uid" slot-scope="data">
             <a :href="'/home/client?id='+data.item.id">{{data.item.uid}}</a>
         </template>
         <template slot="episode_date" slot-scope="data">
@@ -48,7 +48,7 @@
             <a v-else :href="'/gpra/index?id='+data.item.discharge_id">{{data.item.discharge_status | assessmentStatus}}</a>
         </template>
     </b-table>
-    <b-pagination v-show="clients.length>15" :total-rows="clients.length" :per-page="15" v-model="currentPage" style="float: right; margin-top: 0"></b-pagination>
+    <b-pagination v-show="clients.length>15" :total-rows="clients.length" :per-page="10" v-model="currentPage" style="float: right; margin-top: 0"></b-pagination>
 
     <?php $this->includeFooter(); ?>
     <?php $this->includeScripts(); ?>
@@ -61,9 +61,9 @@
             searchID: null,
             findRecentOnly: true,
             tableFields: [
-                {key: 'client', label: 'Client', sortable: true},
+                {key: 'uid', label: 'Client', sortable: true},
                 {key: 'episode_number', label: 'Episode', sortable: true},
-                {key: 'episode_date', label: 'Intake Date', sortable: true},
+                {key: 'episode_date', label: 'Episode Date', sortable: true},
                 {key: 'intake', label: 'Intake'},
                 {key: 'followup3mo', label: '3 Month'},
                 {key: 'followup6mo', label: '6 Month'},

@@ -34,6 +34,7 @@ return array(
     'POP3' => $baseDir . '/model/mail/class.pop3.php',
     'Question' => $baseDir . '/model/Question.php',
     'QuestionOption' => $baseDir . '/model/QuestionOption.php',
+    'ReportController' => $baseDir . '/controller/ReportController.php',
     'RequireGrant' => $baseDir . '/middleware/RequireGrant.php',
     'Result' => $baseDir . '/model/Result.php',
     'SMTP' => $baseDir . '/model/mail/class.smtp.php',

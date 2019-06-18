@@ -103,6 +103,7 @@ class ComposerStaticInitcc6118f8e79a1b1ee9819aea0cba4464
         'POP3' => __DIR__ . '/../..' . '/model/mail/class.pop3.php',
         'Question' => __DIR__ . '/../..' . '/model/Question.php',
         'QuestionOption' => __DIR__ . '/../..' . '/model/QuestionOption.php',
+        'ReportController' => __DIR__ . '/../..' . '/controller/ReportController.php',
         'RequireGrant' => __DIR__ . '/../..' . '/middleware/RequireGrant.php',
         'Result' => __DIR__ . '/../..' . '/model/Result.php',
         'SMTP' => __DIR__ . '/../..' . '/model/mail/class.smtp.php',

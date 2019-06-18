@@ -467,7 +467,7 @@ class GPRAValidator extends Validator {
      * @param $specify_code string
      */
     private function validateOtherSpecify($other_code, $other_value, $specify_code) {
-        if($this->gpra->$other_code == $other_value) {
+        if($this->gpra->$other_code != null && $this->gpra->$other_code == $other_value) {
             if($this->gpra->$specify_code == null || $this->gpra->$specify_code == '')
                 $this->addError($specify_code, 'Required');
         }

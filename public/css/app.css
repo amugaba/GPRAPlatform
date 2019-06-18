@@ -131,6 +131,13 @@ section {
 .fadeslow-enter, .fadeslow-leave-to /* .fade-leave-active below version 2.1.8 */ {
     opacity: 0;
 }
+.drug-table .title {
+    text-align: right;
+    font-size: 18px;
+    font-weight: 500;
+    line-height: 1;
+    vertical-align: middle;
+}
 
 /* HEADER & INPUTS SIZES
 -------------------------------------------------- */

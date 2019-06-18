@@ -26,6 +26,12 @@ class LoginController extends Controller
         return $view->render();
     }
 
+    public function getError()
+    {
+        $view = new View('login/error.php');
+        return $view->render();
+    }
+
     /**
      * @throws Exception
      */

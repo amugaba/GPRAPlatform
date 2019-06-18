@@ -118,10 +118,16 @@ function globalExceptionHandler ($ex) {
         if (DEBUG) {
             echo $msg;
         } else {
-            header("Location: /error");
+            if(Session::getUser() != null)
+                header("Location: /error");
+            else
+                header("Location: /login/error");
         }
     }
     catch (Exception $e) {
-        header("Location: /error");
+        if(Session::getUser() != null)
+            header("Location: /error");
+        else
+            header("Location: /login/error");
     }
 }
