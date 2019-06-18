@@ -5,6 +5,7 @@
 <section>
     <div class="header">
         <span class="title">During the past 30 days, how many days have you used the following:</span>
+        <question-checkbox title="Refused" id="DAUseRefused" v-model="gpra.DAUseRefused" class="flex" style="float: right"></question-checkbox>
     </div>
     <div class="header-large input-small subquestion">
         <question-text title="Any alcohol" id="DAUseAlcoholDays" v-model="gpra.DAUseAlcoholDays"></question-text>
@@ -17,6 +18,7 @@
 <section>
     <div class="header">
         <span class="title">During the past 30 days, how many days have you used any of the following:</span>
+        <question-checkbox title="Refused" id="DrugDaysRefused" v-model="gpra.DrugDaysRefused" class="flex" style="float: right"></question-checkbox>
     </div>
     <div class="subquestion" style="margin-top: 10px">
     <table class="table table-bordered condensed drug-table">

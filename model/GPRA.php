@@ -369,4 +369,10 @@ class GPRA extends Assessment
     public $SvcOtherRecoverySpec;
     public $IntakeDate;
     public $InterviewCreateDate;
+    public $DAUseRefused;
+    public $DrugDaysRefused;
+    public $IncomeRefused;
+    public $CrimeRefused;
+    public $TreatmentRefused;
+    public $MentalHealthRefused;
 }

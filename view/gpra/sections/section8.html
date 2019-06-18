@@ -9,6 +9,7 @@
 <section>
     <div class="header">
         <span class="title">During the past 30 days, how many nights did you receive inpatient treatment for:</span>
+        <question-checkbox title="Refused" id="TreatmentRefused" v-model="gpra.TreatmentRefused" class="flex" style="float: right"></question-checkbox>
     </div>
     <div class="subquestion header-med input-small">
         <question-text title="Physical complaint" id="InpatientPhysicalNights" v-model="gpra.InpatientPhysicalNights"></question-text>
@@ -87,6 +88,7 @@
 <section>
     <div class="header">
         <span class="title">In the past 30 days, not due to your use of alcohol or drugs, how many days have you:</span>
+        <question-checkbox title="Refused" id="MentalHealthRefused" v-model="gpra.MentalHealthRefused" class="flex" style="float: right"></question-checkbox>
     </div>
     <div class="subquestion header-xlarge input-small">
         <question-text title="Experienced serious depression" id="Depression" v-model="gpra.Depression"></question-text>

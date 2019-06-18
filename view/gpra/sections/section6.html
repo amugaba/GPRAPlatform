@@ -20,6 +20,7 @@
     <div class="header">
         <span class="title">Approximately, how much money did YOU receive (pre-tax individual income) in the past 30 days from the following:</span>
         <span class="reminderText">(Round to the nearest dollar.)</span>
+        <question-checkbox title="Refused" id="IncomeRefused" v-model="gpra.IncomeRefused" class="flex" style="float: right"></question-checkbox>
     </div>
     <div class="subquestion header-med">
         <question-text title="Wages" id="IncomeWages" v-model="gpra.IncomeWages"></question-text>
