@@ -8,7 +8,7 @@
     <?php $this->includeHeader(); ?>
 
     <div class="pageTitle">Reports</div>
-    <p>No reports have been configured for this project yet.</p>
+    <h4><a href="/report/export">Export GPRA for Upload to SPARS</a></h4>
 
     <?php $this->includeFooter(); ?>
     <?php $this->includeScripts(); ?>

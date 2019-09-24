@@ -24,7 +24,7 @@
         <label><input type="checkbox" v-model="findRecentOnly"> Find most recent episode only</label>
     </form>
 
-    <b-table :fields="tableFields" :items="clients" :per-page="10" :current-page="currentPage" hover bordered sort-by="episode_date" sort-desc="true">
+    <b-table :fields="tableFields" :items="clients" :per-page="10" :current-page="currentPage" hover bordered sort-by="episode_date" :sort-desc="true">
         <template slot="uid" slot-scope="data">
             <a :href="'/home/client?id='+data.item.id">{{data.item.uid}}</a>
         </template>
@@ -32,7 +32,10 @@
             {{data.item.episode_date | date}}
         </template>
         <template slot="intake" slot-scope="data">
-            <a v-if="data.item.intake_id == null" :href="'/gpra/add?episode='+data.item.episode_id+'&type=1'">Add</a>
+            <div v-if="data.item.intake_id == null">
+                <a :href="'/gpra/add?episode='+data.item.episode_id+'&type=1'">Add</a><br>
+                <span class="reminderText">(8/15/19 to 11/15/19)</span>
+            </div>
             <a v-else :href="'/gpra/index?id='+data.item.intake_id">{{data.item.intake_status | assessmentStatus}}</a>
         </template>
         <template slot="followup3mo" slot-scope="data">

@@ -10,7 +10,7 @@
     <div class="pageTitle">Section A: Record Management</div>
 
     <div class="details">
-        <label>Client ID:</label>{{client.gpra_id}}<br>
+        <label>Client ID:</label>{{client.uid}}<br>
         <label>Interview Type:</label>{{gpra.gpra_type | gpraType}}<br>
     </div>
 

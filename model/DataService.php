@@ -195,8 +195,7 @@ class DataService {
     /** @param int $id
      * @throws Exception
      */
-    public
-    function deleteEpisode($id)
+    public function deleteEpisode($id)
     {
         $this->query("DELETE FROM episodes WHERE id=?", [$id]);
     }
@@ -233,6 +232,16 @@ class DataService {
     }
 
     /**
+     * @return Assessment[]
+     * @throws Exception
+     */
+    public function getAssessmentsNotExported()
+    {
+        $result = $this->query("SELECT * FROM assessments WHERE exported != 1 AND grant_id=?", [Session::getGrant()->id]);
+        return $this->fetchAllObjects($result, Assessment::class);
+    }
+
+    /**
      * @param $assessment_type int
      * @param $episode_id int
      * @param $client_id int
@@ -247,6 +256,72 @@ class DataService {
         $this->query("INSERT INTO assessments (assessment_type, client_id, user_id, grant_id, episode_id, created_date, gpra_type, interview_conducted) 
             VALUES (?,?,?,?,?,?,?,?)", [$assessment_type, $client_id, $user_id, $grant_id, $episode_id, date('Y-m-d'), $gpra_type, $interview_conducted]);
         return $this->connection->insert_id;
+    }
+
+    /**
+     * @param $assessment_id int
+     * @param $client_id string
+     * * @param $start_date string
+     * * @param $end_date string
+     * @param $unexported_only bool
+     * @return Assessment[]
+     * @throws Exception
+     */
+    public function searchGPRAs($assessment_id, $client_id, $start_date, $end_date, $unexported_only) {
+        $unexported_clause = $unexported_only ? 'a.exported != 1' : '1';
+        $id_clause = strlen($assessment_id) > 0 ? 'a.id = '.$this->connection->real_escape_string($assessment_id) : '1';
+        if($start_date == null)
+            $start_date = '1900-01-01';
+        if($end_date == null)
+            $end_date = '2900-01-01';
+
+        $result = $this->query("SELECT a.id, c.uid AS client_id, a.created_date, a.progress, a.exported FROM assessments a
+            JOIN clients c ON a.client_id=c.id
+            WHERE a.gpra_type > 0 AND a.grant_id=? AND $id_clause AND c.uid LIKE ? AND a.created_date >= ? AND a.created_date <= ? AND $unexported_clause",
+            [Session::getGrant()->id, '%'.$client_id.'%', $start_date, $end_date]);
+
+        return $this->fetchAllObjects($result, Assessment::class);
+    }
+
+    /**
+     * @param $assessment_ids int[]
+     * @return array
+     * @throws Exception
+     */
+    public function exportGPRAs($assessment_ids) {
+        //create containers to put answers in and escape the IDs
+        $assessments = [];
+        for($i = 0; $i < count($assessment_ids); $i++) {
+            $id = $this->connection->real_escape_string($assessment_ids[$i]);
+            $assessment_ids[$i] = $id;
+            $assess = [];
+            $assess['id'] = $id;
+            $assessments[$id] = $assess;
+
+        }
+        $ids = join(",",$assessment_ids);
+
+        $result = $this->query("SELECT a.id AS assessment_id, c.uid FROM assessments a 
+            JOIN clients c ON c.id=a.client_id
+            WHERE a.id IN ($ids)");
+
+        $clients = $this->fetchAllObjects($result, stdClass::class);
+        foreach ($clients as $client) {
+            $assessments[$client->assessment_id]['client_uid'] = $client->uid;
+        }
+
+        $result = $this->query("SELECT a.id, q.code, ans.value FROM assessments a 
+            JOIN assessment_questions aq ON aq.assessment_type=a.assessment_type
+            JOIN questions q ON q.id=aq.question_id
+            LEFT JOIN answers ans ON ans.question_id=q.id AND ans.assessment_id=a.id
+            WHERE a.id IN ($ids) ORDER BY a.id");
+
+        $answers = $this->fetchAllObjects($result, stdClass::class);
+        foreach ($answers as $answer) {
+            $assessments[$answer->id][$answer->code] = $answer->value;
+        }
+
+        return $assessments;
     }
 
     /**

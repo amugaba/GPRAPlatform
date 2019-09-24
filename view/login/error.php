@@ -11,7 +11,7 @@
     <div class="panel float-center">
         <div class="pageTitle" style="margin-top: 0">An error has occurred</div>
 
-        <p>Please contact the system administrator for assistance. We're sorry for the incovenience.</p>
+        <p>Please contact the system administrator for assistance. Thank you for your patience.</p>
 
         <div style="text-align: center; margin: 10px 0 0">
             <a href="/login">Return to Login</a>
