@@ -30,11 +30,14 @@
         <template slot="created_date" slot-scope="data">
             {{data.item.created_date | date}}
         </template>
-        <template slot="progress" slot-scope="data">
-            {{data.item.progress}}
+        <template slot="completed" slot-scope="data">
+            {{data.item.status | yn}}
+        </template>
+        <template slot="interview_conducted" slot-scope="data">
+            {{data.item.interview_conducted | yn}}
         </template>
         <template slot="exported" slot-scope="data">
-            {{data.item.exported}}
+            {{data.item.exported | yn}}
         </template>
     </b-table>
     <b-pagination v-show="gpras.length>15" :total-rows="gpras.length" :per-page="10" v-model="currentPage" style="float: right; margin-top: 0"></b-pagination>
@@ -61,7 +64,8 @@
                     {key: 'id', label: 'Auto ID', sortable: true},
                     {key: 'client_id', label: 'Client', sortable: true},
                     {key: 'created_date', label: 'Created Date', sortable: true},
-                    {key: 'progress', label: 'Progress', sortable: true},
+                    {key: 'completed', label: 'Completed', sortable: true},
+                    {key: 'interview_conducted', label: 'Did Interview', sortable: true},
                     {key: 'exported', label: 'Exported', sortable: true}
                 ],
                 currentPage: 1
