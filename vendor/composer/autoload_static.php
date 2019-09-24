@@ -75,6 +75,7 @@ class ComposerStaticInitcc6118f8e79a1b1ee9819aea0cba4464
     );
 
     public static $classMap = array (
+        'Admin' => __DIR__ . '/../..' . '/middleware/Admin.php',
         'Answer' => __DIR__ . '/../..' . '/model/Answer.php',
         'Assessment' => __DIR__ . '/../..' . '/model/Assessment.php',
         'AssessmentTypes' => __DIR__ . '/../..' . '/model/AssessmentTypes.php',
