@@ -15,4 +15,5 @@ class Assessment
     public $gpra_type; //determines GPRA business logic
     public $interview_conducted;
     public $exported;
+    public $interview_date;
 }

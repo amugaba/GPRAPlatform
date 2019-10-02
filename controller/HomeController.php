@@ -9,8 +9,8 @@ class HomeController extends Controller
     {
         //if coming from grant list, set the grant in session
         $grant_id = input('id');
+        $ds = DataService::getInstance();
         if($grant_id != null) {
-            $ds = DataService::getInstance();
             $grants = $ds->getGrantsByUser(Session::getUser()->id);
             foreach ($grants as $grant) {
                 if($grant->id == $grant_id) {
@@ -22,6 +22,8 @@ class HomeController extends Controller
         }
 
         $view = new View('home/index.php');
+        $view->users = $ds->getUsersByGrant(Session::getGrant()->id);
+        $view->clients = $ds->getClientsByGrant(Session::getGrant()->id);
         return $view->render();
     }
 
@@ -62,18 +64,6 @@ class HomeController extends Controller
         $client_id = $ds->addClient(Session::getGrant()->id);
         $ds->addEpisode($client_id);
         redirect('/home/client?id=' . $client_id);
-    }
-
-    /**
-     * @throws Exception
-     */
-    public function postSearchClients() {
-        $data = ajax_input();
-        $uid = $data[0];
-        $recentOnly = $data[1];
-        $ds = DataService::getInstance();
-        $clients = $ds->searchClients($uid, Session::getGrant()->id, $recentOnly);
-        ajax_output(true, $clients);
     }
 
     /**

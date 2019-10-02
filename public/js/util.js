@@ -122,9 +122,18 @@ Vue.filter('gpraType', function(value) {
 
 Vue.filter('assessmentStatus', function(status) {
     switch(status) {
-        case 0: return "In Progress";
+        case 0: return "Incomplete";
         case 1: return "Complete";
         case 2: return "Locked";
+    }
+    return status;
+});
+
+Vue.filter('dueStatus', function(status) {
+    switch(status) {
+        case 0: return "Not Due";
+        case 1: return "Due";
+        case 2: return "Past Due";
     }
     return status;
 });

@@ -1,0 +1,1856 @@
+<html lang="en-US"><head><meta http-equiv="Content-Type" content="text/html; charset=utf-8"><title>
+    Discretionary Services
+</title><link rel="P3Pv1" href="https://spars-csat.samhsa.gov/w3c/p3p.xml"><link rel="stylesheet" href="css/bootstrap.min.css">
+
+    <script async="" src="https://www.google-analytics.com/analytics.js"></script><script type="text/javascript">
+        var gaJsHost = (("https:" === document.location.protocol) ? "https://ssl." : "http://www.");
+        document.write(unescape("%3Cscript src='" + gaJsHost + "google-analytics.com/ga.js' type='text/javascript'%3E%3C/script%3E"));
+    </script><script src="https://ssl.google-analytics.com/ga.js" type="text/javascript"></script>
+
+    <!-- new SPARS CSAT -->
+    <link href="css/font-awesome.min.css" rel="stylesheet">
+    <script src="../js/jquery.min.js"></script>
+    <script>
+        var $j = jQuery.noConflict();
+    </script>
+
+    <script src="../js/jquery-ui.min.js"></script>
+    <link href="css/jquery-ui.min.css" rel="stylesheet">
+    <script src="../js/bootstrap.min.js"></script>
+    <script src="../js/StandardLayout.js"></script>
+    <link rel="stylesheet" href="printing.css"><link rel="stylesheet" href="css/fieldset.css"><link rel="stylesheet" href="styles.css"><link href="css/StandardLayout.css" rel="stylesheet">
+
+    <script type="text/javascript">
+        $j(function () {
+            $j("#LogoutYes").click(function () {
+                var data = {
+                    ssOff: true
+                }
+                window.location = "/Public/Logout.aspx?" + $j.param(data);
+            });
+            $j('[data-toggle="popover"]').popover();
+        });
+
+    </script>
+
+    <script type="text/javascript" src="/javascript/jquery-1.9.1.min.js"></script>
+    <script type="text/javascript" src="/javascript/MultiBrowserSupport/StandardizeEvent-jquery.js"></script>
+    <script type="text/javascript" src="/javascript/stateMachineEvent-jquery.js"></script>
+    <script type="text/javascript" src="/javascript/sais-jquery.js"></script>
+    <script type="text/javascript" src="/javascript/Reports-jquery.js"></script>
+    <script type="text/javascript">
+        $(document).ready(function() {
+            var _CarriageReturn = 13;
+            var _BackSpace = 8;
+            var focusedControl = $("#_focusedControl").val();
+            $("#".concat(focusedControl)).focus();
+            $("form").attr('action', 'System.aspx');
+            $(document).bind('keydown', function(e) {
+                if (e.keyCode === _CarriageReturn) {
+                    filterKeys(e);
+                }
+                else if(e.keyCode === _BackSpace) {
+                    var aElement = $(document.activeElement);
+                    if (aElement.is('input') === false && aElement.is('textarea') === false) {
+                        setreturnValue(e, false);
+                    }
+                }
+            });
+            function fireTreeEvent ( e ) {
+                var anchor = e.target;
+                if ( anchor != null &&
+                    anchor.id != null &&
+                    anchor.tagName == 'A' &&
+                    ( anchor.className == 'treenode'  ||
+                        anchor.className == 'treenode_hl' ) &&
+                    ( anchor.className != 'treenode_cur' )) {
+                    var eventName = anchor.id;
+                    if ( eventName == null ||
+                        eventName == '' ) {
+                        alert ( 'There is no event name set' );
+                        return;
+                    }
+                    fireStateMachineEvent ( e, eventName );
+                }
+            }
+            function mouseOverTree ( e ) {
+                treeAnchorClass ( e.target, 'treenode_hl' );
+            }
+            function mouseOutTree ( e ) {
+                treeAnchorClass ( e.target, 'treenode' );
+            }
+            function treeAnchorClass ( anchor, className ) {
+                if ( anchor != null &&
+                    anchor.id != null &&
+                    anchor.tagName == 'A' &&
+                    ( anchor.className == 'treenode'  ||
+                        anchor.className == 'treenode_exp'  ||
+                        anchor.className == 'treenode_hl' ) &&
+                    ( anchor.className != 'treenode_cur' )) {
+                    anchor.className = className;
+                }
+            }
+            $('div.tree').on({
+                click: fireTreeEvent,
+                mouseover: mouseOverTree,
+                mouseout: mouseOutTree
+            });
+        });
+    </script>
+</head>
+<body>
+<form method="post" action="System.aspx" id="Form">
+    <div class="aspNetHidden">
+        <input type="hidden" name="_currentPage" id="_currentPage" value="View/TCE/TceDiagnoses.ascx">
+        <input type="hidden" name="stateMachineEventName" id="stateMachineEventName" value="">
+        <input type="hidden" name="stateMachineStateName" id="stateMachineStateName" value="TceDiagnoses">
+        <input type="hidden" name="stateMachineThreadName" id="stateMachineThreadName" value="20e01c56-1e76-456d-87ac-eca2f48a9dc6">
+        <input type="hidden" name="_DefaultEvent" id="_DefaultEvent" value="">
+        <input type="hidden" name="_focusedControl" id="_focusedControl" value="">
+        <input type="hidden" name="OtherSelectedFieldName" id="OtherSelectedFieldName" value="">
+        <input type="hidden" name="YesSelectedFieldName" id="YesSelectedFieldName" value="">
+        <input type="hidden" name="__VIEWSTATE" id="__VIEWSTATE" value="/wEPDwUJNDc5ODk0Njk5ZGTlnMf+LSIq9Hd6x+O/QcJKRmmNTrXlgK1pTL/XPdHNZw==">
+    </div>
+
+
+    <script language="javascript">
+        function setAllChecks ( controlName, checkVal )
+        {
+//                    var listControl = document.all[controlName];
+            var listControl = $('#' + controlName)[0];
+            for ( i = 0; i < listControl.options.length; i++ )
+            {
+                var option = listControl.options [ i ];
+                option.checked = checkVal;
+            }
+            btn.click();
+        }
+    </script>
+    <script type="text/javascript">
+        var _Config_FormSubmittedFlagTimeOut = 300;
+    </script>
+    <script type="text/javascript">
+        var _Config_AutoLogoff = {LogoffTime:900, CountdownTime:120};
+    </script>
+    <script type="text/javascript" language="javascript" src="/javascript/dropDownList-jquery.js"></script>
+    <script type="text/javascript" src="/javascript/dropDownList-optGroup.js"></script>
+    <script type="text/javascript" src="/javascript/TextBox-jquery.js"></script>
+
+    <div class="aspNetHidden">
+
+        <input type="hidden" name="__VIEWSTATEGENERATOR" id="__VIEWSTATEGENERATOR" value="160D7776">
+        <input type="hidden" name="__EVENTVALIDATION" id="__EVENTVALIDATION" value="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">
+    </div>
+    <!--        -->
+    <!-- HEADER	-->
+    <!--        -->
+    <div id="skipNavLink">
+        <a href="#SkipNav">Skip navigation</a>
+    </div>
+    <div id="container" style="background-image: none">
+
+        <div id="color_blocks">
+            <div class="orange-strip">&nbsp;</div>
+            <div class="red-strip">&nbsp;</div>
+            <div class="green-strip">&nbsp;</div>
+            <div class="yellow-strip">&nbsp;</div>
+            <div class="orange-strip">&nbsp;</div>
+            <div class="red-strip">&nbsp;</div>
+            <div class="green-strip">&nbsp;</div>
+        </div>
+
+        <div id="newBanner">
+            <div id="bannerLeft"><a href="https://spars.samhsa.gov/">
+                <img src="/View/images/spars-logo-blue.svg" alt="SPARS" title="SPARS-CSAT - 2019.09.04 - 4.0.5.0"></a></div>
+
+            <div id="bannerCent">
+                <div>Center for Substance Abuse Treatment</div>
+                <span><a href="https://spars.samhsa.gov/"><i class="fa fa-home" aria-hidden="true"></i>Home</a></span>
+            </div>
+
+            <div id="bannerRight">
+                <p></p>
+                <div id="bannerUserInfo" style="display: inline-block;">
+                    <span id="LoggedInName">User: David Tidd</span>
+                    <div class="dropdown" style="display: inline-block;">
+                        <button tabindex="0" class="btn btn-primary dropdown-toggle" type="button" data-toggle="dropdown">
+                            <i class="fa fa-cog" aria-hidden="true"></i>
+                        </button>
+                        <ul class="dropdown-menu dropdown-menu-right">
+                            <li><a href="https://spars-sts.samhsa.gov/MyProfile">My Profile</a></li>
+                            <li><a href="https://spars-sts.samhsa.gov/MyProfile/ChangePassword">Change Password</a></li>
+                            <li><a data-toggle="modal" href="#LogoutModal">Log out</a></li>
+                        </ul>
+                    </div>
+                </div>
+                <div>
+                    <span id="LoggedInAlias"></span></div>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal fade" id="LogoutModal" role="dialog">
+        <div class="modal-dialog">
+
+            <!-- Modal content-->
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal">×</button>
+                    <h4 class="modal-title"><img src="/View/images/spars-logo-blue.svg" width="150" alt="SPARS"></h4>
+                </div>
+                <div class="modal-body">
+                    <p>Are you sure you want to log out?</p>
+                </div>
+                <div class="modal-footer">
+                    <a class="btn btn-primary" id="LogoutYes" data-dismiss="modal" href="#">Yes</a>
+                    <a class="btn btn-danger" id="LogoutNo" data-dismiss="modal" href="#">No</a>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+
+    <div class="modal fade" id="idleModal" role="dialog">
+        <div class="modal-dialog">
+
+            <!-- Modal content-->
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h4 class="modal-title"><img src="/View/images/spars-logo-blue.svg" width="150" alt="SPARS"></h4>
+                </div>
+                <div class="modal-body">
+                    <p>You will be automatically logged out in <span id="countDown"></span> seconds.</p>
+                    <p>Please move your mouse or click any key to continue using this website.</p>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+
+    <div id="main">
+        <!--       -->
+        <!-- TREE  -->
+        <!--       -->
+        <div id="leftnav" class="treeCell">
+
+
+            <table style="width: 100%;" class="treeContainer">
+
+
+                <tbody><tr>
+                    <td>
+                        <div class="tree">
+                            <div class="depth1 cur_path">
+                                <i class="fa fa-caret-down"></i>
+                                <a href="" id="ProgramSelection" class="treenode_exp" title="Data Entry">
+                                    Data Entry</a>
+                            </div>
+                            <div class="depth2 cur_path">
+                                <i class="fa fa-caret-down"></i>
+                                <a href="" id="Tce" class="treenode_exp" title="Discretionary Services">
+                                    Services</a>
+                            </div>
+                            <div class="depth3 cur_path">
+                                <i class="fa fa-caret-down"></i>
+                                <a href="" id="TceRecordManagement" class="treenode_exp" title="Record Management">
+                                    A. Record Mgmt</a>
+                            </div>
+                            <div class="depth4" style="cursor: default; background-color: rgb(235, 221, 186); border: 1px solid rgb(165, 163, 141);">
+                                <a id="TceDiagnoses" class="treenode_cur" title="Diagnoses" style="font-weight: bold; cursor: default;">
+                                    Diagnoses </a>
+                            </div>
+                            <div class="depth2">
+                                <i class="fa fa-caret-right"></i>
+                                <a href="" id="BestPractices" class="treenode" title="Best Practices">
+                                    Best Practices</a>
+                                <div class="split"></div></div>
+                            <div class="depth1">
+                                <i class="fa fa-caret-right"></i>
+                                <a href="" id="Reports" class="treenode" title="Reports">
+                                    Reports</a>
+                            </div>
+                            <div class="depth1">
+                                <i class="fa fa-caret-right"></i>
+                                <a href="" id="Download" class="treenode" title="Data Download">
+                                    Data Download</a>
+                            </div>
+                        </div>
+
+                    </td>
+                </tr>
+                </tbody></table>
+        </div>
+
+        <!--       -->
+        <!-- FORM  -->
+        <!--       -->
+        <div id="contentwrapper">
+            <div id="rightcontent" class="contentCell">
+                <a id="SkipNav"></a>
+                <div class="topBar">
+                    <div class="topTitle" style="text-align: left;">
+                        <label>Discretionary Services</label>
+                    </div>
+                </div>
+                <table style="width: 100%;" id="contentHeaderTable">
+                    <tbody><tr>
+                        <td>
+                            <div class="sectionHdr">
+                                <!--<label>Discretionary Services</label>-->
+                            </div>
+                        </td>
+                        <td>
+                            <div class="headercontext" style="text-align: left;">
+
+                                <label>Client ID: test</label><br>
+                                <label>Grant ID: TI081474</label>
+
+                            </div>
+                        </td>
+                        <td style="padding-top: 3px; text-align: right">
+
+
+                            <script type="text/javascript">
+                                var popupwindow = '';
+                                function PopupReportSortWindow(e) {
+                                    StandardizeEvent(e);
+
+                                    var sessionThreadId = $("#stateMachineThreadName").val();
+                                    var url =
+                                        'System.aspx' +
+                                        '?stateMachineStateName=ReportSortMenu' +
+                                        '&stateMachineEventName=Initialize' +
+                                        '&BaseSessionThread=' + sessionThreadId;
+                                    var windowName = '_blank';
+                                    var windowProps = 'width=420, height=450, menubar=no, center=yes, resizeable=no';
+
+                                    $(document).css("cursor", "wait");
+                                    if (popupwindow.closed || popupwindow === '') {
+                                        popupwindow = window.open(url, windowName, windowProps);
+                                    }
+                                    $(document).css("cursor", "default");
+                                }
+
+                            </script>
+                            <table id="toolbar">
+                                <tbody><tr>
+                                    <td>
+                                        <div>
+                                            <span><i class="fa fa-print" aria-hidden="true"></i></span><button id="ToolBar_Print" type="button" onclick="window.print(); return false;" class="toolbar">Print</button>
+
+
+
+                                            <span><i class="pipeDivider">|</i><i class="fa fa-times" aria-hidden="true"></i></span><button id="ToolBar_Cancel" type="button" onclick="DisplayCancelConfirmation ( event );" class="toolbar">Cancel</button>
+
+
+                                            <button class="toolbar btn btn-primary" id="ToolBar_Previous" name="ToolBar$Previous" type="button" onclick="fireStateMachineEvent ( event, 'Previous' );">Previous</button>
+                                            <button class="toolbar btn btn-primary" id="ToolBar_Next" name="ToolBar$Next" type="button" onclick="fireStateMachineEvent ( event, 'Next' );">Next</button>
+
+                                        </div>
+                                    </td>
+                                </tr>
+                                </tbody></table>
+
+                        </td>
+                    </tr>
+                    <!--<tr>
+                <td style="padding-right: 0px; padding-left: 0px; width: 100%; height: 4px;" colspan="3" >
+                    <img id="ColorStrip" src="View/images/color-strip.gif" alt="" />
+                </td>
+            </tr>-->
+                    </tbody></table>
+                <div class="formContainer" id="formContainer">
+                    <div id="Messages" class="message"><div class="alert alert-danger"><span class="error">
+      'First Diagnosis' is a required field.
+    </span></div></div><div class="alert alert-danger" role="alert"><ul><li>'First Diagnosis' is a required field.</li></ul></div>
+                    <div id="ClientMessages" class="message" style="display: none">
+                    </div>
+
+                    <script src="../js/selectize.min.js"></script>
+                    <link rel="stylesheet" href="/css/selectize.default.css">
+                    <style>
+                        .diagnosis-group { width: 600px; padding-left: 25px;}
+                        .diagnosis-group select, .diagnosis-group input#Description.ro, .selectize-control { width: 550px; }
+                        .diagnosis-group-category { width: 600px; padding-left: 75px; }
+                        .diagnosis-group-category input#Description.ro { width: 100px; }
+                        .diagnosis-checkbox-group { vertical-align: top;}
+                        .diagnosis-checkbox-group span { border: none; }
+                        .diagnosis-checkbox-group label{ padding-left: 5px; }
+                        .diagnosis-checkbox-group input{ vertical-align:text-bottom; margin-right: 3px;}
+                    </style>
+                    <div class="mainformwrapper">
+                        <fieldset class="DENS">
+                            <legend>A. RECORD MANAGEMENT - BEHAVIORIAL HEALTH DIAGNOSES</legend>
+                            <table class="mainform">
+                                <tbody><tr>
+                                    <td colspan="2" style="text-align: left;">
+                                        <label>
+                                            Please indicate the client’s current behavioral health diagnoses using the International Classification of Diseases, 10th revision, Clinical
+                                            Modification (ICD-10-CM) codes listed below.   Please note that some substance use disorder ICD-10-CM codes have been crosswalked to
+                                            Diagnostic and Statistical Manual of Mental Disorders, (DSM-5) descriptors.  <br><br>
+                                            Select up to three diagnoses. For each diagnosis selected, please indicate whether it is primary, secondary, or tertiary, if known.  Only
+                                            one diagnosis can be primary, only one can be secondary, and only one can be tertiary. <br><br>
+                                        </label>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td rowspan="6" class="diagnosis-checkbox-group">
+                                        <!-- Begin CheckListBox -->
+                                        <span id="cbDontKnowNone" tabindex="1"><table class="checkBoxList" cellspacing="0" cellpadding="0">
+	<tbody><tr>
+		<td><input name="_cbDontKnowNone" type="checkbox" id="_cbDontKnowNone" value="-8">Don't know</td>
+	</tr><tr>
+		<td><input name="_cbDontKnowNone" type="checkbox" id="_cbDontKnowNone" value="-7">None of the Above</td>
+	</tr>
+</tbody></table></span><input type="hidden" value="" name="_cbDontKnowNone"><!-- End CheckListBox -->
+
+                                    </td>
+                                    <td class="diagnosis-group">
+                                        <label style="width: 76px;">Diagnosis:</label><br>
+                                        <select name="Icd10CodeOne" id="Icd10CodeOne" tabindex="-1" class="error selectized" js_id="Icd10CodeOne" style="display: none;"><option value="" selected="selected"></option></select><div class="selectize-control error single"><div class="selectize-input items has-options not-full"><input type="select-one" autocomplete="off" tabindex="2" id="Icd10CodeOne-selectized" style="width: 4px; opacity: 1; position: relative; left: 0px;"></div><div class="selectize-dropdown single error" style="display: none;"><div class="selectize-dropdown-content"><div class="option selected" data-selectable="" data-value="-8"></div><div class="optgroup" data-group="Substance Use - Alcohol-related disorders"><div class="optgroup-header">Substance Use - Alcohol-related disorders</div><div class="option" data-selectable="" data-value="1">F10.10 – Alcohol use disorder, uncomplicated, mild</div><div class="option" data-selectable="" data-value="2">F10.11 – Alcohol use disorder, mild, in remission</div><div class="option" data-selectable="" data-value="3">F10.20 – Alcohol use disorder, uncomplicated, moderate/severe</div><div class="option" data-selectable="" data-value="4">F10.21 – Alcohol use disorder, moderate/severe, in remission</div><div class="option" data-selectable="" data-value="5">F10.9 – Alcohol use, unspecified</div></div><div class="optgroup" data-group="Substance Use - Opioid-related disorders"><div class="optgroup-header">Substance Use - Opioid-related disorders</div><div class="option" data-selectable="" data-value="6">F11.10 – Opioid use disorder, uncomplicated, mild</div><div class="option" data-selectable="" data-value="7">F11.11 – Opioid use disorder, mild, in remission</div><div class="option" data-selectable="" data-value="8">F11.20 – Opioid use disorder, uncomplicated, moderate/severe</div><div class="option" data-selectable="" data-value="9">F11.21 – Opioid use disorder, moderate/severe, in remission</div><div class="option" data-selectable="" data-value="10">F11.9 – Opioid use, unspecified</div></div><div class="optgroup" data-group="Substance Use - Cannabis-related disorders"><div class="optgroup-header">Substance Use - Cannabis-related disorders</div><div class="option" data-selectable="" data-value="11">F12.10 – Cannabis use disorder, uncomplicated, mild</div><div class="option" data-selectable="" data-value="12">F12.11 – Cannabis use disorder, mild, in remission</div><div class="option" data-selectable="" data-value="13">F12.20 – Cannabis use disorder, uncomplicated, moderate/severe</div><div class="option" data-selectable="" data-value="14">F12.21 – Cannabis use disorder, moderate/severe, in remission</div><div class="option" data-selectable="" data-value="15">F12.9 – Cannabis use, unspecified</div></div><div class="optgroup" data-group="Substance Use - Sedative, hypnotic, or anxiolytic-related disorders"><div class="optgroup-header">Substance Use - Sedative, hypnotic, or anxiolytic-related disorders</div><div class="option" data-selectable="" data-value="16">F13.10 – Sedative, hypnotic, or anxiolytic-related use disorder, uncomplicated, mild</div><div class="option" data-selectable="" data-value="17">F13.11 – Sedative, hypnotic, or anxiolytic-related use disorder, mild, in remission</div><div class="option" data-selectable="" data-value="18">F13.20 – Sedative, hypnotic, or anxiolytic-related use disorder, uncomplicated, moderate/severe</div><div class="option" data-selectable="" data-value="19">F13.21 – Sedative, hypnotic, or anxiolytic-related use disorder, moderate/severe, in remission</div><div class="option" data-selectable="" data-value="20">F13.9 – Sedative, hypnotic, or anxiolytic-related use, unspecified</div></div><div class="optgroup" data-group="Substance Use - Cocaine-related disorders"><div class="optgroup-header">Substance Use - Cocaine-related disorders</div><div class="option" data-selectable="" data-value="21">F14.10 – Cocaine use disorder, uncomplicated, mild</div><div class="option" data-selectable="" data-value="22">F14.11 – Cocaine use disorder, mild, in remission</div><div class="option" data-selectable="" data-value="23">F14.20 – Cocaine use disorder, uncomplicated, moderate/severe</div><div class="option" data-selectable="" data-value="24">F14.21 – Cocaine use disorder, moderate/severe, in remission</div><div class="option" data-selectable="" data-value="25">F14.9 – Cocaine use, unspecified</div></div><div class="optgroup" data-group="Substance Use - Other stimulant-related disorders"><div class="optgroup-header">Substance Use - Other stimulant-related disorders</div><div class="option" data-selectable="" data-value="26">F15.10 – Other stimulant use disorder, uncomplicated, mild</div><div class="option" data-selectable="" data-value="27">F15.11 – Other stimulant use disorder, mild, in remission</div><div class="option" data-selectable="" data-value="28">F15.20 – Other stimulant use disorder, uncomplicated, moderate/severe</div><div class="option" data-selectable="" data-value="29">F15.21 – Other stimulant use disorder, moderate/severe, in remission</div><div class="option" data-selectable="" data-value="30">F15.9 – Other stimulant use, unspecified</div></div><div class="optgroup" data-group="Substance Use - Hallucinogen-related disorders"><div class="optgroup-header">Substance Use - Hallucinogen-related disorders</div><div class="option" data-selectable="" data-value="31">F16.10 – Hallucinogen use disorder, uncomplicated, mild</div><div class="option" data-selectable="" data-value="32">F16.11 – Hallucinogen use disorder, mild, in remission</div><div class="option" data-selectable="" data-value="33">F16.20 – Hallucinogen use disorder, uncomplicated, moderate/severe</div><div class="option" data-selectable="" data-value="34">F16.21 – Hallucinogen use disorder, moderate/severe, in remission</div><div class="option" data-selectable="" data-value="35">F16.9 – Hallucinogen use, unspecified</div></div><div class="optgroup" data-group="Substance Use - Nicotine dependence"><div class="optgroup-header">Substance Use - Nicotine dependence</div><div class="option" data-selectable="" data-value="46">F17.20 – Tobacco use disorder, mild/moderate/severe</div><div class="option" data-selectable="" data-value="47">F17.21 – Tobacco use disorder, mild/moderate/severe, in remission</div></div><div class="optgroup" data-group="Substance Use - Inhalant-related disorders"><div class="optgroup-header">Substance Use - Inhalant-related disorders</div><div class="option" data-selectable="" data-value="36">F18.10 – Inhalant use disorder, uncomplicated, mild</div><div class="option" data-selectable="" data-value="37">F18.11 – Inhalant use disorder, mild, in remission</div><div class="option" data-selectable="" data-value="38">F18.20 – Inhalant use disorder, uncomplicated, moderate/severe</div><div class="option" data-selectable="" data-value="39">F18.21 – Inhalant use disorder, moderate/severe, in remission</div><div class="option" data-selectable="" data-value="40">F18.9 – Inhalant use, unspecified</div></div><div class="optgroup" data-group="Substance Use - Other psychoactive substance-related disorders"><div class="optgroup-header">Substance Use - Other psychoactive substance-related disorders</div><div class="option" data-selectable="" data-value="41">F19.10 – Other psychoactive substance use disorder, uncomplicated, mild</div><div class="option" data-selectable="" data-value="42">F19.11 – Other psychoactive substance use disorder, in remission</div><div class="option" data-selectable="" data-value="43">F19.20 – Other psychoactive substance use disorder, uncomplicated, moderate/severe</div><div class="option" data-selectable="" data-value="44">F19.21 – Other psychoactive substance use disorder, moderate/severe, in remission</div><div class="option" data-selectable="" data-value="45">F19.9 – Other psychoactive substance use, unspecified</div></div><div class="optgroup" data-group="Mental Health Diagnoses"><div class="optgroup-header">Mental Health Diagnoses</div><div class="option" data-selectable="" data-value="48">F20 – Schizophrenia</div><div class="option" data-selectable="" data-value="49">F21 – Schizotypal disorder</div><div class="option" data-selectable="" data-value="50">F22 – Delusional disorder</div><div class="option" data-selectable="" data-value="51">F23 – Brief psychotic disorder</div><div class="option" data-selectable="" data-value="52">F24 – Shared psychotic disorder</div><div class="option" data-selectable="" data-value="53">F25 – Schizoaffective disorders</div><div class="option" data-selectable="" data-value="54">F28 – Other psychotic disorder not due to a substance or known physiological condition</div><div class="option" data-selectable="" data-value="55">F29 – Unspecified psychosis not due to a substance or known physiological condition</div><div class="option" data-selectable="" data-value="56">F30 – Manic episode</div><div class="option" data-selectable="" data-value="57">F31 – Bipolar disorder</div><div class="option" data-selectable="" data-value="58">F32 – Major depressive disorder, single episode</div><div class="option" data-selectable="" data-value="59">F33 – Major depressive disorder, recurrent</div><div class="option" data-selectable="" data-value="60">F34 – Persistent mood [affective] disorders</div><div class="option" data-selectable="" data-value="61">F39 – Unspecified mood [affective] disorder</div><div class="option" data-selectable="" data-value="62">F40-F48 – Anxiety, dissociative, stress-related, somatoform and other nonpsychotic mental disorders</div><div class="option" data-selectable="" data-value="63">F50 – Eating disorders</div><div class="option" data-selectable="" data-value="64">F51 – Sleep disorders not due to a substance or known physiological condition</div><div class="option" data-selectable="" data-value="67">F60.0, F60.1, F60.4-F69 – Other personality disorders</div><div class="option" data-selectable="" data-value="65">F60.2 – Antisocial personality disorder</div><div class="option" data-selectable="" data-value="66">F60.3 – Borderline personality disorder</div><div class="option" data-selectable="" data-value="68">F70-F79 – Intellectual disabilities</div><div class="option" data-selectable="" data-value="69">F80-F89 – Pervasive and specific developmental disorders</div><div class="option" data-selectable="" data-value="70">F90 – Attention-deficit hyperactivity disorders</div><div class="option" data-selectable="" data-value="71">F91 – Conduct disorders</div><div class="option" data-selectable="" data-value="72">F93 – Emotional disorders with onset specific to childhood</div><div class="option" data-selectable="" data-value="73">F94 – Disorders of social functioning with onset specific to childhood or adolescence</div><div class="option" data-selectable="" data-value="74">F95 – Tic disorder</div><div class="option" data-selectable="" data-value="75">F98 – Other behavioral and emotional disorders with onset usually occurring in childhood and adolescence</div><div class="option" data-selectable="" data-value="76">F99 – Unspecified mental disorder</div></div></div></div></div>
+                                        <a class="fa fa-info-circle" id="Icd10CodePrimary_Info" aria-hidden="true" data-container="body" data-toggle="popover" data-placement="right" data-content="This question does not apply for interviews conducted before 3/15/2019. It has been grayed out and pre-populated with Not Applicable for your convenience." data-trigger="focus" role="button" tabindex="-1" style="display: none;" data-original-title="" title=""></a>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td class="diagnosis-group-category" style="text-align: left;">
+                                        <label style="width: 76px;">Category:</label>
+                                        <select name="Icd10CodeOneCategory" id="Icd10CodeOneCategory" tabindex="3" class="">
+                                            <option selected="selected" value=""></option>
+                                            <option value="1">Primary</option>
+                                            <option value="2">Secondary</option>
+                                            <option value="3">Tertiary</option>
+
+                                        </select>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td class="diagnosis-group" style="text-align: left;">
+                                        <label style="width: 76px;">Diagnosis:</label><br>
+                                        <select name="Icd10CodeTwo" id="Icd10CodeTwo" tabindex="-1" class="selectized" style="display: none;"><option value="" selected="selected"></option></select><div class="selectize-control single"><div class="selectize-input items not-full has-options"><input type="select-one" autocomplete="off" tabindex="4" id="Icd10CodeTwo-selectized" style="width: 4px;"></div><div class="selectize-dropdown single" style="display: none;"><div class="selectize-dropdown-content"></div></div></div>
+                                        <a class="fa fa-info-circle" id="Icd10CodeSecondary_Info" aria-hidden="true" data-container="body" data-toggle="popover" data-placement="right" data-content="This question does not apply for interviews conducted before 3/15/2019. It has been grayed out and pre-populated with Not Applicable for your convenience." data-trigger="focus" role="button" tabindex="-1" style="display: none;" data-original-title="" title=""></a>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td class="diagnosis-group-category" style="text-align: left;">
+                                        <label style="width: 76px;">Category:</label>
+                                        <select name="Icd10CodeTwoCategory" id="Icd10CodeTwoCategory" tabindex="5" class="">
+                                            <option selected="selected" value=""></option>
+                                            <option value="1">Primary</option>
+                                            <option value="2">Secondary</option>
+                                            <option value="3">Tertiary</option>
+
+                                        </select>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td class="diagnosis-group" style="text-align: left;">
+                                        <label style="width: 76px;">Diagnosis:</label><br>
+                                        <select name="Icd10CodeThree" id="Icd10CodeThree" tabindex="-1" class="selectized" style="display: none;"><option value="" selected="selected"></option></select><div class="selectize-control single"><div class="selectize-input items not-full has-options"><input type="select-one" autocomplete="off" tabindex="6" id="Icd10CodeThree-selectized" style="width: 4px;"></div><div class="selectize-dropdown single" style="display: none;"><div class="selectize-dropdown-content"></div></div></div>
+                                        <a class="fa fa-info-circle" id="Icd10CodeTertiary_Info" aria-hidden="true" data-container="body" data-toggle="popover" data-placement="right" data-content="This question does not apply for interviews conducted before 3/15/2019. It has been grayed out and pre-populated with Not Applicable for your convenience." data-trigger="focus" role="button" tabindex="-1" style="display: none;" data-original-title="" title=""></a>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td class="diagnosis-group-category" style="text-align: left;">
+                                        <label style="width: 76px;">Category:</label>
+                                        <select name="Icd10CodeThreeCategory" id="Icd10CodeThreeCategory" tabindex="7" class="">
+                                            <option selected="selected" value=""></option>
+                                            <option value="1">Primary</option>
+                                            <option value="2">Secondary</option>
+                                            <option value="3">Tertiary</option>
+
+                                        </select>
+                                    </td>
+                                </tr>
+                                </tbody></table>
+                            <div class="mainformwrapper">
+                            </div><div id="InputsForJavaScript">
+                            <input id="EditDisorder" value="True" type="hidden">
+                        </div><table class="mainform">
+
+                            <tbody><tr><td style="width: 628px;">&nbsp;</td></tr>
+
+                            <style>
+                                .column-medication { width: 430px; }
+                                .column-medication-received { width: 140px; }
+                                .column-days-received { width: 430px; }
+                            </style>
+                            <tr>
+                                <td style="width: 200px; text-align: left;"><label>Please indicate the following:</label></td>
+                                <td style="width:135px"></td>
+                                <td></td>
+                                <td></td>
+                            </tr>
+                            <tr>
+                                <td colspan="2" style="padding-left: 10px; text-align: left;"><label>1. In the past 30 days, was this client diagnosed with an opioid use disorder?</label>
+                                    <select name="OpioidDisorder" id="OpioidDisorder" tabindex="11" onchange="ProcessDisorder('OpioidDisorder', 'OpioidMedication');" style="width:120px;" class="required">
+                                        <option value=""></option>
+                                        <option value="1">Yes</option>
+                                        <option selected="selected" value="0">No</option>
+                                        <option value="-8">DON'T KNOW</option>
+                                        <option value="-9">MISSING DATA</option>
+
+                                    </select>
+                                    <a class="fa fa-info-circle" id="Opioid_Info" aria-hidden="true" data-container="body" data-toggle="popover" data-placement="right" data-content="This question does not apply for interviews conducted before 3/15/2019. It has been grayed out and pre-populated with Not Applicable for your convenience." data-trigger="focus" role="button" tabindex="-1" style="display: none;" data-original-title="" title=""></a>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td colspan="4" style="padding-left: 30px; text-align: left;">
+                                    <label>a. In the past 30 days, which FDA-approved medication did the client receive for the treatment of this opioid use disorder?<br>(Select all that apply)</label>
+                                    <a class="fa fa-info-circle" id="Opioid_Info_Medication" aria-hidden="true" data-container="body" data-toggle="popover" data-placement="right" data-content="This question does not apply for interviews conducted before 3/15/2019. It has been grayed out and pre-populated with Not Applicable for your convenience." data-trigger="focus" role="button" tabindex="-1" style="display: none;" data-original-title="" title=""></a>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td colspan="4" style="padding-left:30px">
+                                    <table style="padding-left:30px">
+                                        <tbody><tr>
+                                            <td></td>
+                                            <td>Received</td>
+                                            <td># of Days</td>
+                                        </tr>
+                                        <tr>
+                                            <td class="column-medication">
+                                                Methadone
+                                            </td>
+                                            <td class="column-medication-received">
+                                                <select name="OpioidMedicationMethadone" id="OpioidMedicationMethadone" tabindex="12" onchange="ProcessMedication('OpioidMedicationMethadone', 'OpioidMedicationMethadoneDays');" style="width:120px;" disabled="" class="ro">
+                                                    <option selected="selected" value="-1">Not Applicable</option>
+                                                    <option value=""></option>
+                                                    <option value="1">Yes</option>
+                                                    <option value="0">No</option>
+                                                    <option value="-8">DON'T KNOW</option>
+                                                    <option value="-9">MISSING DATA</option>
+
+                                                </select>
+                                                <input id="OpioidMedicationMethadone" name="OpioidMedicationMethadone" type="hidden" value="-1"></td>
+                                            <td>
+                                                <input name="OpioidMedicationMethadoneDays" type="text" id="OpioidMedicationMethadoneDays" tabindex="13" preventnegativevalues="true" style="width:50px;" readonly="" class="ro">
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td class="column-medication">
+                                                Buprenorphine
+                                            </td>
+                                            <td class="column-medication-received">
+                                                <select name="OpioidMedicationBuprenorphine" id="OpioidMedicationBuprenorphine" tabindex="14" onchange="ProcessMedication('OpioidMedicationBuprenorphine', 'OpioidMedicationBuprenorphineDays');" style="width:120px;" disabled="" class="ro">
+                                                    <option selected="selected" value="-1">Not Applicable</option>
+                                                    <option value=""></option>
+                                                    <option value="1">Yes</option>
+                                                    <option value="0">No</option>
+                                                    <option value="-8">DON'T KNOW</option>
+                                                    <option value="-9">MISSING DATA</option>
+
+                                                </select>
+                                                <input id="OpioidMedicationBuprenorphine" name="OpioidMedicationBuprenorphine" type="hidden" value="-1"></td>
+                                            <td>
+                                                <input name="OpioidMedicationBuprenorphineDays" type="text" id="OpioidMedicationBuprenorphineDays" tabindex="15" preventnegativevalues="true" style="width:50px;" readonly="" class="ro">
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td class="column-medication">
+                                                Naltrexone
+                                            </td>
+                                            <td class="column-medication-received">
+                                                <select name="OpioidMedicationNaltrexone" id="OpioidMedicationNaltrexone" tabindex="16" onchange="ProcessMedication('OpioidMedicationNaltrexone', 'OpioidMedicationNaltrexoneDays');" style="width:120px;" disabled="" class="ro">
+                                                    <option selected="selected" value="-1">Not Applicable</option>
+                                                    <option value=""></option>
+                                                    <option value="1">Yes</option>
+                                                    <option value="0">No</option>
+                                                    <option value="-8">DON'T KNOW</option>
+                                                    <option value="-9">MISSING DATA</option>
+
+                                                </select>
+                                                <input id="OpioidMedicationNaltrexone" name="OpioidMedicationNaltrexone" type="hidden" value="-1"></td>
+                                            <td>
+                                                <input name="OpioidMedicationNaltrexoneDays" type="text" id="OpioidMedicationNaltrexoneDays" tabindex="17" preventnegativevalues="true" style="width:50px;" readonly="" class="ro">
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td class="column-medication">
+                                                Extended‒release Naltrexone
+                                            </td>
+                                            <td class="column-medication-received">
+                                                <select name="OpioidMedicationExtendedReleaseNaltrexone" id="OpioidMedicationExtendedReleaseNaltrexone" tabindex="18" onchange="ProcessMedication('OpioidMedicationExtendedReleaseNaltrexone', 'OpioidMedicationExtendedReleaseNaltrexoneDays');" style="width:120px;" disabled="" class="ro">
+                                                    <option selected="selected" value="-1">Not Applicable</option>
+                                                    <option value=""></option>
+                                                    <option value="1">Yes</option>
+                                                    <option value="0">No</option>
+                                                    <option value="-8">DON'T KNOW</option>
+                                                    <option value="-9">MISSING DATA</option>
+
+                                                </select>
+                                                <input id="OpioidMedicationExtendedReleaseNaltrexone" name="OpioidMedicationExtendedReleaseNaltrexone" type="hidden" value="-1"></td>
+                                            <td>
+                                                <input name="OpioidMedicationExtendedReleaseNaltrexoneDays" type="text" id="OpioidMedicationExtendedReleaseNaltrexoneDays" tabindex="19" preventnegativevalues="true" style="width:50px;" readonly="" class="ro">
+                                            </td>
+                                        </tr>
+                                        </tbody></table>
+                                </td>
+                            </tr>
+                            <tr></tr>
+                            <tr>
+                                <td colspan="2" style="padding-left: 10px; text-align: left;"><label>2. In the past 30 days, was this client diagnosed with an alcohol use disorder?</label>
+                                    <select name="AlcoholDisorder" id="AlcoholDisorder" tabindex="20" onchange="ProcessDisorder('AlcoholDisorder', 'AlcoholMedication');" style="width:120px;" class="required">
+                                        <option value=""></option>
+                                        <option value="1">Yes</option>
+                                        <option selected="selected" value="0">No</option>
+                                        <option value="-8">DON'T KNOW</option>
+                                        <option value="-9">MISSING DATA</option>
+
+                                    </select>
+                                    <a class="fa fa-info-circle" id="Alcohol_Info" aria-hidden="true" data-container="body" data-toggle="popover" data-placement="right" data-content="This question does not apply for interviews conducted before 3/15/2019. It has been grayed out and pre-populated with Not Applicable for your convenience." data-trigger="focus" role="button" tabindex="-1" style="display: none;" data-original-title="" title=""></a>
+                                </td>
+                            </tr>
+                            <tr>
+                            </tr>
+                            <tr>
+                                <td colspan="4" style="padding-left:30px">a. In the past 30 days, which FDA-approved medication did the client receive for the treatment of this alcohol use disorder?<br>(Select all that apply)
+                                    <a class="fa fa-info-circle" id="Alcohol_Info_Medication" aria-hidden="true" data-container="body" data-toggle="popover" data-placement="right" data-content="This question does not apply for interviews conducted before 3/15/2019. It has been grayed out and pre-populated with Not Applicable for your convenience." data-trigger="focus" role="button" tabindex="-1" style="display: none;" data-original-title="" title=""></a>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td colspan="4" style="padding-left:30px">
+                                    <table style="padding-left:30px">
+                                        <tbody><tr>
+                                            <td></td>
+                                            <td>Received</td>
+                                            <td># of Days</td>
+                                        </tr>
+                                        <tr>
+                                            <td class="column-medication">
+                                                Naltrexone
+                                            </td>
+                                            <td class="column-medication-received">
+                                                <select name="AlcoholMedicationNaltrexone" id="AlcoholMedicationNaltrexone" tabindex="20" onchange="ProcessMedication('AlcoholMedicationNaltrexone', 'AlcoholMedicationNaltrexoneDays');" style="width:120px;" disabled="" class="ro">
+                                                    <option selected="selected" value="-1">Not Applicable</option>
+                                                    <option value=""></option>
+                                                    <option value="1">Yes</option>
+                                                    <option value="0">No</option>
+                                                    <option value="-8">DON'T KNOW</option>
+                                                    <option value="-9">MISSING DATA</option>
+
+                                                </select>
+                                                <input id="AlcoholMedicationNaltrexone" name="AlcoholMedicationNaltrexone" type="hidden" value="-1"></td>
+                                            <td>
+                                                <input name="AlcoholMedicationNaltrexoneDays" type="text" id="AlcoholMedicationNaltrexoneDays" tabindex="21" preventnegativevalues="true" style="width:50px;" readonly="" class="ro">
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td class="column-medication">
+                                                Extended‒release Naltrexone
+                                            </td>
+                                            <td class="column-medication-received">
+                                                <select name="AlcoholMedicationExtendedReleaseNaltrexone" id="AlcoholMedicationExtendedReleaseNaltrexone" tabindex="22" onchange="ProcessMedication('AlcoholMedicationExtendedReleaseNaltrexone', 'AlcoholMedicationExtendedReleaseNaltrexoneDays');" style="width:120px;" disabled="" class="ro">
+                                                    <option selected="selected" value="-1">Not Applicable</option>
+                                                    <option value=""></option>
+                                                    <option value="1">Yes</option>
+                                                    <option value="0">No</option>
+                                                    <option value="-8">DON'T KNOW</option>
+                                                    <option value="-9">MISSING DATA</option>
+
+                                                </select>
+                                                <input id="AlcoholMedicationExtendedReleaseNaltrexone" name="AlcoholMedicationExtendedReleaseNaltrexone" type="hidden" value="-1"></td>
+                                            <td>
+                                                <input name="AlcoholMedicationExtendedReleaseNaltrexoneDays" type="text" id="AlcoholMedicationExtendedReleaseNaltrexoneDays" tabindex="23" preventnegativevalues="true" style="width:50px;" readonly="" class="ro">
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td class="column-medication">
+                                                Disulfiram
+                                            </td>
+                                            <td class="column-medication-received">
+                                                <select name="AlcoholMedicationDisulfiram" id="AlcoholMedicationDisulfiram" tabindex="24" onchange="ProcessMedication('AlcoholMedicationDisulfiram', 'AlcoholMedicationDisulfiramDays');" style="width:120px;" disabled="" class="ro">
+                                                    <option selected="selected" value="-1">Not Applicable</option>
+                                                    <option value=""></option>
+                                                    <option value="1">Yes</option>
+                                                    <option value="0">No</option>
+                                                    <option value="-8">DON'T KNOW</option>
+                                                    <option value="-9">MISSING DATA</option>
+
+                                                </select>
+                                                <input id="AlcoholMedicationDisulfiram" name="AlcoholMedicationDisulfiram" type="hidden" value="-1"></td>
+                                            <td>
+                                                <input name="AlcoholMedicationDisulfiramDays" type="text" id="AlcoholMedicationDisulfiramDays" tabindex="25" preventnegativevalues="true" style="width:50px;" readonly="" class="ro">
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td class="column-medication">
+                                                Acamprosate
+                                            </td>
+                                            <td class="column-medication-received">
+                                                <select name="AlcoholMedicationAcamprosate" id="AlcoholMedicationAcamprosate" tabindex="26" onchange="ProcessMedication('AlcoholMedicationAcamprosate', 'AlcoholMedicationAcamprosateDays');" style="width:120px;" disabled="" class="ro">
+                                                    <option selected="selected" value="-1">Not Applicable</option>
+                                                    <option value=""></option>
+                                                    <option value="1">Yes</option>
+                                                    <option value="0">No</option>
+                                                    <option value="-8">DON'T KNOW</option>
+                                                    <option value="-9">MISSING DATA</option>
+
+                                                </select>
+                                                <input id="AlcoholMedicationAcamprosate" name="AlcoholMedicationAcamprosate" type="hidden" value="-1"></td>
+                                            <td>
+                                                <input name="AlcoholMedicationAcamprosateDays" type="text" id="AlcoholMedicationAcamprosateDays" tabindex="27" preventnegativevalues="true" style="width:50px;" readonly="" class="ro">
+                                            </td>
+                                        </tr>
+                                        </tbody></table>
+                                </td>
+                            </tr>
+
+
+                            <script type="text/javascript">
+                                function SetComboNA ( controlName )
+                                {
+                                    var NA = '-1';
+                                    var dropdownControl = GetComboDropDownField ( controlName );
+                                    var textControl = GetComboTextField ( controlName );
+                                    SetFieldValue ( textControl, "" );
+                                    SetDropDownNA ( dropdownControl );
+                                    var hiddenControl = GetControl ( controlName );
+                                    SetFieldValue ( hiddenControl, NA );
+                                }
+
+                                function SetDropDownNA ( dropDown )
+                                {
+                                    var NA = '-1';
+                                    var option = DropDownGetOptionByValue ( dropDown, NA );
+                                    if ( option == null )
+                                    {
+                                        option = document.createElement ( "OPTION" );
+                                        dropDown.options.add ( option );
+                                        //option.innerText = "Not Applicable";
+                                        option.innerHTML = "Not Applicable";
+                                        option.value = NA;
+                                    }
+                                    dropDown.selectedIndex = option.index;
+                                }
+
+                                function ProcessDrugRoute ( drugDaysFieldName, routeFieldName, activeControl )
+                                {
+                                    var routeField = GetControl ( routeFieldName );
+                                    var drugDaysStr = GetComboValue ( drugDaysFieldName );
+                                    drugDaysStr = Trim ( drugDaysStr );
+
+                                    var dropDownControl = document.getElementById( '__dropdown__' + drugDaysFieldName );
+                                    if ( dropDownControl != null )
+                                    {
+                                        dropDownControl.disabled = false;
+                                        dropDownControl.className = "required";
+                                    }
+
+                                    if ( drugDaysStr === "" )
+                                    {
+                                        DropDownSetSelectedValue ( routeField, "" );
+                                        EnableDropDown ( routeField );
+                                        RemoveDropDownNAOption ( routeField );
+                                        MakeRequired ( routeField );
+                                        return false;
+                                    }
+                                    else
+                                    {
+                                        var NA = '-1';
+
+                                        var drugDays = parseInt ( drugDaysStr );
+                                        if ( drugDays <= 0 )
+                                        {
+                                            SetDropDownNA ( routeField );
+                                            DisableDropDown ( routeField );
+                                            return false;
+                                        }
+                                        else if ( drugDays > 0 )
+                                        {
+                                            if ( DropDownOptionChosen ( routeField, NA ) )
+                                            {
+                                                DropDownSetSelectedValue ( routeField, "" );
+                                            }
+                                            EnableDropDown ( routeField );
+                                            RemoveDropDownNAOption ( routeField );
+                                            MakeRequired ( routeField );
+
+                                            if ( dropDownControl != null )
+                                            {
+                                                //SetDropDownNA ( dropDownControl );
+                                                dropDownControl.disabled = true;
+                                                dropDownControl.saveClassName = dropDownControl.className;
+                                                dropDownControl.className = "ro";
+                                            }
+                                            return true;
+                                        }
+                                    }
+                                }
+
+                                function ProcessRoute ( drugDaysFieldName, routeFieldName, activeControl )
+                                {
+                                    return ProcessDrugRoute ( drugDaysFieldName, routeFieldName, activeControl );
+                                }
+
+                                function ClearComboNA ( combo, activeControl )
+                                {
+                                    var NA = '-1';
+                                    var DONT_KNOW = '-8';
+                                    var MISSING_DATA = '-9';
+                                    var REFUSE_TO_ANSWER = '-7';
+                                    var comboValue = GetComboValue ( combo );
+
+                                    if ( comboValue === NA )
+                                    {
+                                        SetComboValue ( combo, "" );
+                                    }
+                                    var dropdownControl = GetComboDropDownField ( combo );
+                                    RemoveDropDownNAOption ( dropdownControl );
+
+                                    if ( comboValue === DONT_KNOW || comboValue === MISSING_DATA || comboValue === REFUSE_TO_ANSWER )
+                                    {
+                                        MakeComboRequired ( combo, null );
+                                    }
+                                    else
+                                    {
+                                        MakeComboRequired ( combo, activeControl );
+                                    }
+
+                                    ReDisplayDropDownForCombo ( combo );
+
+                                }
+
+                                function ToggleInfoIcon(isRequiredControl) {
+                                    if (isRequiredControl.value == 'true') {
+                                        $('.fa-info-circle').hide();
+                                    }
+                                }
+                            </script>
+
+                            <script type="text/javascript">
+
+                                var NA = '-1';
+                                var YESNO_NO = '0';
+                                var YESNO_YES = '1';
+                                var YESNO_DONTKNOW = '-8';
+                                var YESNO_REFUSED = '-7';
+                                var YESNO_MISSINGDATA = '-9';
+
+                                function ProcessRemoveNA(field) {
+                                    RemoveDropDownNAOption(document.getElementById(field));
+                                }
+
+                                function ProcessMedication(medicine, medicinedays) {
+                                    var element = document.getElementById(medicine);
+                                    if (!element || !element.options) return;
+                                    var medication = element.options[element.selectedIndex].value;
+                                    var days = document.getElementById(medicinedays);
+
+                                    if (medication == YESNO_NO || medication == YESNO_DONTKNOW || medication == YESNO_REFUSED || medication == YESNO_MISSINGDATA || medication == NA || medication == '') {
+                                        ClearField(days);
+                                        MakeReadOnly(days);
+                                    }
+                                    else {
+                                        EnableControl(days);
+                                        MakeRequired(days);
+                                    }
+                                }
+
+                                function ProcessDisorder(yesno, medication) {
+                                    var element = document.getElementById(yesno);
+
+                                    if (!element || !element.options) return;
+
+                                    var disorder = element.options[element.selectedIndex].value;
+                                    var editDisorder = GetControl('EditDisorder');
+
+                                    if (editDisorder.value == 'True') {
+                                        RemoveDropDownNAOption(element);
+                                        EnableDropDown(element);
+                                        MakeRequired(element);
+                                    } else {
+                                        MakeReadOnly(element);
+                                        DisableDropDown(element);
+                                    }
+
+                                    if (disorder == YESNO_NO || disorder == YESNO_DONTKNOW || disorder == YESNO_REFUSED || disorder == YESNO_MISSINGDATA || disorder == NA || disorder == '') {
+                                        $("select[id^='" + medication + "']").each(function() {
+                                            SetDropDownNA(this);
+                                            DisableDropDown(this);
+                                        });
+                                    }
+                                    else {
+                                        $("select[id^='" + medication + "']").each(function () {
+                                            RemoveDropDownNAOption(this);
+                                            EnableDropDown(this);
+                                            MakeRequired(this);
+                                        });
+                                    }
+
+                                    $("select[id^='" + medication + "']").each(function () {
+                                        ProcessMedication(this.id, this.id + 'Days');
+                                    });
+                                }
+
+                                function ProcessInfoIcon() {
+                                    var editDisorder = GetControl('EditDisorder');
+                                    if (editDisorder.value == 'True') {
+                                        document.getElementById('Opioid_Info').style.display = 'none';
+                                        document.getElementById('Opioid_Info_Medication').style.display = 'none';
+                                        document.getElementById('Alcohol_Info').style.display = 'none';
+                                        document.getElementById('Alcohol_Info_Medication').style.display = 'none';
+                                    }
+                                }
+
+                                function RunPresentationRules() {
+                                    ProcessInfoIcon();
+                                    ProcessDisorder('OpioidDisorder', 'OpioidMedication');
+                                    ProcessDisorder('AlcoholDisorder', 'AlcoholMedication');
+                                    ProcessMedication('OpioidMedication', 'OpioidMedicationDays');
+                                    ProcessMedication('AlcoholMedication', 'AlcoholMedicationDays');
+                                }
+
+                                RunPresentationRules();
+                            </script>
+                            <tr>
+                            </tr></tbody></table><table class="mainform"></table>
+
+                            <div id="CooccurringScreenedIntakePanel">
+
+                                <table class="mainform">
+                                    <tbody><tr>
+                                        <td style="width: 10px; padding-left: 10px; text-align: left;"><label id="StarLabel">3.</label></td>
+                                        <td colspan="2" style="width: 505px; text-align: left;">
+                                            <label> Was the client screened by your program for co-occurring mental health and substance use disorders?</label>
+                                        </td>
+                                        <td style="width: 100px;">
+                                            <select name="ClientIntake_CooccurringScreen" id="ClientIntake_CooccurringScreen" tabindex="31" class="required" onchange="ProcessCooccurringScreening();" style="width:95px;">
+                                                <option value=""></option>
+                                                <option value="1">Yes</option>
+                                                <option selected="selected" value="0">No</option>
+                                                <option value="-9">MISSING DATA</option>
+
+                                            </select>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td style="width: 10px;">&nbsp;</td>
+                                        <td style="width: 5px;"><label>a.</label></td>
+                                        <td style="width: 500px; text-align: left;">
+                                            <label>Did the client screen positive for co-occurring mental health and substance use disorders?</label>
+                                        </td>
+                                        <td style="width: 100px;">
+                                            <select name="ClientIntake_CooccurringScreenStatus" id="ClientIntake_CooccurringScreenStatus" tabindex="32" class="ro" style="width:95px;" disabled="">
+                                                <option selected="selected" value="-1">Not Applicable</option>
+                                                <option value=""></option>
+                                                <option value="1">Yes</option>
+                                                <option value="0">No</option>
+                                                <option value="-9">MISSING DATA</option>
+
+                                            </select>
+                                            <input id="ClientIntake_CooccurringScreenStatus" name="ClientIntake_CooccurringScreenStatus" type="hidden" value="-1"></td>
+                                    </tr>
+                                    </tbody></table>
+
+                            </div>
+
+
+                        </fieldset>
+                    </div>
+                    <div id="InputsForJavaScript">
+                        <input id="ShowHelpIcon" value="False" type="hidden">
+                    </div>
+                    <script type="text/javascript">
+                        var NA = '-1';
+                        var YES = '1';
+                        var CooccurringScreenDD = GetControl('ClientIntake_CooccurringScreen');
+                        var CooccurringScreenStatusDD = GetControl('ClientIntake_CooccurringScreenStatus');
+                        var OtherResponseMap = {
+                            "not applicable": -1,
+                            "don't know": -8,
+                            "none of the above": -7
+                        };
+
+                        function ProcessInfoIcon() {
+                            var showHelpIcon = GetControl('ShowHelpIcon');
+                            if (showHelpIcon.value == 'False') {
+                                $('.fa-info-circle').hide();
+                            }
+                        }
+
+                        function ProcessRemoveNA(field) {
+                            if ($('#' + field).has('option').length > 0) {
+                                RemoveDropDownNAOption(document.getElementById(field));
+                            }
+                        }
+
+                        function SetDropDownNA ( dropDown )
+                        {
+                            var option = DropDownGetOptionByValue ( dropDown, NA );
+                            if ( option == null )
+                            {
+                                option = document.createElement ( "OPTION" );
+                                dropDown.options.add ( option );
+                                option.innerHTML = "Not Applicable";
+                                option.value = NA;
+                            }
+                            dropDown.selectedIndex = option.index;
+                        }
+
+                        function ProcessCooccurringScreening () {
+
+                            /* check if the coocurring scren is NA then disable the ddl */
+                            if ( DropDownOptionChosen ( CooccurringScreenDD, NA ) == true )
+                            {
+                                DisableDropDown ( CooccurringScreenDD );
+                                DisableDropDown ( CooccurringScreenStatusDD );
+                            }
+                            else
+                            {
+                                if ( (DropDownOptionChosen ( CooccurringScreenDD, YES ) == true) )
+                                {
+                                    if ( DropDownOptionChosen ( CooccurringScreenStatusDD, NA ) == true )
+                                    {
+                                        EnableDropDown ( CooccurringScreenStatusDD );
+                                        SetFieldValue ( CooccurringScreenStatusDD, "" );
+                                        RemoveDropDownNAOption ( CooccurringScreenStatusDD );
+                                    }
+                                }
+                                else
+                                {
+                                    if ( CooccurringScreenStatusDD.disabled == false )
+                                    {
+                                        SetDropDownNA ( CooccurringScreenStatusDD );
+                                        DisableDropDown ( CooccurringScreenStatusDD );
+                                    }
+                                }
+                            }
+                        }
+
+                        if (CooccurringScreenStatusDD && CooccurringScreenStatusDD.options){
+                            if (DropDownOptionChosen(CooccurringScreenStatusDD, NA) == true) {
+                                DisableDropDown(CooccurringScreenStatusDD);
+                            } else {
+                                EnableDropDown(CooccurringScreenStatusDD);
+                                MakeRequired(CooccurringScreenStatusDD);
+                            }
+                        }
+
+                        function RunPresentationRules() {
+                            ProcessRemoveNA('Icd10CodeOne');
+                            ProcessRemoveNA('Icd10CodeOneCategory');
+                            ProcessRemoveNA('Icd10CodeTwo');
+                            ProcessRemoveNA('Icd10CodeTwoCategory');
+                            ProcessRemoveNA('Icd10CodeThree');
+                            ProcessRemoveNA('Icd10CodeThreeCategory');
+                            ProcessInfoIcon();
+                            OptionGroup('Icd10CodeOne');
+                            OptionGroup('Icd10CodeTwo');
+                            OptionGroup('Icd10CodeThree');
+                            try {
+                                if (ControlExists('ClientIntake_CooccurringScreen')) {
+                                    ProcessCooccurringScreening();
+                                }
+                            }
+                            catch (err) {
+                                //Ignor exception
+                            }
+
+                            RunPresentationRulesCheckbox();
+                        }
+
+                        function SafeGetTextValue(c) {
+                            return $(c)[0].value && $(c)[0].value.toLowerCase();
+                        }
+
+                        function RunPresentationRulesCheckbox(cb) {
+                            //If cb is null, this is our first run through
+                            if (!cb) {
+                                var v = ($("select[id='Icd10CodeOne']")[0]) ? $("select[id='Icd10CodeOne']")[0].value : OtherResponseMap[SafeGetTextValue($("input[js_id='Icd10CodeOne']"))];
+                                if ((v==undefined) || v == -1) {
+                                    return;
+                                }
+
+                                $(".diagnosis-checkbox-group input:checkbox[value='" + v + "']").prop("checked", true);
+
+                                if (!$("select[id='Icd10CodeOne']")[0]) {
+                                    //We are in read-only mode (view or summary page)
+                                    $("input[js_id='Icd10CodeOne']")[0].value = "";
+                                    return;
+                                }
+
+                                cb = $("input:checkbox:checked")[0] || $("input:checkbox")[0];
+                                InitializeSelectize();
+                            }
+                            var isChecked = $(cb).prop("checked");
+                            $("input:checkbox")
+                                .not(":checked")
+                                .prop("disabled", isChecked);
+
+                            if (isChecked) {
+                                DisableIcd10Controls(cb);
+                            } else {
+                                EnableIcd10Controls(cb);
+                            }
+                        }
+
+                        function DisableIcd10Controls(cb) {
+                            $("select[id^='Icd10Code'][id$='Category']")
+                                .addClass("disabled")
+                                .on("mousedown", function (e) {
+                                    e.preventDefault();
+                                    this.blur();
+                                    window.focus();
+                                })
+                                .each(function () {
+                                    this.value = "";
+                                });
+
+                            $("select[id^='Icd10Code']").not("[id$='Category']")
+                                .each(function() {
+                                    if (this.selectize) {
+                                        this.selectize.disable();
+                                        this.selectize.setValue("", true);
+                                    }
+                                })
+                                .prop("disabled", false);
+                            $("select[id='Icd10CodeOne']")[0].selectize.addOption({ value: $(cb)[0].value, text: '' });
+                            $("select[id='Icd10CodeOne']")[0].selectize.setValue($(cb)[0].value);
+                            $(".selectize-input").addClass("disabled");
+                        }
+
+                        function EnableIcd10Controls(cb) {
+                            $("select[id^='Icd10']")
+                                .removeClass("disabled")
+                                .off("mousedown");
+                            $("input[type = 'select-one']").prop("disabled", false);
+                            $("select[id^='Icd10Code']").not("[id$='Category']").each(function () {
+                                if (this.selectize) this.selectize.enable();
+                            });
+                            var s = $("select[id='Icd10CodeOne']")[0].selectize;
+                            var v = s.getValue();
+                            if (v < 0) {
+                                s.setValue('');
+                                s.removeOption(v);
+                            }
+                            $(".selectize-input").removeClass("disabled");
+                        }
+
+                        $("input:checkbox").on("click", function (event) {
+                            var obj = $(event.currentTarget);
+                            RunPresentationRulesCheckbox(obj);
+                        });
+
+                        function InitializeSelectize() {
+                            $("select[id^='Icd10Code'] option[value^='-']").remove();
+                            $("select[id^='Icd10Code']").not("[id$='Category']").selectize({ sortField: 'text' });
+                        }
+
+                        RunPresentationRules();
+                    </script>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script type="text/javascript">
+        TextBox_IllegalValues = 'not applicable,undefined'
+        document.onsubmit = ChainEventHandler ( document.onsubmit, TextBoxOnFormSubmit );
+    </script></form>
+
+
+<script type="text/javascript">
+    (function (i, s, o, g, r, a, m) {
+        i['GoogleAnalyticsObject'] = r; i[r] = i[r] || function () {
+            (i[r].q = i[r].q || []).push(arguments)
+        }, i[r].l = 1 * new Date(); a = s.createElement(o),
+            m = s.getElementsByTagName(o)[0]; a.async = 1; a.src = g; m.parentNode.insertBefore(a, m)
+    })(window, document, 'script', 'https://www.google-analytics.com/analytics.js', 'ga');
+
+    ga('create', 'UA-88265464-7', 'auto');
+    ga('send', 'pageview');
+
+</script>
+
+
+
+</body></html>
+<html lang="en-US"><head><meta http-equiv="Content-Type" content="text/html; charset=utf-8"><title>
+    Discretionary Services
+</title><link rel="P3Pv1" href="https://spars-csat.samhsa.gov/w3c/p3p.xml"><link rel="stylesheet" href="css/bootstrap.min.css">
+
+    <script async="" src="https://www.google-analytics.com/analytics.js"></script><script type="text/javascript">
+        var gaJsHost = (("https:" === document.location.protocol) ? "https://ssl." : "http://www.");
+        document.write(unescape("%3Cscript src='" + gaJsHost + "google-analytics.com/ga.js' type='text/javascript'%3E%3C/script%3E"));
+    </script><script src="https://ssl.google-analytics.com/ga.js" type="text/javascript"></script>
+
+    <!-- new SPARS CSAT -->
+    <link href="css/font-awesome.min.css" rel="stylesheet">
+    <script src="../js/jquery.min.js"></script>
+    <script>
+        var $j = jQuery.noConflict();
+    </script>
+
+    <script src="../js/jquery-ui.min.js"></script>
+    <link href="css/jquery-ui.min.css" rel="stylesheet">
+    <script src="../js/bootstrap.min.js"></script>
+    <script src="../js/StandardLayout.js"></script>
+    <link rel="stylesheet" href="printing.css"><link rel="stylesheet" href="css/fieldset.css"><link rel="stylesheet" href="styles.css"><link href="css/StandardLayout.css" rel="stylesheet">
+
+    <script type="text/javascript">
+        $j(function () {
+            $j("#LogoutYes").click(function () {
+                var data = {
+                    ssOff: true
+                }
+                window.location = "/Public/Logout.aspx?" + $j.param(data);
+            });
+            $j('[data-toggle="popover"]').popover();
+        });
+
+    </script>
+
+    <script type="text/javascript" src="/javascript/jquery-1.9.1.min.js"></script>
+    <script type="text/javascript" src="/javascript/MultiBrowserSupport/StandardizeEvent-jquery.js"></script>
+    <script type="text/javascript" src="/javascript/stateMachineEvent-jquery.js"></script>
+    <script type="text/javascript" src="/javascript/sais-jquery.js"></script>
+    <script type="text/javascript" src="/javascript/Reports-jquery.js"></script>
+    <script type="text/javascript">
+        $(document).ready(function() {
+            var _CarriageReturn = 13;
+            var _BackSpace = 8;
+            var focusedControl = $("#_focusedControl").val();
+            $("#".concat(focusedControl)).focus();
+            $("form").attr('action', 'System.aspx');
+            $(document).bind('keydown', function(e) {
+                if (e.keyCode === _CarriageReturn) {
+                    filterKeys(e);
+                }
+                else if(e.keyCode === _BackSpace) {
+                    var aElement = $(document.activeElement);
+                    if (aElement.is('input') === false && aElement.is('textarea') === false) {
+                        setreturnValue(e, false);
+                    }
+                }
+            });
+            function fireTreeEvent ( e ) {
+                var anchor = e.target;
+                if ( anchor != null &&
+                    anchor.id != null &&
+                    anchor.tagName == 'A' &&
+                    ( anchor.className == 'treenode'  ||
+                        anchor.className == 'treenode_hl' ) &&
+                    ( anchor.className != 'treenode_cur' )) {
+                    var eventName = anchor.id;
+                    if ( eventName == null ||
+                        eventName == '' ) {
+                        alert ( 'There is no event name set' );
+                        return;
+                    }
+                    fireStateMachineEvent ( e, eventName );
+                }
+            }
+            function mouseOverTree ( e ) {
+                treeAnchorClass ( e.target, 'treenode_hl' );
+            }
+            function mouseOutTree ( e ) {
+                treeAnchorClass ( e.target, 'treenode' );
+            }
+            function treeAnchorClass ( anchor, className ) {
+                if ( anchor != null &&
+                    anchor.id != null &&
+                    anchor.tagName == 'A' &&
+                    ( anchor.className == 'treenode'  ||
+                        anchor.className == 'treenode_exp'  ||
+                        anchor.className == 'treenode_hl' ) &&
+                    ( anchor.className != 'treenode_cur' )) {
+                    anchor.className = className;
+                }
+            }
+            $('div.tree').on({
+                click: fireTreeEvent,
+                mouseover: mouseOverTree,
+                mouseout: mouseOutTree
+            });
+        });
+    </script>
+</head>
+<body>
+<form method="post" action="System.aspx" id="Form">
+    <div class="aspNetHidden">
+        <input type="hidden" name="_currentPage" id="_currentPage" value="View/TCE/TceDrugAlcohol1.ascx">
+        <input type="hidden" name="stateMachineEventName" id="stateMachineEventName" value="">
+        <input type="hidden" name="stateMachineStateName" id="stateMachineStateName" value="TceDrugAlcohol1">
+        <input type="hidden" name="stateMachineThreadName" id="stateMachineThreadName" value="32029b9a-fe48-4c3c-a23b-1789c2f41e59">
+        <input type="hidden" name="_DefaultEvent" id="_DefaultEvent" value="">
+        <input type="hidden" name="_focusedControl" id="_focusedControl" value="">
+        <input type="hidden" name="OtherSelectedFieldName" id="OtherSelectedFieldName" value="">
+        <input type="hidden" name="YesSelectedFieldName" id="YesSelectedFieldName" value="">
+        <input type="hidden" name="DAUseAlcoholDays" id="DAUseAlcoholDays" value="0">
+        <input type="hidden" name="DAUseAlcoholIntox5Days" id="DAUseAlcoholIntox5Days" value="-1">
+        <input type="hidden" name="DAUseAlcoholIntox4Days" id="DAUseAlcoholIntox4Days" value="-1">
+        <input type="hidden" name="DAUseIllegDrugsDays" id="DAUseIllegDrugsDays" value="0">
+        <input type="hidden" name="DAUseBothDays" id="DAUseBothDays" value="-1">
+        <input type="hidden" name="__VIEWSTATE" id="__VIEWSTATE" value="/wEPDwUJNDc5ODk0Njk5ZGTlnMf+LSIq9Hd6x+O/QcJKRmmNTrXlgK1pTL/XPdHNZw==">
+    </div>
+
+    <script type="text/javascript">
+        var _Config_FormSubmittedFlagTimeOut = 300;
+    </script>
+    <script type="text/javascript">
+        var _Config_AutoLogoff = {LogoffTime:900, CountdownTime:120};
+    </script>
+    <script type="text/javascript" language="javascript" src="/javascript/combo-jquery.js"></script><script type="text/javascript" src="/javascript/TextBox-jquery.js"></script>
+    <script type="text/javascript" language="javascript" src="/javascript/dropDownList-jquery.js"></script>
+    <script type="text/javascript" src="/javascript/dropDownList-optGroup.js"></script>
+
+    <div class="aspNetHidden">
+
+        <input type="hidden" name="__VIEWSTATEGENERATOR" id="__VIEWSTATEGENERATOR" value="160D7776">
+        <input type="hidden" name="__EVENTVALIDATION" id="__EVENTVALIDATION" value="/wEdABrBIlSUfTRXcUoDA0JGP1N4UAYB2nQZch+X9PJw7ziL3t1Uz7sRfazGVQLRyRdvwxwV+L0vX+1ZeK7dlGQjtpBoOQQ6qPObXaj05GzxRRCa03olcGL4bsnwGl11Vv5pjJHWm5QHkBww46xtW1OC3vz8Ax7qGMeQtFEgf6qkAl5/g2l0G3YEgNR/LlQGMQ8URJqJRGtcElZvEo4blPdjkXKCSuHroTs0+kmHCkH9dI4VQ44xmzz09S7xNQ42LBWpLfOXAOwd8mYLF6c2yX6Lq7wJlel/YBba0RC9Lovxjw/xWJPddifSK+INWKPyR4SXZtAhfekmN6vBi9stjTKz+S+6ON/BFnnksoz6Wot9JrG8djw/Us5NVsFfZag/cTmV9u93ky3S/zldYtRdqGR9ri0EWndyMYVwBHDU8Vpt0pgpMkMPsLSaLP00Nmer089PAIj73lo/yetTZKX1nwejkwBWINBYIDa/zibchfnEg9RYcDFQRUdLnbhIipSoGtEGg3PibaBtxbZtamjvoeaQij+VH5odhIR2qFbg6TU6zpkKDNNTdg2z6XwteXyBgEtRtdIsKvGvWE26MDSvAxVgm+/C">
+    </div>
+    <!--        -->
+    <!-- HEADER	-->
+    <!--        -->
+    <div id="skipNavLink">
+        <a href="#SkipNav">Skip navigation</a>
+    </div>
+    <div id="container" style="background-image: none">
+
+        <div id="color_blocks">
+            <div class="orange-strip">&nbsp;</div>
+            <div class="red-strip">&nbsp;</div>
+            <div class="green-strip">&nbsp;</div>
+            <div class="yellow-strip">&nbsp;</div>
+            <div class="orange-strip">&nbsp;</div>
+            <div class="red-strip">&nbsp;</div>
+            <div class="green-strip">&nbsp;</div>
+        </div>
+
+        <div id="newBanner">
+            <div id="bannerLeft"><a href="https://spars.samhsa.gov/">
+                <img src="/View/images/spars-logo-blue.svg" alt="SPARS" title="SPARS-CSAT - 2019.09.27 - 5.0.2.1"></a></div>
+
+            <div id="bannerCent">
+                <div>Center for Substance Abuse Treatment</div>
+                <span><a href="https://spars.samhsa.gov/"><i class="fa fa-home" aria-hidden="true"></i>Home</a></span>
+            </div>
+
+            <div id="bannerRight">
+                <p></p>
+                <div id="bannerUserInfo" style="display: inline-block;">
+                    <span id="LoggedInName">User: David Tidd</span>
+                    <div class="dropdown" style="display: inline-block;">
+                        <button tabindex="0" class="btn btn-primary dropdown-toggle" type="button" data-toggle="dropdown">
+                            <i class="fa fa-cog" aria-hidden="true"></i>
+                        </button>
+                        <ul class="dropdown-menu dropdown-menu-right">
+                            <li><a href="https://spars-sts.samhsa.gov/MyProfile">My Profile</a></li>
+                            <li><a href="https://spars-sts.samhsa.gov/MyProfile/ChangePassword">Change Password</a></li>
+                            <li><a data-toggle="modal" href="#LogoutModal">Log out</a></li>
+                        </ul>
+                    </div>
+                </div>
+                <div>
+                    <span id="LoggedInAlias"></span></div>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal fade" id="LogoutModal" role="dialog">
+        <div class="modal-dialog">
+
+            <!-- Modal content-->
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal">×</button>
+                    <h4 class="modal-title"><img src="/View/images/spars-logo-blue.svg" width="150" alt="SPARS"></h4>
+                </div>
+                <div class="modal-body">
+                    <p>Are you sure you want to log out?</p>
+                </div>
+                <div class="modal-footer">
+                    <a class="btn btn-primary" id="LogoutYes" data-dismiss="modal" href="#">Yes</a>
+                    <a class="btn btn-danger" id="LogoutNo" data-dismiss="modal" href="#">No</a>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+
+    <div class="modal fade" id="idleModal" role="dialog">
+        <div class="modal-dialog">
+
+            <!-- Modal content-->
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h4 class="modal-title"><img src="/View/images/spars-logo-blue.svg" width="150" alt="SPARS"></h4>
+                </div>
+                <div class="modal-body">
+                    <p>You will be automatically logged out in <span id="countDown"></span> seconds.</p>
+                    <p>Please move your mouse or click any key to continue using this website.</p>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+
+    <div id="main">
+        <!--       -->
+        <!-- TREE  -->
+        <!--       -->
+        <div id="leftnav" class="treeCell">
+
+
+            <table style="width: 100%;" class="treeContainer">
+
+
+                <tbody><tr>
+                    <td>
+                        <div class="tree">
+                            <div class="depth1 cur_path">
+                                <i class="fa fa-caret-down"></i>
+                                <a href="" id="ProgramSelection" class="treenode_exp" title="Data Entry">
+                                    Data Entry</a>
+                            </div>
+                            <div class="depth2 cur_path">
+                                <i class="fa fa-caret-down"></i>
+                                <a href="" id="Tce" class="treenode_exp" title="Discretionary Services">
+                                    Services</a>
+                            </div>
+                            <div class="depth3">
+                                <i class="fa fa-caret-right"></i>
+                                <a href="" id="TceRecordManagement" class="treenode" title="Record Management">
+                                    A. Record Mgmt</a>
+                            </div>
+                            <div class="depth3">
+                                <a href="" id="TceDemographics" class="treenode" title="Demographics">
+                                    Demographics</a>
+                            </div>
+                            <div class="depth3">
+                                <a href="" id="TceMilitary" class="treenode" title="Military Family and Deployment">
+                                    Military</a>
+                            </div>
+                            <div class="depth3 cur_path">
+                                <i class="fa fa-caret-down"></i>
+                                <a href="" id="TceDrugAlcohol" class="treenode_exp" title="B. Drug/Alcohol">
+                                    B. Drug/Alcohol</a>
+                            </div>
+                            <div class="depth4" style="cursor: default; background-color: rgb(235, 221, 186); border: 1px solid rgb(165, 163, 141);">
+                                <a id="TceDrugAlcohol1" class="treenode_cur" title="Drug/Alcohol 1" style="font-weight: bold; cursor: default;">
+                                    Drug/Alcohol 1</a>
+                            </div>
+                            <div class="depth2">
+                                <i class="fa fa-caret-right"></i>
+                                <a href="" id="BestPractices" class="treenode" title="Best Practices">
+                                    Best Practices</a>
+                                <div class="split"></div></div>
+                            <div class="depth1">
+                                <i class="fa fa-caret-right"></i>
+                                <a href="" id="Reports" class="treenode" title="Reports">
+                                    Reports</a>
+                            </div>
+                            <div class="depth1">
+                                <i class="fa fa-caret-right"></i>
+                                <a href="" id="Download" class="treenode" title="Data Download">
+                                    Data Download</a>
+                            </div>
+                        </div>
+
+                    </td>
+                </tr>
+                </tbody></table>
+        </div>
+
+        <!--       -->
+        <!-- FORM  -->
+        <!--       -->
+        <div id="contentwrapper">
+            <div id="rightcontent" class="contentCell">
+                <a id="SkipNav"></a>
+                <div class="topBar">
+                    <div class="topTitle" style="text-align: left;">
+                        <label>Discretionary Services</label>
+                    </div>
+                </div>
+                <table style="width: 100%;" id="contentHeaderTable">
+                    <tbody><tr>
+                        <td>
+                            <div class="sectionHdr">
+                                <!--<label>Discretionary Services</label>-->
+                            </div>
+                        </td>
+                        <td>
+                            <div class="headercontext" style="text-align: left;">
+
+                                <label>Client ID: 7537482</label><br>
+                                <label>Grant ID: TI081474</label>
+
+                            </div>
+                        </td>
+                        <td style="padding-top: 3px; text-align: right">
+
+
+                            <script type="text/javascript">
+                                var popupwindow = '';
+                                function PopupReportSortWindow(e) {
+                                    StandardizeEvent(e);
+
+                                    var sessionThreadId = $("#stateMachineThreadName").val();
+                                    var url =
+                                        'System.aspx' +
+                                        '?stateMachineStateName=ReportSortMenu' +
+                                        '&stateMachineEventName=Initialize' +
+                                        '&BaseSessionThread=' + sessionThreadId;
+                                    var windowName = '_blank';
+                                    var windowProps = 'width=420, height=450, menubar=no, center=yes, resizeable=no';
+
+                                    $(document).css("cursor", "wait");
+                                    if (popupwindow.closed || popupwindow === '') {
+                                        popupwindow = window.open(url, windowName, windowProps);
+                                    }
+                                    $(document).css("cursor", "default");
+                                }
+
+                            </script>
+                            <table id="toolbar">
+                                <tbody><tr>
+                                    <td>
+                                        <div>
+                                            <span><i class="fa fa-print" aria-hidden="true"></i></span><button id="ToolBar_Print" type="button" onclick="window.print(); return false;" class="toolbar">Print</button>
+
+
+
+                                            <span><i class="pipeDivider">|</i><i class="fa fa-times" aria-hidden="true"></i></span><button id="ToolBar_Cancel" type="button" onclick="DisplayCancelConfirmation ( event );" class="toolbar">Cancel</button>
+
+
+                                            <button class="toolbar btn btn-primary" id="ToolBar_Previous" name="ToolBar$Previous" type="button" onclick="fireStateMachineEvent ( event, 'Previous' );">Previous</button>
+                                            <button class="toolbar btn btn-primary" id="ToolBar_Next" name="ToolBar$Next" type="button" onclick="fireStateMachineEvent ( event, 'Next' );">Next</button>
+
+                                        </div>
+                                    </td>
+                                </tr>
+                                </tbody></table>
+
+                        </td>
+                    </tr>
+                    <!--<tr>
+                <td style="padding-right: 0px; padding-left: 0px; width: 100%; height: 4px;" colspan="3" >
+                    <img id="ColorStrip" src="View/images/color-strip.gif" alt="" />
+                </td>
+            </tr>-->
+                    </tbody></table>
+                <div class="formContainer" id="formContainer">
+                    <div id="Messages" class="message"><div class="alert alert-danger"><span class="error">
+      Both questions Question B.1.b1 and/ Question B.1.b2  should be 'Not Applicable' if Question B.1.a  is 0.
+    </span></div></div><div class="alert alert-danger" role="alert"><ul><li>Both questions Question B.1.b1 and/ Question B.1.b2  should be 'Not Applicable' if Question B.1.a  is 0.</li></ul></div>
+                    <div id="ClientMessages" class="message" style="display: none">
+                    </div>
+                    <table class="mainform"><tbody><tr><td align="left">
+
+                        <div class="mainformwrapper">
+                            <fieldset class="DENS">
+                                <legend>B. DRUG AND ALCOHOL USE</legend>
+                                <table class="mainform">
+                                    <tbody><tr>
+                                        <td style="width: 10px; text-align: left;"><label>1.</label></td>
+                                        <td colspan="3"><label>During the past 30 days, how many days have you used the following:</label></td>
+                                    </tr>
+                                    <tr>
+                                        <td style="width: 10px;">&nbsp;</td>
+                                        <td colspan="3"><label>(ORP GRANTS USE 90 DAYS)</label></td>
+                                    </tr>
+                                    <tr>
+                                        <td colspan="3">&nbsp;</td>
+                                        <td style="width: 300px; padding-top: 10px;"><label># of Days</label>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                                            <label>RF/DK</label>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td style="width: 10px;">&nbsp;</td>
+                                        <td style="width: 10px;"><label>a.</label></td>
+                                        <td style="width: 300px;"><label>Any alcohol</label></td>
+                                        <td style="width: 300px;">
+
+                                            <input name="__textbox__DAUseAlcoholDays" type="text" value="0" maxlength="2" size="2" id="__textbox__DAUseAlcoholDays" tabindex="1" title="Enter the number of days that you have used alcohol in the past 30 days." class="required" onchange="onTextBoxChange ( event, this.value, '__dropdown__DAUseAlcoholDays', 'DAUseAlcoholDays' ); ;ProcessDAUseAlcoholDays (this);" preventnegativevalues="true" style="width:40px;">
+                                            <select name="__dropdown__DAUseAlcoholDays" id="__dropdown__DAUseAlcoholDays" tabindex="2" class="ro" onchange="onDropDownListChange ( event, this, '__textbox__DAUseAlcoholDays', 'DAUseAlcoholDays' );;ProcessDAUseAlcoholDays (this);" style="width:100px;" disabled="">
+                                                <option selected="selected" value=""></option>
+                                                <option value="-7">REFUSED</option>
+                                                <option value="-8">DON'T KNOW</option>
+                                                <option value="-9">MISSING DATA</option>
+
+                                            </select>
+
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td style="width: 10px;">&nbsp;</td>
+                                        <td style="width: 10px;"><label>b1.</label></td>
+                                        <td style="width: 300px;"><label>Alcohol to intoxication (5+ drinks in one sitting)</label></td>
+                                        <td style="width: 300px;">
+
+                                            <input name="__textbox__DAUseAlcoholIntox5Days" type="text" value="0" maxlength="2" size="2" id="__textbox__DAUseAlcoholIntox5Days" tabindex="3" title="Enter the number of days that you have used alcohol to intoxication (5+ drinks in one sitting) in the past 30 days." class="ro" onchange="onTextBoxChange ( event, this.value, '__dropdown__DAUseAlcoholIntox5Days', 'DAUseAlcoholIntox5Days' ); " preventnegativevalues="true" style="width:40px;" readonly="">
+                                            <select name="__dropdown__DAUseAlcoholIntox5Days" id="__dropdown__DAUseAlcoholIntox5Days" tabindex="4" class="ro" onchange="onDropDownListChange ( event, this, '__textbox__DAUseAlcoholIntox5Days', 'DAUseAlcoholIntox5Days' );" style="width:100px;" disabled="">
+                                                <option selected="selected" value=""></option>
+                                                <option value="-7">REFUSED</option>
+                                                <option value="-8">DON'T KNOW</option>
+                                                <option value="-9">MISSING DATA</option>
+
+                                                <option value="-1">Not Applicable</option></select>
+
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td style="width: 10px;">&nbsp;</td>
+                                        <td style="width: 10px; vertical-align: top;"><label>b2.</label></td>
+                                        <td style="width: 300px;"><label>Alcohol to intoxication (4 or fewer drinks<br>
+                                            in one sitting and felt high)</label></td>
+                                        <td style="width: 300px;">
+
+                                            <input name="__textbox__DAUseAlcoholIntox4Days" type="text" value="0" maxlength="2" size="2" id="__textbox__DAUseAlcoholIntox4Days" tabindex="5" title="Enter the number of days that you have used alcohol to intoxication (4 or fewer drinks in one sitting and felt high) in the past 30 days." class="ro" onchange="onTextBoxChange ( event, this.value, '__dropdown__DAUseAlcoholIntox4Days', 'DAUseAlcoholIntox4Days' ); " preventnegativevalues="true" style="width:40px;" readonly="">
+                                            <select name="__dropdown__DAUseAlcoholIntox4Days" id="__dropdown__DAUseAlcoholIntox4Days" tabindex="6" class="ro" onchange="onDropDownListChange ( event, this, '__textbox__DAUseAlcoholIntox4Days', 'DAUseAlcoholIntox4Days' );" style="width:100px;" disabled="">
+                                                <option selected="selected" value=""></option>
+                                                <option value="-7">REFUSED</option>
+                                                <option value="-8">DON'T KNOW</option>
+                                                <option value="-9">MISSING DATA</option>
+
+                                                <option value="-1">Not Applicable</option></select>
+
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td style="width: 10px;">&nbsp;</td>
+                                        <td style="width: 10px;"><label>c.</label></td>
+                                        <td style="width: 300px;"><label>Illegal drugs</label></td>
+                                        <td style="width: 300px;">
+
+                                            <input name="__textbox__DAUseIllegDrugsDays" type="text" value="0" maxlength="2" size="2" id="__textbox__DAUseIllegDrugsDays" tabindex="7" title="Enter the number of days that you have used illegal drugs in the past 30 days." class="required" onchange="onTextBoxChange ( event, this.value, '__dropdown__DAUseIllegDrugsDays', 'DAUseIllegDrugsDays' ); ;ProcessDAUseIllegDrugsDays (this);" preventnegativevalues="true" style="width:40px;">
+                                            <select name="__dropdown__DAUseIllegDrugsDays" id="__dropdown__DAUseIllegDrugsDays" tabindex="8" class="ro" onchange="onDropDownListChange ( event, this, '__textbox__DAUseIllegDrugsDays', 'DAUseIllegDrugsDays' );;ProcessDAUseIllegDrugsDays (this);" style="width:100px;" disabled="">
+                                                <option selected="selected" value=""></option>
+                                                <option value="-7">REFUSED</option>
+                                                <option value="-8">DON'T KNOW</option>
+                                                <option value="-9">MISSING DATA</option>
+
+                                            </select>
+
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td style="width: 10px;">&nbsp;</td>
+                                        <td style="width: 10px;"><label>d.</label></td>
+                                        <td style="width: 300px;"><label>Both alcohol and drugs (on the same day)</label></td>
+                                        <td style="width: 300px;">
+
+                                            <input name="__textbox__DAUseBothDays" type="text" value="0" maxlength="2" size="2" id="__textbox__DAUseBothDays" tabindex="9" title="Enter the number of days that you have used both alcohol and drugs (on the same day)in the past 30 days." class="ro" onchange="onTextBoxChange ( event, this.value, '__dropdown__DAUseBothDays', 'DAUseBothDays' ); " preventnegativevalues="true" style="width:40px;" readonly="">
+                                            <select name="__dropdown__DAUseBothDays" id="__dropdown__DAUseBothDays" tabindex="10" class="ro" onchange="onDropDownListChange ( event, this, '__textbox__DAUseBothDays', 'DAUseBothDays' );" style="width:100px;" disabled="">
+                                                <option selected="selected" value=""></option>
+                                                <option value="-7">REFUSED</option>
+                                                <option value="-8">DON'T KNOW</option>
+                                                <option value="-9">MISSING DATA</option>
+
+                                                <option value="-1">Not Applicable</option></select>
+
+                                        </td>
+                                    </tr>
+                                    </tbody></table>
+                            </fieldset>
+                        </div>
+                        <input type="hidden" id="DAUseIllegDrugsDaysChanged" name="DAUseIllegDrugsDaysChanged">
+
+
+                        <script type="text/javascript">
+                            function SetComboNA ( controlName )
+                            {
+                                var NA = '-1';
+                                var dropdownControl = GetComboDropDownField ( controlName );
+                                var textControl = GetComboTextField ( controlName );
+                                SetFieldValue ( textControl, "" );
+                                SetDropDownNA ( dropdownControl );
+                                var hiddenControl = GetControl ( controlName );
+                                SetFieldValue ( hiddenControl, NA );
+                            }
+
+                            function SetDropDownNA ( dropDown )
+                            {
+                                var NA = '-1';
+                                var option = DropDownGetOptionByValue ( dropDown, NA );
+                                if ( option == null )
+                                {
+                                    option = document.createElement ( "OPTION" );
+                                    dropDown.options.add ( option );
+                                    //option.innerText = "Not Applicable";
+                                    option.innerHTML = "Not Applicable";
+                                    option.value = NA;
+                                }
+                                dropDown.selectedIndex = option.index;
+                            }
+
+                            function ProcessDrugRoute ( drugDaysFieldName, routeFieldName, activeControl )
+                            {
+                                var routeField = GetControl ( routeFieldName );
+                                var drugDaysStr = GetComboValue ( drugDaysFieldName );
+                                drugDaysStr = Trim ( drugDaysStr );
+
+                                var dropDownControl = document.getElementById( '__dropdown__' + drugDaysFieldName );
+                                if ( dropDownControl != null )
+                                {
+                                    dropDownControl.disabled = false;
+                                    dropDownControl.className = "required";
+                                }
+
+                                if ( drugDaysStr === "" )
+                                {
+                                    DropDownSetSelectedValue ( routeField, "" );
+                                    EnableDropDown ( routeField );
+                                    RemoveDropDownNAOption ( routeField );
+                                    MakeRequired ( routeField );
+                                    return false;
+                                }
+                                else
+                                {
+                                    var NA = '-1';
+
+                                    var drugDays = parseInt ( drugDaysStr );
+                                    if ( drugDays <= 0 )
+                                    {
+                                        SetDropDownNA ( routeField );
+                                        DisableDropDown ( routeField );
+                                        return false;
+                                    }
+                                    else if ( drugDays > 0 )
+                                    {
+                                        if ( DropDownOptionChosen ( routeField, NA ) )
+                                        {
+                                            DropDownSetSelectedValue ( routeField, "" );
+                                        }
+                                        EnableDropDown ( routeField );
+                                        RemoveDropDownNAOption ( routeField );
+                                        MakeRequired ( routeField );
+
+                                        if ( dropDownControl != null )
+                                        {
+                                            //SetDropDownNA ( dropDownControl );
+                                            dropDownControl.disabled = true;
+                                            dropDownControl.saveClassName = dropDownControl.className;
+                                            dropDownControl.className = "ro";
+                                        }
+                                        return true;
+                                    }
+                                }
+                            }
+
+                            function ProcessRoute ( drugDaysFieldName, routeFieldName, activeControl )
+                            {
+                                return ProcessDrugRoute ( drugDaysFieldName, routeFieldName, activeControl );
+                            }
+
+                            function ClearComboNA ( combo, activeControl )
+                            {
+                                var NA = '-1';
+                                var DONT_KNOW = '-8';
+                                var MISSING_DATA = '-9';
+                                var REFUSE_TO_ANSWER = '-7';
+                                var comboValue = GetComboValue ( combo );
+
+                                if ( comboValue === NA )
+                                {
+                                    SetComboValue ( combo, "" );
+                                }
+                                var dropdownControl = GetComboDropDownField ( combo );
+                                RemoveDropDownNAOption ( dropdownControl );
+
+                                if ( comboValue === DONT_KNOW || comboValue === MISSING_DATA || comboValue === REFUSE_TO_ANSWER )
+                                {
+                                    MakeComboRequired ( combo, null );
+                                }
+                                else
+                                {
+                                    MakeComboRequired ( combo, activeControl );
+                                }
+
+                                ReDisplayDropDownForCombo ( combo );
+
+                            }
+
+                            function ToggleInfoIcon(isRequiredControl) {
+                                if (isRequiredControl.value == 'true') {
+                                    $('.fa-info-circle').hide();
+                                }
+                            }
+                        </script>
+                        <div id="JavascriptCode">
+
+                            <script type="text/javascript" language="javascript">
+                                function ProcessDAUseAlcoholDays(activeControl) {
+                                    var daUseAlcolholDays = GetComboValue('DAUseAlcoholDays');
+                                    var parsedValue = parseInt(daUseAlcolholDays);
+                                    if (parsedValue == 0 || isNaN(daUseAlcolholDays)) //NaN: Not-a-Number
+                                    {
+                                        SetComboNA('DAUseAlcoholIntox4Days');
+                                        SetComboNA('DAUseAlcoholIntox5Days');
+                                        MakeComboReadOnly('DAUseAlcoholIntox4Days');
+                                        MakeComboReadOnly('DAUseAlcoholIntox5Days');
+                                    }
+                                    else {
+                                        ClearComboNA('DAUseAlcoholIntox4Days', activeControl);
+                                        ClearComboNA('DAUseAlcoholIntox5Days', activeControl);
+                                    }
+
+                                    processDAUseAlcoholDays(activeControl);
+                                }
+
+                                function ProcessDAUseIllegDrugsDays(activeControl) {
+                                    processDAUseAlcoholDays(activeControl);
+
+                                    var daUseIllegDrugsDaysChanged = GetControl('DAUseIllegDrugsDaysChanged');
+                                    SetFieldValue(daUseIllegDrugsDaysChanged, 'true');
+                                }
+
+                                function processDAUseAlcoholDays(activeControl) {
+                                    var daUseAlcoholDays = GetComboValue('DAUseAlcoholDays');
+                                    var daUseIllegDrugsDays = GetComboValue('DAUseIllegDrugsDays');
+
+                                    var parsedValue = parseInt(daUseAlcoholDays);
+                                    var parsedillegValue = parseInt(daUseIllegDrugsDays);
+
+                                    if ((parsedValue <= 0 || isNaN(daUseAlcoholDays)) || (parsedillegValue <= 0 || isNaN(daUseIllegDrugsDays))) {
+                                        SetComboNA('DAUseBothDays');
+                                        MakeComboReadOnly('DAUseBothDays');
+                                    }
+                                    else {
+                                        ClearComboNA('DAUseBothDays', activeControl);
+                                    }
+                                }
+
+                                function RunPresentationRules(activeControl) {
+                                    ProcessDAUseAlcoholDays(activeControl)
+                                    ReDisplayDropDownForCombo('DAUseAlcoholDays');
+                                    ReDisplayDropDownForCombo('DAUseIllegDrugsDays');
+                                }
+
+                                RunPresentationRules(null);
+                            </script>
+
+                        </div></td></tr></tbody></table>
+
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script type="text/javascript">
+        TextBox_IllegalValues = 'not applicable,undefined'
+        document.onsubmit = ChainEventHandler ( document.onsubmit, TextBoxOnFormSubmit );
+    </script></form>
+
+
+<script type="text/javascript">
+    (function (i, s, o, g, r, a, m) {
+        i['GoogleAnalyticsObject'] = r; i[r] = i[r] || function () {
+            (i[r].q = i[r].q || []).push(arguments)
+        }, i[r].l = 1 * new Date(); a = s.createElement(o),
+            m = s.getElementsByTagName(o)[0]; a.async = 1; a.src = g; m.parentNode.insertBefore(a, m)
+    })(window, document, 'script', 'https://www.google-analytics.com/analytics.js', 'ga');
+
+    ga('create', 'UA-88265464-7', 'auto');
+    ga('send', 'pageview');
+
+</script>
+
+
+
+</body></html>

@@ -114,22 +114,22 @@ class DataService {
      * @return Client[]
      * @throws Exception
      */
-    public function searchClients($uid, $grant_id, $recent_only) {
-        $recent_clause = $recent_only ? 'AND (e.client_id, e.number) IN (SELECT client_id, MAX(number) FROM episodes GROUP BY client_id)' : '';
-
+    public function getClientsByGrant($grant_id) {
         $result = $this->query("SELECT c.id, c.uid, e.id AS episode_id, e.number AS episode_number, e.start_date as episode_date,
-            a1.id AS intake_id, a1.status AS intake_status, 
-            a2.id AS discharge_id, a2.status AS discharge_status, 
-            a3.id AS followup_3mo_id, a3.status AS followup_3mo_status,
-            a4.id AS followup_6mo_id, a4.status AS followup_6mo_status
+            a1.interview_date as intake_date,
+            a1.id AS intake_id, a1.status AS intake_status, a1.user_id AS user_intake,
+            a2.id AS discharge_id, a2.status AS discharge_status, a2.user_id AS user_discharge,
+            a3.id AS followup_3mo_id, a3.status AS followup_3mo_status, a3.user_id AS user_3mo,
+            a4.id AS followup_6mo_id, a4.status AS followup_6mo_status, a4.user_id AS user_6mo,
+            (SELECT MAX(number) FROM episodes WHERE client_id=c.id) AS latest_episode
             FROM clients c 
             JOIN episodes e ON c.id=e.client_id
             LEFT JOIN assessments a1 ON a1.client_id = c.id AND a1.gpra_type=1 AND a1.episode_id=e.id
             LEFT JOIN assessments a2 ON a2.client_id = c.id AND a2.gpra_type=2 AND a2.episode_id=e.id
             LEFT JOIN assessments a3 ON a3.client_id = c.id AND a3.gpra_type=3 AND a3.episode_id=e.id
             LEFT JOIN assessments a4 ON a4.client_id = c.id AND a4.gpra_type=4 AND a4.episode_id=e.id
-            WHERE c.uid LIKE ? AND c.grant_id=? $recent_clause",
-            ['%'.$uid.'%', $grant_id]);
+            WHERE c.grant_id=?",
+            [$grant_id]);
 
         return $this->fetchAllObjects($result, Client::class);
     }
@@ -220,6 +220,17 @@ class DataService {
         return $this->fetchAllObjects($result, Assessment::class);
     }
 
+    /** @param int $episode_id
+     * @param $assessment_type int
+     * @return Assessment
+     * @throws Exception
+     */
+    public function getAssessmentByEpisodeAndType($episode_id, $assessment_type)
+    {
+        $result = $this->query("SELECT * FROM assessments WHERE episode_id=? AND assessment_type=?", [$episode_id, $assessment_type]);
+        return $this->fetchObject($result, Assessment::class);
+    }
+
     /**
      * @param int $client_id
      * @return Assessment[]
@@ -252,10 +263,67 @@ class DataService {
      * @return int
      * @throws Exception
      */
-    public function addAssessment($assessment_type, $episode_id, $client_id, $user_id, $grant_id, $gpra_type = null, $interview_conducted = null) {
-        $this->query("INSERT INTO assessments (assessment_type, client_id, user_id, grant_id, episode_id, created_date, gpra_type, interview_conducted) 
-            VALUES (?,?,?,?,?,?,?,?)", [$assessment_type, $client_id, $user_id, $grant_id, $episode_id, date('Y-m-d'), $gpra_type, $interview_conducted]);
+    public function addAssessment($assessment_type, $episode_id, $client_id, $user_id, $grant_id, $gpra_type = null, $interview_conducted = null, $interview_date = null) {
+        if($interview_date != null)
+            $interview_date = $this->randomizeDate($interview_date, $gpra_type, $episode_id);
+        $current_date = $this->randomizeDate(date('m-d-Y'), null, null);
+
+        $this->query("INSERT INTO assessments (assessment_type, client_id, user_id, grant_id, episode_id, created_date, gpra_type, interview_conducted, interview_date) 
+            VALUES (?,?,?,?,?,?,?,?,?)", [$assessment_type, $client_id, $user_id, $grant_id, $episode_id, $current_date, $gpra_type, $interview_conducted, $interview_date]);
         return $this->connection->insert_id;
+    }
+
+    /**
+     * Randomize the date +/- 3 days to deidentify data.
+     * If it's a followup GPRA, make sure the randomized date is in the allowed followup window if possible.
+     * @param $date string
+     * @param $gpra_type int
+     * @param $episode_id int
+     * @return string
+     * @throws Exception
+     */
+    private function randomizeDate($date, $gpra_type, $episode_id) {
+        $date = DateTime::createFromFormat('m#d#Y', $date)->format('Y-m-d');
+
+        if($gpra_type == GPRA::FOLLOWUP_3MONTH || $gpra_type == GPRA::FOLLOWUP_6MONTH) {
+            $intake = $this->getAssessmentByEpisodeAndType($episode_id, AssessmentTypes::GPRAIntake);
+            //$intake_date = DateTime::createFromFormat('Y-m-d', $intake->interview_date);
+            if($gpra_type == GPRA::FOLLOWUP_3MONTH) {
+                $start_date = date('Y-m-d', strtotime($intake->interview_date.' + 2 months'));
+                $end_date = date('Y-m-d', strtotime($intake->interview_date.' + 5 months'));
+            }
+            else {
+                $start_date = date('Y-m-d', strtotime($intake->interview_date.' + 5 months'));
+                $end_date = date('Y-m-d', strtotime($intake->interview_date.' + 8 months'));
+            }
+
+            //maximum and minimum random values for interview date
+            $max_date = date('Y-m-d', strtotime($date.' + 3 days'));
+            $min_date = date('Y-m-d', strtotime($date.' - 3 days'));
+            $has_valid_date = $this->isBetweenDates($max_date, $start_date, $end_date) || $this->isBetweenDates($min_date, $start_date, $end_date);
+            do {
+                $rand = rand(-3,3);
+                $symbol = ($rand < 0) ? ' - ' : ' + ';
+                $new_date = date('Y-m-d', strtotime($date.$symbol.abs($rand).' days'));
+                $valid = $this->isBetweenDates($new_date, $start_date, $end_date);
+            } while(!$valid && $has_valid_date);
+        }
+        else {
+            $rand = rand(-3,3);
+            $symbol = ($rand < 0) ? ' - ' : ' + ';
+            $new_date = date('Y-m-d', strtotime($date.$symbol.abs($rand).' days'));
+        }
+        return $new_date;
+    }
+
+    /**
+     * @param $date
+     * @param $start_date
+     * @param $end_date
+     * @return bool
+     */
+    private function isBetweenDates($date, $start_date, $end_date) {
+        return $date >= $start_date && $date <= $end_date;
     }
 
     /**
@@ -301,13 +369,14 @@ class DataService {
         }
         $ids = join(",",$assessment_ids);
 
-        $result = $this->query("SELECT a.id AS assessment_id, c.uid FROM assessments a 
+        $result = $this->query("SELECT a.id AS assessment_id, c.uid, a.gpra_type FROM assessments a 
             JOIN clients c ON c.id=a.client_id
             WHERE a.id IN ($ids)");
 
         $clients = $this->fetchAllObjects($result, stdClass::class);
         foreach ($clients as $client) {
             $assessments[$client->assessment_id]['client_uid'] = $client->uid;
+            $assessments[$client->assessment_id]['gpra_type'] = $client->gpra_type;
         }
 
         $result = $this->query("SELECT a.id, q.code, ans.value FROM assessments a 
@@ -321,7 +390,7 @@ class DataService {
             $assessments[$answer->id][$answer->code] = $answer->value;
         }
 
-        return $assessments;
+        return array_values($assessments); //convert to indexed array
     }
 
     /**
@@ -503,6 +572,16 @@ class DataService {
     public function getUsers()
     {
         $result = $this->query("SELECT * FROM users");
+        return $this->fetchAllObjects($result, User::class);
+    }
+
+    /** @param $grant_id int
+     * @return User[]
+     * @throws Exception
+     */
+    public function getUsersByGrant($grant_id)
+    {
+        $result = $this->query("SELECT u.* FROM users u JOIN user_grants ug ON u.id=ug.user_id WHERE ug.grant_id=? AND u.admin=0", [$grant_id]);
         return $this->fetchAllObjects($result, User::class);
     }
 

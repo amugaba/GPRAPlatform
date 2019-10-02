@@ -46,8 +46,13 @@
         <input type="button" value="Export to CSV" class="btn btn-primary" @click="exportGPRAs">
     </div>
 
+    <div class="text-center">
+        <input type="button" value="Run Upload Test" class="btn btn-primary" onclick="runUploadTest()">
+    </div>
+
     <?php $this->includeFooter(); ?>
     <?php $this->includeScripts(); ?>
+    <script src="/js/spars_upload.js"></script>
     <script type="application/javascript">
         vue = new Vue({
             el: '#main',
@@ -83,33 +88,19 @@
                         let exported = result.data;
                         console.log(exported);
 
-                        if(!isIE()) {
-                            let file = new Blob([JSON.stringify(exported)], {type: 'text/plain'});
-                            let a = document.createElement("a");
-                            a.href = URL.createObjectURL(file);
-                            a.download = "gpraExport.json";
-                            a.click();
-                            //URL.revokeObjectURL(a.href);
-
-                            /*csv = "data:text/csv;charset=utf-8," + csv;
-                            var encodedUri = encodeURI(csv);
-                            var link = document.createElement("a");
-                            link.setAttribute("href", encodedUri);
-                            link.setAttribute("download", filename);
-                            document.body.appendChild(link); // Required for FF
-                            link.click();*/
-                        }
-                        else {
-                            var IEwindow = window.open();
-                            IEwindow.document.write('sep=,\r\n' + csv);
-                            IEwindow.document.close();
-                            IEwindow.document.execCommand('SaveAs', true, filename);
-                            IEwindow.close();
-                        }
+                        let file = new Blob([JSON.stringify(exported)], {type: 'text/plain'});
+                        let a = document.createElement("a");
+                        a.href = URL.createObjectURL(file);
+                        a.download = "gpraExport.json";
+                        a.click();
                     });
                 }
             }
         });
+
+        function runUploadTest() {
+            runUpload();
+        }
     </script>
 </body>
 </html>

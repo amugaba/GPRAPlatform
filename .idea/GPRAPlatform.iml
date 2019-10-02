@@ -19,5 +19,7 @@
     <orderEntry type="library" name="jquery-3.3.1" level="application" />
     <orderEntry type="library" name="bootstrap-vue" level="application" />
     <orderEntry type="library" name="vue" level="application" />
+    <orderEntry type="library" name="@types/bootstrap" level="application" />
+    <orderEntry type="library" name="bootstrap.bundle" level="application" />
   </component>
 </module>

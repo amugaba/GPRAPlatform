@@ -416,3 +416,14 @@ tr.selected {
     width: 400px;
     padding: 15px;
 }
+
+.not-due a {
+    color: #d0d0d0;
+}
+.due a {
+    color: #e92620;
+    font-weight: bold;
+}
+.past-due a {
+    color: #c58684;
+}

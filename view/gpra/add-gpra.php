@@ -23,6 +23,7 @@
     </section>
     <section v-if="gpra.assessment_type == 1 || gpra.ConductedInterview != 0">
         <question-text title="Interview Date" reminder="MM-DD-YYYY" id="InterviewDate" v-model="gpra.InterviewDate"></question-text>
+        <p class="reminderText">(This date will be randomized +/- 3 days to de-identify the data.)</p>
     </section>
 
     <div style="text-align: center; margin-top: 30px">

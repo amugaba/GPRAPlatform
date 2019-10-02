@@ -177,7 +177,10 @@ class GPRAController extends Controller
         }
         else {
             $episode = $ds->getEpisode($assessment->episode_id);
-            $assessment->id = $ds->addAssessment($assessment->assessment_type, $episode->id, $episode->client_id, Session::getUser()->id, Session::getGrant()->id, $assessment->gpra_type, $assessment->ConductedInterview);
+            $assessment->id = $ds->addAssessment($assessment->assessment_type, $episode->id, $episode->client_id, Session::getUser()->id,
+                Session::getGrant()->id, $assessment->gpra_type, $assessment->ConductedInterview, $assessment->InterviewDate);
+            $real_assessment = $ds->getAssessment($assessment->id);
+            $assessment->InterviewDate = date('m/d/Y', strtotime($real_assessment->interview_date)); //since the date has been randomized, save it in GPRA
             $ds->saveQuestionAnswers($questions, $assessment, $assessment->id);
             ajax_output(true, $assessment->id);
         }
