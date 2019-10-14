@@ -39,10 +39,7 @@
     </form>
 
     <b-table :fields="tableFields" :items="clients" :per-page="10" :current-page="currentPage" hover bordered sort-by="episode_date"
-             :sort-desc="true" :filter-function="myFilter" :filter="filter" @filtered="onFiltered">
-        <!--<template slot="uid" slot-scope="data">
-            <a :href="'/home/client?id='+data.item.id">{{data.item.uid}}</a>
-        </template>-->
+             :sort-desc="true" :filter-function="myFilter" :filter="filter" @filtered="onFiltered" ref="clientsTable">
         <template v-slot:cell(uid)="data">
             <a :href="'/home/client?id='+data.item.id">{{data.item.uid}}</a>
         </template>
@@ -112,7 +109,7 @@
         },
         mounted() {
             // Set the initial number of items
-            this.totalRows = this.clients.length;
+            this.totalRows = this.$refs.clientsTable.filteredItems.length;
             for(let i = 0; i < this.clients.length; i++) {
                 let client = this.clients[i];
                 client.due3MO = getDueStatus(client.intake_date, 2, 5);

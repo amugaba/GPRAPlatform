@@ -141,6 +141,7 @@ class DataService {
      */
     public function getClientEpisodesWithGPRAs($client_id) {
         $result = $this->query("SELECT c.id, c.uid, e.id AS episode_id, e.number AS episode_number, e.start_date as episode_date,
+            a1.interview_date as intake_date,
             a1.id AS intake_id, a1.status AS intake_status, 
             a2.id AS discharge_id, a2.status AS discharge_status, 
             a3.id AS followup_3mo_id, a3.status AS followup_3mo_status,
