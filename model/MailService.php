@@ -80,22 +80,18 @@ class MailService {
     public function createMail($subject)
     {
         $mail = new PHPMailer();
+        $mail->isSMTP();             // telling the class to use SMTP
+        $mail->SMTPDebug = 0;        // 0 = no output, 1 = errors and messages, 2 = messages only.
 
-        $mail->isSMTP();                       // telling the class to use SMTP
-
-        $mail->SMTPDebug = 0;
-        // 0 = no output, 1 = errors and messages, 2 = messages only.
-
-        $mail->SMTPAuth = true;                // enable SMTP authentication
-        $mail->SMTPSecure = "tls";              // sets the prefix to the servier
-        $mail->Host = "mail-relay.iu.edu";        // sets IU as the SMTP server
-        $mail->Port = 587;                     // set the SMTP port for the IU
-
-        $mail->Username = 'iprctech';
-        $mail->Password = 'You talking to me?';
+        $mail->SMTPAuth = true;
+        $mail->SMTPSecure = "tls";
+        $mail->Host = "smtp.dreamhost.com";
+        $mail->Port = 587;
+        $mail->Username = 'david.tidd@angstrom-software.com';
+        $mail->Password = 'squirrelmob';
 
         $mail->CharSet = 'UTF-8';
-        $mail->setFrom('iprctech@indiana.edu', 'IPRC');
+        $mail->setFrom('david.tidd@angstrom-software.com', 'Angstrom Software Support');
         $mail->Subject = $subject;
         $mail->ContentType = 'text/plain';
         $mail->isHTML(true);
