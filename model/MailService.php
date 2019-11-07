@@ -77,7 +77,7 @@ class MailService {
      * @return PHPMailer
      * @throws Exception
      */
-    public function createMail($subject)
+    private function createMail($subject)
     {
         $mail = new PHPMailer();
         $mail->isSMTP();             // telling the class to use SMTP
@@ -88,7 +88,7 @@ class MailService {
         $mail->Host = "smtp.dreamhost.com";
         $mail->Port = 587;
         $mail->Username = 'david.tidd@angstrom-software.com';
-        $mail->Password = 'squirrelmob';
+        $mail->Password = 'tiny emu riding camel';
 
         $mail->CharSet = 'UTF-8';
         $mail->setFrom('david.tidd@angstrom-software.com', 'Angstrom Software Support');

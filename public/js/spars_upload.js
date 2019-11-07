@@ -12,11 +12,12 @@ gpras = [{"id":"3","client_uid":"6707665","gpra_type":1,"ClientType":"1","Interv
 //set gpras variable in console with actual JSON
 index = -1; //index of current GPRA
 MV = -9; //missing value
+RF = -7;
 
 //This has to be run on the SPARS page because otherwise browser blocks it as XSS
 function runUpload() {
+    log('Staring upload');
     index = -1;
-
     spars = window.open("https://spars-csat.samhsa.gov/System.aspx", "test");
     setTimeout(function () {
         spars.document.getElementById('ProgramSelection').click();
@@ -27,6 +28,16 @@ function runUpload() {
     setTimeout(function () {
         startNextGPRA();
     }, 3000);
+}
+
+function log(text) {
+    console.log(text);
+}
+function assert(condition, message) {
+    if(condition) {
+        console.error(message, this);
+        throw new Error('Stopping');
+    }
 }
 
 //if value is empty, replace it with missing value code like -9
@@ -48,17 +59,22 @@ function clickButton(elementID) {
 function startNextGPRA() {
     index++;
     if(index < gpras.length) {
+        log('GPRA #' + index);
+        assert(spars.document.title !== "Interview Selection", "Incorrect page");
         data = gpras[index];
         if(data.gpra_type === 1) {
-            console.log("starting intake");
+            log("Type == Intake");
             spars.document.getElementById('NewIntake').click();
             setTimeout(inputPage1, 1000, data);
         }
     }
+    else
+        log('GPRA upload finished');
 }
 
 function inputPage1(data) {
     console.log("page 1");
+    assert(spars.$('#ClientIntake_ClientID').length === 0, "Incorrect page");
     setValue('ClientIntake_ClientID', data.client_uid);
     setValue('ClientIntake_ClientType', data.ClientType);
     setValue('InterviewDate', data.InterviewDate, null, false);
@@ -68,7 +84,7 @@ function inputPage1(data) {
 
 function inputPage2(data) {
     console.log("page 2");
-
+    assert(spars.$('#Icd10CodeOne').length === 0, "Incorrect page");
     //for each ICD code starting from One, if it is not blank, set current ICD Box to its value and set the category that corresponds
     //to that box to primary/secondary/tertiary depending on whether it is One/Two/Three. Then progress to next box
     let icdDiagnoses = ["#Icd10CodeOne", "#Icd10CodeTwo", "#Icd10CodeThree"];
@@ -133,6 +149,7 @@ function inputPage2(data) {
 
 function inputPage3(data) {
     console.log("page 3");
+    assert(spars.$('#Modality1CaseManagement').length === 0, "Incorrect page");
     setValue('Modality1CaseManagement', data.SvcCaseManagement);
     setValue('Modality2DayTreatment', data.SvcDayTreatment);
     setValue('Modality3InpatientHospital', data.SvcInpatient);
@@ -154,6 +171,7 @@ function inputPage3(data) {
 
 function inputPage4(data) {
     console.log("page 4");
+    assert(spars.$('#Treatment1Screening').length === 0, "Incorrect page");
     setValue('Treatment1Screening', data.SvcScreening);
     setValue('Treatment2BriefIntervention', data.SvcBriefIntervention);
     setValue('Treatment3BriefTreatment', data.SvcBriefTreatment);
@@ -174,6 +192,7 @@ function inputPage4(data) {
 
 function inputPage5(data) {
     console.log("page 5");
+    assert(spars.$('#CaseManagement1FamilyServices').length === 0, "Incorrect page");
     setValue('CaseManagement1FamilyServices', data.SvcFamilyServices);
     setValue('CaseManagement2ChildCare', data.SvcChildCare);
     setValue('CaseManagement3APreEmployment', data.SvcPreEmployment);
@@ -202,6 +221,7 @@ function inputPage5(data) {
 
 function inputPage6(data) {
     console.log("page 6");
+    assert(spars.$('#Education1SubstanceAbuse').length === 0, "Incorrect page");
     setValue('Education1SubstanceAbuse', data.SvcSubstanceAbuseEdu);
     setValue('Education2AIDSEducation', data.SvcHIVAIDSEdu);
     setValue('Education3Other', data.SvcOtherEdu);
@@ -218,6 +238,7 @@ function inputPage6(data) {
 
 function inputPage7(data) {
     console.log("page 7");
+    assert(spars.$('#ClientIntake_IsHispanicLatino').length === 0, "Incorrect page");
     setValue('ClientIntake_IsHispanicLatino', data.HispanicLatino, MV);
     setValue('ClientIntake_HispanicLatino_CentralAmerican', data.EthnicCentralAmerican);
     setValue('ClientIntake_HispanicLatino_Cuban', data.EthnicCuban);
@@ -247,6 +268,7 @@ function inputPage7(data) {
 
 function inputPage8(data) {
     console.log("page 8");
+    assert(spars.$('#ClientIntake_MilitaryServed').length === 0, "Incorrect page");
     setValue('ClientIntake_MilitaryServed', data.MilitaryServed, MV);
     if(data.MilitaryServed > 0) {
         setValue('ClientIntake_ActiveDuty', data.ActiveDuty, MV);
@@ -327,13 +349,23 @@ function setCombo(inputID, value, missingValue = null, triggerChange = true) {
 
 function inputPage9(data) {
     console.log("page 9");
-    setCombo('DAUseAlcoholIntox5Days', data.DAUseAlcoholIntox5Days, 0);
-    setCombo('DAUseAlcoholIntox4Days', data.DAUseAlcoholIntox4Days, 0);
-    setCombo('DAUseBothDays', data.DAUseBothDays, 0);
-    setCombo('DAUseAlcoholDays', data.DAUseAlcoholDays, 0);
-    setCombo('DAUseIllegDrugsDays', data.DAUseIllegDrugsDays, 0);
-    clickButton('ToolBar_Next');
-    setTimeout(inputPage10, 1000, data);
+    assert(spars.$('#DAUseAlcoholIntox5Days').length === 0, "Incorrect page");
+    if(data.DAUseRefused == 1) {
+        setCombo('DAUseAlcoholIntox5Days', RF);
+        setCombo('DAUseAlcoholIntox4Days', RF);
+        setCombo('DAUseBothDays', RF);
+        setCombo('DAUseAlcoholDays', RF);
+        setCombo('DAUseIllegDrugsDays', RF);
+    }
+    else {
+        setCombo('DAUseAlcoholIntox5Days', data.DAUseAlcoholIntox5Days, 0);
+        setCombo('DAUseAlcoholIntox4Days', data.DAUseAlcoholIntox4Days, 0);
+        setCombo('DAUseBothDays', data.DAUseBothDays, 0);
+        setCombo('DAUseAlcoholDays', data.DAUseAlcoholDays, 0);
+        setCombo('DAUseIllegDrugsDays', data.DAUseIllegDrugsDays, 0);
+    }
+    //clickButton('ToolBar_Next');
+    //setTimeout(inputPage10, 1000, data);
 }
 
 function setDrugUse(daysID, routeID, daysValue, routeValue) {
@@ -345,33 +377,64 @@ function setDrugUse(daysID, routeID, daysValue, routeValue) {
 
 function inputPage10(data) {
     console.log("page 10");
-    setDrugUse('CocaineCrackDays', 'CocaineCrackRoute', data.CocaineCrackDays, data.CocaineCrackRoute);
-    setDrugUse('MarijuanaHashDays', 'MarijuanaHashRoute', data.MarijuanaHashDays, data.MarijuanaHashRoute);
-    setDrugUse('OpiatesHeroinDays', 'OpiatesHeroinRoute', data.OpiatesHeroinDays, data.OpiatesHeroinRoute);
-    setDrugUse('OpiatesMorphineDays', 'OpiatesMorphineRoute', data.OpiatesMorphineDays, data.OpiatesMorphineRoute);
-    setDrugUse('OpiatesDiluadidDays', 'OpiatesDiluadidRoute', data.OpiatesDiluadidDays, data.OpiatesDiluadidRoute);
-    setDrugUse('OpiatesDemerolDays', 'OpiatesDemerolRoute', data.OpiatesDemerolDays, data.OpiatesDemerolRoute);
-    setDrugUse('OpiatesPercocetDays', 'OpiatesPercocetRoute', data.OpiatesPercocetDays, data.OpiatesPercocetRoute);
-    setDrugUse('OpiatesDarvonDays', 'OpiatesDarvonRoute', data.OpiatesDarvonDays, data.OpiatesDarvonRoute);
-    setDrugUse('OpiatesCodeineDays', 'OpiatesCodeineRoute', data.OpiatesCodeineDays, data.OpiatesCodeineRoute);
-    setDrugUse('OpiatesTylenolDays', 'OpiatesTylenolRoute', data.OpiatesTylenolDays, data.OpiatesTylenolRoute);
-    setDrugUse('OpiatesOxycoDays', 'OpiatesOxycoRoute', data.OpiatesOxycoDays, data.OpiatesOxycoRoute);
+    assert(spars.$('#CocaineCrackDays').length === 0, "Incorrect page");
+    if(data.DrugDaysRefused == 1) {
+        setCombo('CocaineCrackDays', RF);
+        setCombo('MarijuanaHashDays', RF);
+        setCombo('OpiatesHeroinDays', RF);
+        setCombo('OpiatesMorphineDays', RF);
+        setCombo('OpiatesDiluadidDays', RF);
+        setCombo('OpiatesDemerolDays', RF);
+        setCombo('OpiatesPercocetDays', RF);
+        setCombo('OpiatesDarvonDays', RF);
+        setCombo('OpiatesCodeineDays', RF);
+        setCombo('OpiatesTylenolDays', RF);
+        setCombo('OpiatesOxycoDays', RF);
+    }
+    else {
+        setDrugUse('CocaineCrackDays', 'CocaineCrackRoute', data.CocaineCrackDays, data.CocaineCrackRoute);
+        setDrugUse('MarijuanaHashDays', 'MarijuanaHashRoute', data.MarijuanaHashDays, data.MarijuanaHashRoute);
+        setDrugUse('OpiatesHeroinDays', 'OpiatesHeroinRoute', data.OpiatesHeroinDays, data.OpiatesHeroinRoute);
+        setDrugUse('OpiatesMorphineDays', 'OpiatesMorphineRoute', data.OpiatesMorphineDays, data.OpiatesMorphineRoute);
+        setDrugUse('OpiatesDiluadidDays', 'OpiatesDiluadidRoute', data.OpiatesDiluadidDays, data.OpiatesDiluadidRoute);
+        setDrugUse('OpiatesDemerolDays', 'OpiatesDemerolRoute', data.OpiatesDemerolDays, data.OpiatesDemerolRoute);
+        setDrugUse('OpiatesPercocetDays', 'OpiatesPercocetRoute', data.OpiatesPercocetDays, data.OpiatesPercocetRoute);
+        setDrugUse('OpiatesDarvonDays', 'OpiatesDarvonRoute', data.OpiatesDarvonDays, data.OpiatesDarvonRoute);
+        setDrugUse('OpiatesCodeineDays', 'OpiatesCodeineRoute', data.OpiatesCodeineDays, data.OpiatesCodeineRoute);
+        setDrugUse('OpiatesTylenolDays', 'OpiatesTylenolRoute', data.OpiatesTylenolDays, data.OpiatesTylenolRoute);
+        setDrugUse('OpiatesOxycoDays', 'OpiatesOxycoRoute', data.OpiatesOxycoDays, data.OpiatesOxycoRoute);
+    }
     clickButton('ToolBar_Next');
     setTimeout(inputPage11, 1000, data);
 }
 
 function inputPage11(data) {
     console.log("page 11");
-    setDrugUse('NonPresMethadoneDays', 'NonPresMethadoneRoute', data.NonPresMethadoneDays, data.NonPresMethadoneRoute);
-    setDrugUse('HallucPsychDays', 'HallucPsychRoute', data.HallucPsychDays, data.HallucPsychRoute);
-    setDrugUse('MethamDays', 'MethamRoute', data.MethamDays, data.MethamRoute);
-    setDrugUse('BenzodiazepinesDays', 'BenzodiazepinesRoute', data.BenzodiazepinesDays, data.BenzodiazepinesRoute);
-    setDrugUse('BarbituatesDays', 'BarbituatesRoute', data.BarbituatesDays, data.BarbituatesRoute);
-    setDrugUse('NonPrescGhbDays', 'NonPrescGhbRoute', data.NonPrescGhbDays, data.NonPrescGhbRoute);
-    setDrugUse('KetamineDays', 'KetamineRoute', data.KetamineDays, data.KetamineRoute);
-    setDrugUse('OtherTranquilizersDays', 'OtherTranquilizersRoute', data.OtherTranquilizersDays, data.OtherTranquilizersRoute);
-    setDrugUse('InhalantsDays', 'InhalantsRoute', data.InhalantsDays, data.InhalantsRoute);
-    setDrugUse('OtherIllegalDrugsDays', 'OtherIllegalDrugsRoute', data.OtherIllegalDrugsDays, data.OtherIllegalDrugsRoute);
+    assert(spars.$('#NonPresMethadoneDays').length === 0, "Incorrect page");
+    if(data.DrugDaysRefused == 1) {
+        setCombo('NonPresMethadoneDays', RF);
+        setCombo('HallucPsychDays', RF);
+        setCombo('MethamDays', RF);
+        setCombo('BenzodiazepinesDays', RF);
+        setCombo('BarbituatesDays', RF);
+        setCombo('NonPrescGhbDays', RF);
+        setCombo('KetamineDays', RF);
+        setCombo('OtherTranquilizersDays', RF);
+        setCombo('InhalantsDays', RF);
+        setCombo('OtherIllegalDrugsDays', RF);
+    }
+    else {
+        setDrugUse('NonPresMethadoneDays', 'NonPresMethadoneRoute', data.NonPresMethadoneDays, data.NonPresMethadoneRoute);
+        setDrugUse('HallucPsychDays', 'HallucPsychRoute', data.HallucPsychDays, data.HallucPsychRoute);
+        setDrugUse('MethamDays', 'MethamRoute', data.MethamDays, data.MethamRoute);
+        setDrugUse('BenzodiazepinesDays', 'BenzodiazepinesRoute', data.BenzodiazepinesDays, data.BenzodiazepinesRoute);
+        setDrugUse('BarbituatesDays', 'BarbituatesRoute', data.BarbituatesDays, data.BarbituatesRoute);
+        setDrugUse('NonPrescGhbDays', 'NonPrescGhbRoute', data.NonPrescGhbDays, data.NonPrescGhbRoute);
+        setDrugUse('KetamineDays', 'KetamineRoute', data.KetamineDays, data.KetamineRoute);
+        setDrugUse('OtherTranquilizersDays', 'OtherTranquilizersRoute', data.OtherTranquilizersDays, data.OtherTranquilizersRoute);
+        setDrugUse('InhalantsDays', 'InhalantsRoute', data.InhalantsDays, data.InhalantsRoute);
+        setDrugUse('OtherIllegalDrugsDays', 'OtherIllegalDrugsRoute', data.OtherIllegalDrugsDays, data.OtherIllegalDrugsRoute);
+    }
 
     setValue('OtherIllegalDrugsSpec', data.OtherIllegalDrugsSpec);
     setValue('InjectedDrugs', data.InjectedDrugs, MV);
@@ -383,7 +446,7 @@ function inputPage11(data) {
 
 function inputPage12(data) {
     console.log("page 12");
-
+    assert(spars.$('#LivingWhere').length === 0, "Incorrect page");
     setValue('LivingWhere', data.LivingWhere, MV);
     setTimeout(function() {
         setValue('LivingHoused', data.LivingHoused, MV);
@@ -407,19 +470,31 @@ function inputPage12(data) {
 
 function inputPage13(data) {
     console.log("page 13");
+    assert(spars.$('#TrainingProgram').length === 0, "Incorrect page");
     setValue('TrainingProgram', data.TrainingProgram, MV);
     setValue('TrainingProgramSpec', data.TrainingProgramSpec);
     setValue('EducationYears', data.EducationYears, MV);
     setValue('EmployStatus', data.EmployStatus, MV);
     setValue('EmployStatusSpec', data.EmployStatusSpec);
-    setCombo('IncomeWages', data.IncomeWages, 0);
-    setCombo('IncomePubAssist', data.IncomePubAssist, 0);
-    setCombo('IncomeRetirement', data.IncomeRetirement, 0);
-    setCombo('IncomeDisability', data.IncomeDisability, 0);
-    setCombo('IncomeNonLegal', data.IncomeNonLegal, 0);
-    setCombo('IncomeFamFriends', data.IncomeFamFriends, 0);
-    setCombo('IncomeOther', data.IncomeOther, 0);
-    setValue('IncomeOtherSpec', data.IncomeOtherSpec);
+    if(data.IncomeRefused == 1) {
+        setCombo('IncomeWages', RF);
+        setCombo('IncomePubAssist', RF);
+        setCombo('IncomeRetirement', RF);
+        setCombo('IncomeDisability', RF);
+        setCombo('IncomeNonLegal', RF);
+        setCombo('IncomeFamFriends', RF);
+        setCombo('IncomeOther', RF);
+    }
+    else {
+        setCombo('IncomeWages', data.IncomeWages, 0);
+        setCombo('IncomePubAssist', data.IncomePubAssist, 0);
+        setCombo('IncomeRetirement', data.IncomeRetirement, 0);
+        setCombo('IncomeDisability', data.IncomeDisability, 0);
+        setCombo('IncomeNonLegal', data.IncomeNonLegal, 0);
+        setCombo('IncomeFamFriends', data.IncomeFamFriends, 0);
+        setCombo('IncomeOther', data.IncomeOther, 0);
+        setValue('IncomeOtherSpec', data.IncomeOtherSpec);
+    }
     setValue('EnoughMoneyForNeeds', data.EnoughMoneyForNeeds, MV);
     clickButton('ToolBar_Next');
     setTimeout(inputPage14, 1000, data);
@@ -427,39 +502,155 @@ function inputPage13(data) {
 
 function inputPage14(data) {
     console.log("page 14");
-    setCombo('ArrestedDays', data.ArrestedDays, 0);
-    setCombo('ArrestedDrugDays', data.ArrestedDrugDays, 0);
-    setCombo('ArrestedConfineDays', data.ArrestedConfineDays, 0);
-    setCombo('NrCrimes', data.NrCrimes, 0);
+    assert(spars.$('#ArrestedDays').length === 0, "Incorrect page");
+    if(data.CrimeRefused == 1) {
+        setCombo('ArrestedDays', RF);
+        setCombo('ArrestedDrugDays', RF);
+        setCombo('ArrestedConfineDays', RF);
+        setCombo('NrCrimes', RF);
+    }
+    else {
+        setCombo('ArrestedDays', data.ArrestedDays, 0);
+        setCombo('ArrestedDrugDays', data.ArrestedDrugDays, 0);
+        setCombo('ArrestedConfineDays', data.ArrestedConfineDays, 0);
+        setCombo('NrCrimes', data.NrCrimes, 0);
+    }
     setValue('AwaitTrial', data.AwaitTrial, MV);
     setValue('ParoleProbation', data.ParoleProbation, MV);
     clickButton('ToolBar_Next');
     setTimeout(inputPage15, 1000, data);
 }
 
+//our system only has text box for number
+//it can only be 0 or a positive number
+function setTreatmentValue(dropdownID, textID, times) {
+    if(times == 0) {
+        setValue(dropdownID, 0);
+    }
+    else {
+        setValue(dropdownID, 1);
+        setCombo(textID, times);
+    }
+}
+
 function inputPage15(data) {
     console.log("page 15");
-    setValue('HealthStatus', data.HealthStatus);
-    setValue('InpatientPhysical', data.InpatientPhysical);
-    setValue('InpatientPhysicalNights', data.InpatientPhysicalNights);
-    setValue('InpatientMental', data.InpatientMental);
-    setValue('InpatientMentalNights', data.InpatientMentalNights);
-    setValue('InpatientAlcoholSA', data.InpatientAlcoholSA);
-    setValue('InpatientAlcoholSANights', data.InpatientAlcoholSANights);
-    setValue('OutpatientPhysical', data.OutpatientPhysical);
-    setValue('OutpatientPhysicalTimes', data.OutpatientPhysicalTimes);
-    setValue('OutpatientMental', data.OutpatientMental);
-    setValue('OutpatientMentalTimes', data.OutpatientMentalTimes);
-    setValue('OutpatientAlcoholSA', data.OutpatientAlcoholSA);
-    setValue('OutpatientAlcoholSATimes', data.OutpatientAlcoholSATimes);
-    setValue('ERPhysical', data.ERPhysical);
-    setValue('ERPhysicalTimes', data.ERPhysicalTimes);
-    setValue('ERMental', data.ERMental);
-    setValue('ERMentalTimes', data.ERMentalTimes);
-    setValue('ERAlcoholSA', data.ERAlcoholSA);
-    setValue('ERAlcoholSATimes', data.ERAlcoholSATimes);
+    assert(spars.$('#HealthStatus').length === 0, "Incorrect page");
+    setValue('HealthStatus', data.HealthStatus, MV);
 
+    if(data.TreatmentRefused == 1) {
+        setValue('InpatientPhysical', RF);
+        setValue('InpatientMental', RF);
+        setValue('InpatientAlcoholSA', RF);
+        setValue('OutpatientPhysical', RF);
+        setValue('OutpatientMental', RF);
+        setValue('OutpatientAlcoholSA', RF);
+        setValue('ERPhysical', RF);
+        setValue('ERMental', RF);
+        setValue('ERAlcoholSA', RF);
+    }
+    else {
+        setTreatmentValue('InpatientPhysical','InpatientPhysicalNights',data.InpatientPhysicalNights);
+        setTreatmentValue('InpatientMental','InpatientMentalNights',data.InpatientMentalNights);
+        setTreatmentValue('InpatientAlcoholSA','InpatientAlcoholSANights',data.InpatientAlcoholSANights);
+        setTreatmentValue('OutpatientPhysical','OutpatientPhysicalTimes',data.OutpatientPhysicalTimes);
+        setTreatmentValue('OutpatientMental','OutpatientMentalTimes',data.OutpatientMentalTimes);
+        setTreatmentValue('OutpatientAlcoholSA','OutpatientAlcoholSATimes',data.OutpatientAlcoholSATimes);
+        setTreatmentValue('ERPhysical','ERPhysicalTimes',data.ERPhysicalTimes);
+        setTreatmentValue('ERMental','ERMentalTimes',data.ERMentalTimes);
+        setTreatmentValue('ERAlcoholSA','ERAlcoholSATimes',data.ERAlcoholSATimes);
+    }
+    clickButton('ToolBar_Next');
+    setTimeout(inputPage16, 1000, data);
+}
 
-    //clickButton('ToolBar_Next');
-    //setTimeout(inputPage16, 1000, data);
+function inputPage16(data) {
+    console.log("page 16");
+    assert(spars.$('#SexActivity').length === 0, "Incorrect page");
+    setValue('SexActivity', data.SexActivity, MV); //this refreshes the page
+    setTimeout(function() {
+        if (data.SexActivity == 1) {
+            setCombo('SexContacts', data.SexContacts, 0);
+            setCombo('SexUnprot', data.SexUnprot, 0);
+            setCombo('SexUnprotHIVAids', data.SexUnprotHIVAids, 0);
+            setCombo('SexUnprotInjDrugUser', data.SexUnprotInjDrugUser, 0);
+            setCombo('SexUnprotHigh', data.SexUnprotHigh, 0);
+        }
+        setValue('HIVTest', data.fHIVTest, MV);
+        setValue('HIVTestResult', data.fHIVTestResult, MV);
+        clickButton('ToolBar_Next');
+        setTimeout(inputPage17, 1000, data);
+    }, 1000, data);
+}
+
+function inputPage17(data) {
+    console.log("page 17");
+    assert(spars.$('#LifeQuality').length === 0, "Incorrect page");
+    setValue('LifeQuality', data.LifeQuality, MV);
+    setValue('HealthSatisfaction', data.HealthSatisfaction, MV);
+    setValue('EnoughEnergyForEverydayLife', data.EnoughEnergyForEverydayLife, MV);
+    setValue('PerformDailyActivitiesSatisfaction', data.PerformDailyActivitiesSatisfaction, MV);
+    setValue('SelfSatisfaction', data.SelfSatisfaction, MV);
+    clickButton('ToolBar_Next');
+    setTimeout(inputPage18, 1000, data);
+}
+
+function inputPage18(data) {
+    console.log("page 18");
+    assert(spars.$('#Depression').length === 0, "Incorrect page");
+    if(data.TreatmentRefused == 1) {
+        setCombo('Depression', RF);
+        setCombo('Anxiety', RF);
+        setCombo('Hallucinations', RF);
+        setCombo('BrainFunction', RF);
+        setCombo('ViolentBehavior', RF);
+        setCombo('Suicide', RF);
+        setCombo('PsycholEmotMedication', RF);
+    }
+    else {
+        setCombo('Depression', data.Depression, MV);
+        setCombo('Anxiety', data.Anxiety, MV);
+        setCombo('Hallucinations', data.Hallucinations, MV);
+        setCombo('BrainFunction', data.BrainFunction, MV);
+        setCombo('ViolentBehavior', data.ViolentBehavior, MV);
+        setCombo('Suicide', data.Suicide, MV);
+        setCombo('PsycholEmotMedication', data.PsycholEmotMedication, MV);
+    }
+    setValue('PsycholEmotImpact', data.PsycholEmotImpact, MV);
+    clickButton('ToolBar_Next');
+    setTimeout(inputPage19, 1000, data);
+}
+
+function inputPage19(data) {
+    console.log("page 19");
+    assert(spars.$('#AnyViolence').length === 0, "Incorrect page");
+    setValue('AnyViolence', data.AnyViolence, MV);
+    setValue('Nightmares', data.Nightmares, MV);
+    setValue('TriedHard', data.TriedHard, MV);
+    setValue('ConstantGuard', data.ConstantGuard, MV);
+    setValue('NumbandDetach', data.NumbAndDetach, MV);
+    setValue('PhysicallyHurt', data.PhysicallyHurt, MV);
+    clickButton('ToolBar_Next');
+    setTimeout(inputPage20, 1000, data);
+}
+
+function inputPage20(data) {
+    console.log("page 20");
+    assert(spars.$('#AttendVoluntary').length === 0, "Incorrect page");
+    setTreatmentValue('AttendVoluntary','AttendVoluntaryTimes',data.AttendVoluntaryTimes);
+    setTreatmentValue('AttendReligious','AttendReligiousTimes',data.AttendReligiousTimes);
+    setTreatmentValue('AttendOtherOrg','AttendOtherOrgTimes',data.AttendOtherOrgTimes);
+    setValue('InteractFamilyFriends', data.InteractFamilyFriends, MV);
+    setValue('WhomInTrouble', data.WhomInTrouble, MV);
+    setValue('WhomInTroubleSpec', data.WhomInTroubleSpec);
+    setValue('RelationshipSatisfaction', data.RelationshipSatisfaction, MV);
+    clickButton('ToolBar_Next');
+    setTimeout(inputPage21, 1000, data);
+}
+
+function inputPage21(data) {
+    console.log("page 21");
+    assert(spars.$('#ToolBar_Finish').length === 0, "Incorrect page");
+    clickButton('ToolBar_Finish');
+    setTimeout(startNextGPRA, 1000);
 }

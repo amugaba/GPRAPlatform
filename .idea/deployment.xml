@@ -1,7 +1,15 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
-  <component name="PublishConfigData" serverName="Angstrom" uploadOnCheckin="f774b91f-340c-45ff-a40e-0b4866337d68">
+  <component name="PublishConfigData" serverName="AWS" uploadOnCheckin="f774b91f-340c-45ff-a40e-0b4866337d68">
     <serverData>
+      <paths name="AWS">
+        <serverdata>
+          <mappings>
+            <mapping deploy="/gpra.angstrom-software.com/public" local="$PROJECT_DIR$/public" web="/" />
+            <mapping deploy="/gpra.angstrom-software.com/app" local="$PROJECT_DIR$/" web="/" />
+          </mappings>
+        </serverdata>
+      </paths>
       <paths name="Angstrom">
         <serverdata>
           <mappings>

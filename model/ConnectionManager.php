@@ -20,10 +20,10 @@ class ConnectionManager
     public function __construct ()
     {
         if($this->production) {
-            $this->username = "iprc_hivprevuser"; //data_user
-            $this->password = "TM3TSLubjhyMmMnV!"; //TMPTSLubjhyMmMnV
-            $this->server = "mysql.uits.iu.edu";
-            $this->databasename = "iprc_hivprevention";
+            $this->username = "gpra_user"; //data_user
+            $this->password = "TM3TSLubjhyMmMnV!";
+            $this->server = "127.0.0.1";
+            $this->databasename = "gpra_platform";
         }
         else {
             $this->username = "root";
