@@ -1,3 +1,19 @@
+/**
+ * QuestionComponents
+ * Defines Vue components that can be used as input items on assessments
+ * These components encapsulate the HTML and JS functionality like 2-way data binding and error messages.
+ * 2-way data binding is handled via emitting an event to the parent Vue object when the selected answer changes and
+ * also by watching/listening for when the value of "value" property changes.
+ */
+
+/**
+ * Radio button component
+ * @param title Question text
+ * @param reminder Optional reminder text after title
+ * @param options Option set (i.e. list of answer options to choose from)
+ * @param value Answer currently selected. This should be bound using v-model attribute
+ * @param id Code name of question. Used for error message display
+ */
 Vue.component('question-radio', {
     props: ['title','reminder','options','value','id'],
     template:  '<div :id="id" class="question-block type-radio" :class="{error: this.$parent.errors[this.id]}">\
@@ -31,6 +47,9 @@ Vue.component('question-radio', {
     }
 });
 
+/**
+ * Checkbox component
+ */
 Vue.component('question-checkbox', {
     props: ['title','value','id'],
     template:  '<div :id="id" class="question-block type-radio type-checkbox" :class="{error: this.$parent.errors[this.id]}">\
@@ -57,6 +76,9 @@ Vue.component('question-checkbox', {
     }
 });
 
+/**
+ * Checkbox without any title. It displays the box only
+ */
 Vue.component('question-checkbox-only', {
     props: ['value','id'],
     template:  '<div :id="id" class="type-checkbox-only" :class="{error: this.$parent.errors[this.id]}">\
@@ -82,6 +104,9 @@ Vue.component('question-checkbox-only', {
     }
 });
 
+/**
+ * Dropdown select component
+ */
 Vue.component('question-select', {
     props: ['title','reminder','options','value','id'],
     template:  '<div :id="id" class="question-block type-select" :class="{error: this.$parent.errors[this.id]}">\
@@ -115,6 +140,9 @@ Vue.component('question-select', {
     }
 });
 
+/**
+ * Dropdown select but also with the ability to type in the box to search
+ */
 Vue.component('question-combobox', {
     props: ['title','reminder','options','value','id'],
     template:  '<div :id="id" class="question-block type-combobox" :class="{error: this.$parent.errors[this.id]}">\
@@ -156,6 +184,9 @@ Vue.component('question-combobox', {
     }
 });
 
+/**
+ * Text box component
+ */
 Vue.component('question-text', {
     props: ['title','reminder','value','id'],
     template:  '<div :id="id" class="question-block type-text" :class="{error: this.$parent.errors[this.id]}">\
