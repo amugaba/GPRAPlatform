@@ -2,6 +2,9 @@
 
 class LoginController extends Controller
 {
+    const MAX_INVALID_LOGINS = 10;
+    const TIME_BETWEEN_PASSWORD_RESETS = 15552000; //180 days
+
     public function getIndex()
     {
         $view = new View('login/login.php');
@@ -43,17 +46,33 @@ class LoginController extends Controller
         $ds = DataService::getInstance();
         $user = $ds->loginUser($username, $password);
 
+        //if login succeeds, check that login permitted
+        //a password reset is required if too many invalid logins or if it has been too long since the last reset
         if ($user != null) {
-            session_unset();
-            session_destroy();
-            session_cache_expire(300);
-            session_start();
-            Session::setUser($user);
-
-            redirect('/');
+            if($user->invalid_logins >= LoginController::MAX_INVALID_LOGINS) {
+                flash('result', new Result(false, 'Account locked due to too many failed logins. Please reset your password'));
+                redirect('/login');
+            }
+            else if($user->last_reset != null && strtotime('now') - strtotime($user->last_reset) > LoginController::TIME_BETWEEN_PASSWORD_RESETS) {
+                flash('result', new Result(false, '180 days has passed since last password change. Please reset your password'));
+                redirect('/login');
+            }
+            else {
+                $ds->logValidLogin($user);
+                session_unset();
+                session_destroy();
+                session_cache_expire(300);
+                session_start();
+                Session::setUser($user);
+                redirect('/');
+            }
         }
         else {
-            flash('result', new Result(false, 'Username or password was incorrect.'));
+            $num_invalid = $ds->logInvalidLogin($username);
+            if($num_invalid >= LoginController::MAX_INVALID_LOGINS)
+                flash('result', new Result(false, 'Login failed too many times. Please reset your password'));
+            else
+                flash('result', new Result(false, 'Username or password was incorrect.'));
             redirect('/login');
         }
     }
@@ -93,7 +112,8 @@ class LoginController extends Controller
         $error = null;
         $ds = DataService::getInstance();
 
-        $resetApproved = $ds->checkResetCode(input('id'), input('code'));
+        $resetApproved = $ds->checkResetCode($id, $code);
+        $user = $ds->getUserById($id);
         if(!$resetApproved) {
             $error = new Result(false, "Reset code is invalid.");
         }
@@ -102,6 +122,9 @@ class LoginController extends Controller
         }
         else if($password != input('password_confirmation')) {
             $error = new Result(false, "The confirmation password must be the same.");
+        }
+        else if($ds->isPasswordSame($user, $password)) {
+            $error = new Result(false, "This password cannot be the same as your previous password.");
         }
 
         if($error != null) {

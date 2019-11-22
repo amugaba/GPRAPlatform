@@ -513,6 +513,41 @@ class DataService {
     }
 
     /**
+     * @param $user User
+     * @param $password string
+     * @return bool
+     * @throws Exception
+     */
+    public function isPasswordSame($user, $password)
+    {
+        return password_verify($password, $user->password);
+    }
+
+    /**
+     * @param $username string
+     * @return int
+     * @throws Exception
+     */
+    public function logInvalidLogin($username) {
+        $result = $this->query("SELECT * FROM users WHERE username=? OR email=?",[$username, $username]);
+        $user = $this->fetchObject($result, User::class);
+
+        if($user != null) {
+            $this->query("UPDATE users SET invalid_logins = ? WHERE id=?", [$user->invalid_logins + 1, $user->id]);
+            return $user->invalid_logins + 1;
+        }
+        return 0;
+    }
+
+    /**
+     * @param $user User
+     * @throws Exception
+     */
+    public function logValidLogin($user) {
+        $this->query("UPDATE users SET invalid_logins=0, last_login=NOW() WHERE id=?", [$user->id]);
+    }
+
+    /**
      * @param $user_id int
      * @param $code string
      * @throws Exception
@@ -550,7 +585,7 @@ class DataService {
     public function updatePassword($password, $user_id)
     {
         $hash = password_hash($password, PASSWORD_DEFAULT);
-        $result = $this->query("UPDATE users SET password=?, reset_code=NULL WHERE id=?",[$hash,$user_id]);
+        $result = $this->query("UPDATE users SET password=?, reset_code=NULL, invalid_logins=0, last_rest=NOW() WHERE id=?",[$hash,$user_id]);
 
         return $result != null;
     }
@@ -563,6 +598,17 @@ class DataService {
     public function getUserByEmail ($email)
     {
         $result = $this->query("SELECT * FROM users WHERE email=?",[$email]);
+        return $this->fetchObject($result, User::class);
+    }
+
+    /**
+     * @param $id int
+     * @return User|null
+     * @throws Exception
+     */
+    public function getUserById($id)
+    {
+        $result = $this->query("SELECT * FROM users WHERE id=?",[$id]);
         return $this->fetchObject($result, User::class);
     }
 
