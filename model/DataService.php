@@ -515,12 +515,20 @@ class DataService {
     /**
      * @param $user User
      * @param $password string
+     * @param $numToCheck int
      * @return bool
      * @throws Exception
      */
-    public function isPasswordSame($user, $password)
+    public function matchesPastPasswords($user, $password, $numToCheck)
     {
-        return password_verify($password, $user->password);
+        $result = $this->query("SELECT password FROM prior_passwords WHERE user_id=? ORDER BY time_created DESC", [$user->id]);
+        $passwords = $this->fetchArray($result);
+
+        for($i = 0; $i < min($numToCheck, count($passwords)); $i++) {
+            if(password_verify($password, $passwords[$i]))
+                return true;
+        }
+        return false;
     }
 
     /**
@@ -579,15 +587,13 @@ class DataService {
     /**
      * @param $password string
      * @param $user_id int
-     * @return bool
      * @throws Exception
      */
     public function updatePassword($password, $user_id)
     {
         $hash = password_hash($password, PASSWORD_DEFAULT);
-        $result = $this->query("UPDATE users SET password=?, reset_code=NULL, invalid_logins=0, last_rest=NOW() WHERE id=?",[$hash,$user_id]);
-
-        return $result != null;
+        $this->query("UPDATE users SET password=?, reset_code=NULL, invalid_logins=0, last_rest=NOW() WHERE id=?",[$hash,$user_id]);
+        $this->query("INSERT INTO prior_passwords (user_id, password, time_created) VALUES (?,?,NOW())",[$user_id, $hash]);
     }
 
     /**
@@ -734,6 +740,23 @@ class DataService {
         }
         $result->free_result();
         return null;
+    }
+
+    /**@param $result mysqli_result
+     * @return array
+     * @throws Exception
+     */
+    protected function fetchArray($result) {
+        $list = [];
+        $type_map = $this->getTypeMap($result);
+        while($row = $result->fetch_assoc()) {
+            $keys = array_keys($row);
+            if(count($keys) > 1)
+                throw new Exception("Cannot convert result set with more than 1 column to array.");
+            $list[] = $this->convertDataType($row[$keys[0]], $type_map[$keys[0]]);
+        }
+        $result->free_result();
+        return $list;
     }
 
     /**

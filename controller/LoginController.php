@@ -4,6 +4,10 @@ class LoginController extends Controller
 {
     const MAX_INVALID_LOGINS = 10;
     const TIME_BETWEEN_PASSWORD_RESETS = 15552000; //180 days
+    const NUM_OLD_PASSWORDS = 6; //number of old passwords to save and check against
+    const PASSWORD_MIN_LENGTH = 8;
+    const PASSWORD_MAX_LENGTH = 24;
+    const PASSWORD_NUM_SPECIAL = 4;
 
     public function getIndex()
     {
@@ -49,11 +53,11 @@ class LoginController extends Controller
         //if login succeeds, check that login permitted
         //a password reset is required if too many invalid logins or if it has been too long since the last reset
         if ($user != null) {
-            if($user->invalid_logins >= LoginController::MAX_INVALID_LOGINS) {
+            if($user->invalid_logins >= self::MAX_INVALID_LOGINS) {
                 flash('result', new Result(false, 'Account locked due to too many failed logins. Please reset your password'));
                 redirect('/login');
             }
-            else if($user->last_reset != null && strtotime('now') - strtotime($user->last_reset) > LoginController::TIME_BETWEEN_PASSWORD_RESETS) {
+            else if($user->last_reset != null && strtotime('now') - strtotime($user->last_reset) > self::TIME_BETWEEN_PASSWORD_RESETS) {
                 flash('result', new Result(false, '180 days has passed since last password change. Please reset your password'));
                 redirect('/login');
             }
@@ -69,7 +73,7 @@ class LoginController extends Controller
         }
         else {
             $num_invalid = $ds->logInvalidLogin($username);
-            if($num_invalid >= LoginController::MAX_INVALID_LOGINS)
+            if($num_invalid >= self::MAX_INVALID_LOGINS)
                 flash('result', new Result(false, 'Login failed too many times. Please reset your password'));
             else
                 flash('result', new Result(false, 'Username or password was incorrect.'));
@@ -114,17 +118,26 @@ class LoginController extends Controller
 
         $resetApproved = $ds->checkResetCode($id, $code);
         $user = $ds->getUserById($id);
+
+        $num_special = preg_match('/[A-Z]/', $password) + preg_match('/[a-z]/', $password)
+            + preg_match('/[0-9]/', $password) + preg_match('/['.preg_quote("!#$\"%&'()*+,-./:;<=>?@[\]^_`{|}~", '/').']/', $password);
+
         if(!$resetApproved) {
             $error = new Result(false, "Reset code is invalid.");
         }
-        else if(strlen($password) < 8) {
-            $error = new Result(false, "Password must be at least 8 characters.");
+        else if(strlen($password) < self::PASSWORD_MIN_LENGTH || strlen($password) > self::PASSWORD_MAX_LENGTH) {
+            $error = new Result(false, "Password must be between ".self::PASSWORD_MIN_LENGTH." and "
+                .self::PASSWORD_MAX_LENGTH." characters long.");
+        }
+        else if($num_special < self::PASSWORD_NUM_SPECIAL) {
+            $error = new Result(false, "Password must contain an uppercase letter, a lowercase letter, a number, a special character.");
         }
         else if($password != input('password_confirmation')) {
             $error = new Result(false, "The confirmation password must be the same.");
         }
-        else if($ds->isPasswordSame($user, $password)) {
-            $error = new Result(false, "This password cannot be the same as your previous password.");
+        else if($ds->matchesPastPasswords($user, $password, self::NUM_OLD_PASSWORDS)) {
+            $error = new Result(false, "This password cannot be the same as any of your previous "
+                .self::NUM_OLD_PASSWORDS." passwords.");
         }
 
         if($error != null) {
