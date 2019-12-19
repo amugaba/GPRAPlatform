@@ -112,8 +112,11 @@ function globalExceptionHandler ($ex) {
             . $ex->getLine() . '</b><br>' . $ex->getMessage()
             . str_replace('#', '<br>#', $ex->getTraceAsString()) . '<br>';
 
-        $ds = DataService::getInstance();
-        $ds->logException($msg);
+        //don't log errors caused by routing to a non-existant page (since bots do that constantly)
+        if($ex->getCode() != 404 && $ex->getCode() != 403 && $ex->getMessage() != "Call to a member function getRewriteRoute() on null") {
+            $ds = DataService::getInstance();
+            $ds->logException($msg);
+        }
 
         if (DEBUG) {
             echo $msg;

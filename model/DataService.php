@@ -592,7 +592,7 @@ class DataService {
     public function updatePassword($password, $user_id)
     {
         $hash = password_hash($password, PASSWORD_DEFAULT);
-        $this->query("UPDATE users SET password=?, reset_code=NULL, invalid_logins=0, last_rest=NOW() WHERE id=?",[$hash,$user_id]);
+        $this->query("UPDATE users SET password=?, reset_code=NULL, invalid_logins=0, last_reset=NOW() WHERE id=?",[$hash,$user_id]);
         $this->query("INSERT INTO prior_passwords (user_id, password, time_created) VALUES (?,?,NOW())",[$user_id, $hash]);
     }
 
