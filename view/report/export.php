@@ -18,36 +18,37 @@
     </form>
 
     <b-table :fields="tableFields" :items="gpras" :per-page="10" :current-page="currentPage" hover bordered sort-by="id" :sort-desc="true">
-        <template slot="select" slot-scope="data">
+        <template v-slot:cell(select)="data">
             <input type="checkbox" v-model="selectedGPRAs" :value="data.item.id">
         </template>
-        <template slot="id" slot-scope="data">
+        <template v-slot:cell(id)="data">
             {{data.item.id}}
         </template>
-        <template slot="client_id" slot-scope="data">
+        <template v-slot:cell(client_id)="data">
             {{data.item.client_id}}
         </template>
-        <template slot="created_date" slot-scope="data">
+        <template v-slot:cell(created_date)="data">
             {{data.item.created_date | date}}
         </template>
-        <template slot="completed" slot-scope="data">
+        <template v-slot:cell(completed)="data">
             {{data.item.status | yn}}
         </template>
-        <template slot="interview_conducted" slot-scope="data">
+        <template v-slot:cell(interview_conducted)="data">
             {{data.item.interview_conducted | yn}}
         </template>
-        <template slot="exported" slot-scope="data">
+        <template v-slot:cell(exported)="data">
             {{data.item.exported | yn}}
         </template>
     </b-table>
     <b-pagination v-show="gpras.length>15" :total-rows="gpras.length" :per-page="10" v-model="currentPage" style="float: right; margin-top: 0"></b-pagination>
 
     <div class="text-center">
-        <input type="button" value="Export to CSV" class="btn btn-primary" @click="exportGPRAs">
+        <input type="button" value="Export JSON" class="btn btn-primary" @click="exportGPRAs">
     </div>
 
     <div class="text-center">
-        <input type="button" value="Run Upload Test" class="btn btn-primary" onclick="runUploadTest()">
+        <input type="button" value="Set Uploaded" class="btn btn-primary" @click="setExported(true)">
+        <input type="button" value="Set NOT Uploaded" class="btn btn-primary" @click="setExported(false)">
     </div>
 
     <?php $this->includeFooter(); ?>
@@ -71,7 +72,7 @@
                     {key: 'created_date', label: 'Created Date', sortable: true},
                     {key: 'completed', label: 'Completed', sortable: true},
                     {key: 'interview_conducted', label: 'Did Interview', sortable: true},
-                    {key: 'exported', label: 'Exported', sortable: true}
+                    {key: 'exported', label: 'Uploaded', sortable: true}
                 ],
                 currentPage: 1
             },
@@ -86,21 +87,20 @@
                         return;
                     ajax('/report/exportGPRAs',[this.selectedGPRAs], function (result) {
                         let exported = result.data;
-                        console.log(exported);
-
                         let file = new Blob([JSON.stringify(exported)], {type: 'text/plain'});
                         let a = document.createElement("a");
                         a.href = URL.createObjectURL(file);
                         a.download = "gpraExport.json";
                         a.click();
                     });
+                },
+                setExported: function (isExported) {
+                    if(this.selectedGPRAs.length === 0 )
+                        return;
+                    ajax('/report/setExported',[this.selectedGPRAs, isExported]);
                 }
             }
         });
-
-        function runUploadTest() {
-            runUpload();
-        }
     </script>
 </body>
 </html>

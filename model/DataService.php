@@ -395,6 +395,16 @@ class DataService {
     }
 
     /**
+     * @param $assessment_ids int[]
+     * @param $is_exported bool
+     * @throws Exception
+     */
+    public function setGPRAsExported($assessment_ids, $is_exported) {
+        $ids = join(",",$assessment_ids);
+        $this->query("UPDATE assessments SET exported=? WHERE id IN (?)", [$is_exported, $ids]);
+    }
+
+    /**
      * @return array
      * @throws Exception
      */

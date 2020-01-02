@@ -45,4 +45,16 @@ class ReportController extends Controller
         $gpras = $ds->exportGPRAs($assessment_ids);
         ajax_output(true, $gpras);
     }
+
+    /**
+     * @throws Exception
+     */
+    public function postSetExported() {
+        $data = ajax_input();
+        $assessment_ids = $data[0];
+        $is_exported = $data[1];
+        $ds = DataService::getInstance();
+        $ds->setGPRAsExported($assessment_ids, $is_exported);
+        ajax_output(true);
+    }
 }

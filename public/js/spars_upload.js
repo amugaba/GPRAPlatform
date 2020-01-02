@@ -364,8 +364,8 @@ function inputPage9(data) {
         setCombo('DAUseAlcoholDays', data.DAUseAlcoholDays, 0);
         setCombo('DAUseIllegDrugsDays', data.DAUseIllegDrugsDays, 0);
     }
-    //clickButton('ToolBar_Next');
-    //setTimeout(inputPage10, 1000, data);
+    clickButton('ToolBar_Next');
+    setTimeout(inputPage10, 1000, data);
 }
 
 function setDrugUse(daysID, routeID, daysValue, routeValue) {
@@ -652,5 +652,12 @@ function inputPage21(data) {
     console.log("page 21");
     assert(spars.$('#ToolBar_Finish').length === 0, "Incorrect page");
     clickButton('ToolBar_Finish');
+    setTimeout(inputPage22, 1000, data);
+}
+
+function inputPage22(data) {
+    console.log("page 22");
+    assert(spars.$('#Back').length === 0, "Incorrect page");
+    clickButton('Back');
     setTimeout(startNextGPRA, 1000);
 }

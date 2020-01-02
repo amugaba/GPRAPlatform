@@ -4,7 +4,7 @@
     <inspection_tool class="HtmlUnknownAttribute" enabled="true" level="WARNING" enabled_by_default="true">
       <option name="myValues">
         <value>
-          <list size="13">
+          <list size="18">
             <item index="0" class="java.lang.String" itemvalue="v-if" />
             <item index="1" class="java.lang.String" itemvalue="v-html" />
             <item index="2" class="java.lang.String" itemvalue="@click" />
@@ -18,6 +18,11 @@
             <item index="10" class="java.lang.String" itemvalue="slot-scope" />
             <item index="11" class="java.lang.String" itemvalue=":href" />
             <item index="12" class="java.lang.String" itemvalue="v-else" />
+            <item index="13" class="java.lang.String" itemvalue="v-slot:cell(*)" />
+            <item index="14" class="java.lang.String" itemvalue="v-slot:cell" />
+            <item index="15" class="java.lang.String" itemvalue=":class" />
+            <item index="16" class="java.lang.String" itemvalue="v-else-if" />
+            <item index="17" class="java.lang.String" itemvalue="@submit.prevent" />
           </list>
         </value>
       </option>
@@ -45,5 +50,6 @@
       </option>
       <option name="myCustomValuesEnabled" value="true" />
     </inspection_tool>
+    <inspection_tool class="XmlUnboundNsPrefix" enabled="false" level="WARNING" enabled_by_default="false" />
   </profile>
 </component>
