@@ -27,8 +27,8 @@
         <template v-slot:cell(client_id)="data">
             {{data.item.client_id}}
         </template>
-        <template v-slot:cell(created_date)="data">
-            {{data.item.created_date | date}}
+        <template v-slot:cell(interview_date)="data">
+            {{data.item.interview_date | date}}
         </template>
         <template v-slot:cell(completed)="data">
             {{data.item.status | yn}}
@@ -69,7 +69,7 @@
                     {key: 'select', label: 'Select', sortable: false},
                     {key: 'id', label: 'Auto ID', sortable: true},
                     {key: 'client_id', label: 'Client', sortable: true},
-                    {key: 'created_date', label: 'Created Date', sortable: true},
+                    {key: 'interview_date', label: 'Interview Date', sortable: true},
                     {key: 'completed', label: 'Completed', sortable: true},
                     {key: 'interview_conducted', label: 'Did Interview', sortable: true},
                     {key: 'exported', label: 'Uploaded', sortable: true}

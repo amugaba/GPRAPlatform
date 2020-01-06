@@ -1,0 +1,2 @@
+0 0 * * * php /var/www/gpra.angstrom-software.com/app/backup/mysql-backup.php >> /var/www/gpra.angstrom-software.com/app/backup/mysql-backup.log 2>&1
+

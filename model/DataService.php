@@ -344,7 +344,7 @@ class DataService {
         if($end_date == null)
             $end_date = '2900-01-01';
 
-        $result = $this->query("SELECT a.id, c.uid AS client_id, a.created_date, a.status, a.interview_conducted, a.exported FROM assessments a
+        $result = $this->query("SELECT a.id, c.uid AS client_id, a.created_date, a.status, a.interview_conducted, a.interview_date, a.exported FROM assessments a
             JOIN clients c ON a.client_id=c.id
             WHERE a.gpra_type > 0 AND a.grant_id=? AND $id_clause AND c.uid LIKE ? AND a.created_date >= ? AND a.created_date <= ? AND $unexported_clause",
             [Session::getGrant()->id, '%'.$client_id.'%', $start_date, $end_date]);
@@ -400,8 +400,11 @@ class DataService {
      * @throws Exception
      */
     public function setGPRAsExported($assessment_ids, $is_exported) {
-        $ids = join(",",$assessment_ids);
-        $this->query("UPDATE assessments SET exported=? WHERE id IN (?)", [$is_exported, $ids]);
+        $params = array_merge([$is_exported], $assessment_ids);
+        $qmarks = "?";
+        for($i=1; $i<count($assessment_ids); $i++)
+            $qmarks .= ",?";
+        $this->query("UPDATE assessments SET exported=? WHERE id IN ($qmarks)", $params);
     }
 
     /**

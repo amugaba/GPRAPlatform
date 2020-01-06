@@ -2,7 +2,9 @@
     "require": {
         "pecee/simple-router": "4.2.0.6",
         "ext-json": "*",
-        "ext-mysqli": "*"
+        "ext-mysqli": "*",
+        "ifsnop/mysqldump-php": "^2.8",
+        "ext-zip": "^1.13"
     },
     "autoload": {
         "classmap": [

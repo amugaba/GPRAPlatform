@@ -14,5 +14,6 @@ return array(
     'PhpDocReader\\' => array($vendorDir . '/php-di/phpdoc-reader/src/PhpDocReader'),
     'Pecee\\' => array($vendorDir . '/pecee/simple-router/src/Pecee'),
     'Invoker\\' => array($vendorDir . '/php-di/invoker/src'),
+    'Ifsnop\\' => array($vendorDir . '/ifsnop/mysqldump-php/src/Ifsnop'),
     'DI\\' => array($vendorDir . '/php-di/php-di/src'),
 );

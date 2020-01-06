@@ -28,6 +28,7 @@ class ComposerStaticInitcc6118f8e79a1b1ee9819aea0cba4464
         'I' => 
         array (
             'Invoker\\' => 8,
+            'Ifsnop\\' => 7,
         ),
         'D' => 
         array (
@@ -67,6 +68,10 @@ class ComposerStaticInitcc6118f8e79a1b1ee9819aea0cba4464
         'Invoker\\' => 
         array (
             0 => __DIR__ . '/..' . '/php-di/invoker/src',
+        ),
+        'Ifsnop\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/ifsnop/mysqldump-php/src/Ifsnop',
         ),
         'DI\\' => 
         array (
