@@ -1,2 +1,2 @@
 0 0 * * * php /var/www/gpra.angstrom-software.com/app/backup/mysql-backup.php >> /var/www/gpra.angstrom-software.com/app/backup/mysql-backup.log 2>&1
-
+39 1,13 * * * sudo /home/ec2-user/certbot-auto renew --no-self-upgrade >> /var/www/gpra.angstrom-software.com/sslrenew.log 2>&1

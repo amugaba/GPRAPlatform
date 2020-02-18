@@ -67,9 +67,39 @@ function startNextGPRA() {
             spars.document.getElementById('NewIntake').click();
             setTimeout(inputPage1, 1000, data);
         }
+        else if(data.gpra_type === 2) {
+            log("Type == Discharge");
+            setValue("ClientID", data.client_uid); //search for record by client ID
+            clickButton("ToolBar_Query");
+            setTimeout(function() {
+                spars.document.getElementById('AddDischarge').click();
+                setTimeout(function() {
+                    clickButton('Yes');
+                    setTimeout(dischargePage1, 1000, data);
+                }, 1000, data);
+            }, 1000, data);
+        }
     }
     else
         log('GPRA upload finished');
+}
+
+function dischargePage1(data) {
+    console.log("page 1");
+    assert(spars.$('#ClientIntake_ClientID').length === 0, "Incorrect page");
+    setValue('ConductedInterview', data.ConductedInterview);
+    if(data.ConductedInterview === "0") {
+        clickButton('ToolBar_Next');
+        //skip to J Discharge Status
+        setTimeout(dischargeSectionJ, 1000, data);
+    }
+    else {
+        setTimeout(function() {
+            setValue('InterviewDate', data.InterviewDate, null, false);
+            clickButton('ToolBar_Next');
+            setTimeout(inputPage2, 1000, data);
+        }, 1000, data);
+    }
 }
 
 function inputPage1(data) {
@@ -109,42 +139,63 @@ function inputPage2(data) {
         spars.$("input:checkbox").eq(0).trigger('click');//click the Don't Know checkbox
 
     setValue('OpioidDisorder', data.OpioidDisorder, MV);
-    if(data.OpioidDisorder == 1) {
-        setValue('OpioidMedicationMethadone', data.MethadoneMedicationDays > 0 ? 1 : 0);
-        if(data.MethadoneMedicationDays > 0)
-            setValue('OpioidMedicationMethadoneDays', data.MethadoneMedicationDays);
-        setValue('OpioidMedicationBuprenorphine', data.BuprenorphineMedicationDays > 0 ? 1 : 0);
-        if(data.BuprenorphineMedicationDays > 0)
-            setValue('OpioidMedicationBuprenorphineDays', data.BuprenorphineMedicationDays);
-        setValue('OpioidMedicationNaltrexone', data.NaltrexoneMedicationDays > 0 ? 1 : 0);
-        if(data.NaltrexoneMedicationDays > 0)
-            setValue('OpioidMedicationNaltrexoneDays', data.NaltrexoneMedicationDays);
-        setValue('OpioidMedicationExtendedReleaseNaltrexone', data.NaltrexoneXRMedicationDays > 0 ? 1 : 0);
-        if(data.NaltrexoneXRMedicationDays > 0)
-            setValue('OpioidMedicationExtendedReleaseNaltrexoneDays', data.NaltrexoneXRMedicationDays);
+    setValue('OpioidMedicationMethadone', data.MethadoneMedicationDays > 0 ? 1 : 0);
+    if(data.MethadoneMedicationDays > 0)
+        setValue('OpioidMedicationMethadoneDays', data.MethadoneMedicationDays);
+    setValue('OpioidMedicationBuprenorphine', data.BuprenorphineMedicationDays > 0 ? 1 : 0);
+    if(data.BuprenorphineMedicationDays > 0)
+        setValue('OpioidMedicationBuprenorphineDays', data.BuprenorphineMedicationDays);
+    setValue('OpioidMedicationNaltrexone', data.NaltrexoneMedicationDays > 0 ? 1 : 0);
+    if(data.NaltrexoneMedicationDays > 0)
+        setValue('OpioidMedicationNaltrexoneDays', data.NaltrexoneMedicationDays);
+    setValue('OpioidMedicationExtendedReleaseNaltrexone', data.NaltrexoneXRMedicationDays > 0 ? 1 : 0);
+    if(data.NaltrexoneXRMedicationDays > 0)
+        setValue('OpioidMedicationExtendedReleaseNaltrexoneDays', data.NaltrexoneXRMedicationDays);
+
+    //if all medications are No, answer two redundant questions based on previous data
+    if(data.MethadoneMedicationDays == 0 && data.BuprenorphineMedicationDays == 0
+        && data.NaltrexoneMedicationDays == 0 && data.NaltrexoneXRMedicationDays == 0) {
+        if(data.OpioidDisorder === "1")
+            setValue('OpioidMedicationNotFdaApprovedDiagnosed', 1);
+        else {
+            setValue('OpioidMedicationNotFdaApprovedDiagnosed', 0);
+            setValue('OpioidMedicationNotFdaApprovedNotDiagnosed', 1);
+        }
     }
 
     setValue('AlcoholDisorder', data.AlcoholDisorder, MV);
-    if(data.AlcoholDisorder == 1) {
-        setValue('AlcoholMedicationNaltrexone', data.NaltrexoneAlcMedicationDays > 0 ? 1 : 0);
-        if(data.NaltrexoneAlcMedicationDays > 0)
-            setValue('AlcoholMedicationNaltrexoneDays', data.NaltrexoneAlcMedicationDays);
-        setValue('AlcoholMedicationExtendedReleaseNaltrexone', data.NaltrexoneXRAlcMedicationDays > 0 ? 1 : 0);
-        if(data.NaltrexoneXRAlcMedicationDays > 0)
-            setValue('AlcoholMedicationExtendedReleaseNaltrexoneDays', data.NaltrexoneXRAlcMedicationDays);
-        setValue('AlcoholMedicationDisulfiram', data.DisulfiramMedicationDays > 0 ? 1 : 0);
-        if(data.DisulfiramMedicationDays > 0)
-            setValue('AlcoholMedicationDisulfiramDays', data.DisulfiramMedicationDays);
-        setValue('AlcoholMedicationAcamprosate', data.AcamprosateMedicationDays > 0 ? 1 : 0);
-        if(data.AcamprosateMedicationDays > 0)
-            setValue('AlcoholMedicationAcamprosateDays', data.AcamprosateMedicationDays);
+    setValue('AlcoholMedicationNaltrexone', data.NaltrexoneAlcMedicationDays > 0 ? 1 : 0);
+    if(data.NaltrexoneAlcMedicationDays > 0)
+        setValue('AlcoholMedicationNaltrexoneDays', data.NaltrexoneAlcMedicationDays);
+    setValue('AlcoholMedicationExtendedReleaseNaltrexone', data.NaltrexoneXRAlcMedicationDays > 0 ? 1 : 0);
+    if(data.NaltrexoneXRAlcMedicationDays > 0)
+        setValue('AlcoholMedicationExtendedReleaseNaltrexoneDays', data.NaltrexoneXRAlcMedicationDays);
+    setValue('AlcoholMedicationDisulfiram', data.DisulfiramMedicationDays > 0 ? 1 : 0);
+    if(data.DisulfiramMedicationDays > 0)
+        setValue('AlcoholMedicationDisulfiramDays', data.DisulfiramMedicationDays);
+    setValue('AlcoholMedicationAcamprosate', data.AcamprosateMedicationDays > 0 ? 1 : 0);
+    if(data.AcamprosateMedicationDays > 0)
+        setValue('AlcoholMedicationAcamprosateDays', data.AcamprosateMedicationDays);
+
+    //if all medications are No, answer two redundant questions based on previous data
+    if(data.NaltrexoneAlcMedicationDays == 0 && data.NaltrexoneXRAlcMedicationDays == 0
+        && data.DisulfiramMedicationDays == 0 && data.AcamprosateMedicationDays == 0) {
+        if(data.AlcoholDisorder === "1")
+            setValue('AlcoholMedicationNotFdaApprovedDiagnosed', 1);
+        else {
+            setValue('AlcoholMedicationNotFdaApprovedDiagnosed', 0);
+            setValue('AlcoholMedicationNotFdaApprovedNotDiagnosed', 1);
+        }
     }
 
     setValue('ClientIntake_CooccurringScreen', data.ClientIntake_CooccurringScreen, MV);
     setValue('ClientIntake_CooccurringScreenStatus', data.ClientIntake_CooccurringScreenStatus, MV);
 
     clickButton('ToolBar_Next');
-    setTimeout(inputPage3, 1000, data);
+    if(data.gpra_type === 1)
+        setTimeout(inputPage3, 1000, data);
+    else if(data.gpra_type === 2)
+        setTimeout(inputPage9, 1000, data);
 }
 
 function inputPage3(data) {
@@ -369,40 +420,39 @@ function inputPage9(data) {
 }
 
 function setDrugUse(daysID, routeID, daysValue, routeValue) {
-    if(daysValue > 0) {
-        setCombo(inputID+'Days', daysValue, MV);
-        setValue(inputID+'Route', routeValue);
-    }
+    setCombo(daysID, daysValue, MV);
+    setValue(routeID, routeValue);
 }
 
 function inputPage10(data) {
     console.log("page 10");
     assert(spars.$('#CocaineCrackDays').length === 0, "Incorrect page");
-    if(data.DrugDaysRefused == 1) {
-        setCombo('CocaineCrackDays', RF);
-        setCombo('MarijuanaHashDays', RF);
-        setCombo('OpiatesHeroinDays', RF);
-        setCombo('OpiatesMorphineDays', RF);
-        setCombo('OpiatesDiluadidDays', RF);
-        setCombo('OpiatesDemerolDays', RF);
-        setCombo('OpiatesPercocetDays', RF);
-        setCombo('OpiatesDarvonDays', RF);
-        setCombo('OpiatesCodeineDays', RF);
-        setCombo('OpiatesTylenolDays', RF);
-        setCombo('OpiatesOxycoDays', RF);
-    }
-    else {
-        setDrugUse('CocaineCrackDays', 'CocaineCrackRoute', data.CocaineCrackDays, data.CocaineCrackRoute);
-        setDrugUse('MarijuanaHashDays', 'MarijuanaHashRoute', data.MarijuanaHashDays, data.MarijuanaHashRoute);
-        setDrugUse('OpiatesHeroinDays', 'OpiatesHeroinRoute', data.OpiatesHeroinDays, data.OpiatesHeroinRoute);
-        setDrugUse('OpiatesMorphineDays', 'OpiatesMorphineRoute', data.OpiatesMorphineDays, data.OpiatesMorphineRoute);
-        setDrugUse('OpiatesDiluadidDays', 'OpiatesDiluadidRoute', data.OpiatesDiluadidDays, data.OpiatesDiluadidRoute);
-        setDrugUse('OpiatesDemerolDays', 'OpiatesDemerolRoute', data.OpiatesDemerolDays, data.OpiatesDemerolRoute);
-        setDrugUse('OpiatesPercocetDays', 'OpiatesPercocetRoute', data.OpiatesPercocetDays, data.OpiatesPercocetRoute);
-        setDrugUse('OpiatesDarvonDays', 'OpiatesDarvonRoute', data.OpiatesDarvonDays, data.OpiatesDarvonRoute);
-        setDrugUse('OpiatesCodeineDays', 'OpiatesCodeineRoute', data.OpiatesCodeineDays, data.OpiatesCodeineRoute);
-        setDrugUse('OpiatesTylenolDays', 'OpiatesTylenolRoute', data.OpiatesTylenolDays, data.OpiatesTylenolRoute);
-        setDrugUse('OpiatesOxycoDays', 'OpiatesOxycoRoute', data.OpiatesOxycoDays, data.OpiatesOxycoRoute);
+    if(data.DAUseIllegDrugsDays > 0) { //if drug days on last page is 0, you can skip this section
+        if (data.DrugDaysRefused == 1) {
+            setCombo('CocaineCrackDays', RF);
+            setCombo('MarijuanaHashDays', RF);
+            setCombo('OpiatesHeroinDays', RF);
+            setCombo('OpiatesMorphineDays', RF);
+            setCombo('OpiatesDiluadidDays', RF);
+            setCombo('OpiatesDemerolDays', RF);
+            setCombo('OpiatesPercocetDays', RF);
+            setCombo('OpiatesDarvonDays', RF);
+            setCombo('OpiatesCodeineDays', RF);
+            setCombo('OpiatesTylenolDays', RF);
+            setCombo('OpiatesOxycoDays', RF);
+        } else {
+            setDrugUse('CocaineCrackDays', 'CocaineCrackRoute', data.CocaineCrackDays, data.CocaineCrackRoute);
+            setDrugUse('MarijuanaHashDays', 'MarijuanaHashRoute', data.MarijuanaHashDays, data.MarijuanaHashRoute);
+            setDrugUse('OpiatesHeroinDays', 'OpiatesHeroinRoute', data.OpiatesHeroinDays, data.OpiatesHeroinRoute);
+            setDrugUse('OpiatesMorphineDays', 'OpiatesMorphineRoute', data.OpiatesMorphineDays, data.OpiatesMorphineRoute);
+            setDrugUse('OpiatesDiluadidDays', 'OpiatesDiluadidRoute', data.OpiatesDiluadidDays, data.OpiatesDiluadidRoute);
+            setDrugUse('OpiatesDemerolDays', 'OpiatesDemerolRoute', data.OpiatesDemerolDays, data.OpiatesDemerolRoute);
+            setDrugUse('OpiatesPercocetDays', 'OpiatesPercocetRoute', data.OpiatesPercocetDays, data.OpiatesPercocetRoute);
+            setDrugUse('OpiatesDarvonDays', 'OpiatesDarvonRoute', data.OpiatesDarvonDays, data.OpiatesDarvonRoute);
+            setDrugUse('OpiatesCodeineDays', 'OpiatesCodeineRoute', data.OpiatesCodeineDays, data.OpiatesCodeineRoute);
+            setDrugUse('OpiatesTylenolDays', 'OpiatesTylenolRoute', data.OpiatesTylenolDays, data.OpiatesTylenolRoute);
+            setDrugUse('OpiatesOxycoDays', 'OpiatesOxycoRoute', data.OpiatesOxycoDays, data.OpiatesOxycoRoute);
+        }
     }
     clickButton('ToolBar_Next');
     setTimeout(inputPage11, 1000, data);
@@ -411,32 +461,32 @@ function inputPage10(data) {
 function inputPage11(data) {
     console.log("page 11");
     assert(spars.$('#NonPresMethadoneDays').length === 0, "Incorrect page");
-    if(data.DrugDaysRefused == 1) {
-        setCombo('NonPresMethadoneDays', RF);
-        setCombo('HallucPsychDays', RF);
-        setCombo('MethamDays', RF);
-        setCombo('BenzodiazepinesDays', RF);
-        setCombo('BarbituatesDays', RF);
-        setCombo('NonPrescGhbDays', RF);
-        setCombo('KetamineDays', RF);
-        setCombo('OtherTranquilizersDays', RF);
-        setCombo('InhalantsDays', RF);
-        setCombo('OtherIllegalDrugsDays', RF);
+    if(data.DAUseIllegDrugsDays > 0) { //if drug days on last page is 0, you can skip this section
+        if (data.DrugDaysRefused == 1) {
+            setCombo('NonPresMethadoneDays', RF);
+            setCombo('HallucPsychDays', RF);
+            setCombo('MethamDays', RF);
+            setCombo('BenzodiazepinesDays', RF);
+            setCombo('BarbituatesDays', RF);
+            setCombo('NonPrescGhbDays', RF);
+            setCombo('KetamineDays', RF);
+            setCombo('OtherTranquilizersDays', RF);
+            setCombo('InhalantsDays', RF);
+            setCombo('OtherIllegalDrugsDays', RF);
+        } else {
+            setDrugUse('NonPresMethadoneDays', 'NonPresMethadoneRoute', data.NonPresMethadoneDays, data.NonPresMethadoneRoute);
+            setDrugUse('HallucPsychDays', 'HallucPsychRoute', data.HallucPsychDays, data.HallucPsychRoute);
+            setDrugUse('MethamDays', 'MethamRoute', data.MethamDays, data.MethamRoute);
+            setDrugUse('BenzodiazepinesDays', 'BenzodiazepinesRoute', data.BenzodiazepinesDays, data.BenzodiazepinesRoute);
+            setDrugUse('BarbituatesDays', 'BarbituatesRoute', data.BarbituatesDays, data.BarbituatesRoute);
+            setDrugUse('NonPrescGhbDays', 'NonPrescGhbRoute', data.NonPrescGhbDays, data.NonPrescGhbRoute);
+            setDrugUse('KetamineDays', 'KetamineRoute', data.KetamineDays, data.KetamineRoute);
+            setDrugUse('OtherTranquilizersDays', 'OtherTranquilizersRoute', data.OtherTranquilizersDays, data.OtherTranquilizersRoute);
+            setDrugUse('InhalantsDays', 'InhalantsRoute', data.InhalantsDays, data.InhalantsRoute);
+            setDrugUse('OtherIllegalDrugsDays', 'OtherIllegalDrugsRoute', data.OtherIllegalDrugsDays, data.OtherIllegalDrugsRoute);
+        }
+        setValue('OtherIllegalDrugsSpec', data.OtherIllegalDrugsSpec);
     }
-    else {
-        setDrugUse('NonPresMethadoneDays', 'NonPresMethadoneRoute', data.NonPresMethadoneDays, data.NonPresMethadoneRoute);
-        setDrugUse('HallucPsychDays', 'HallucPsychRoute', data.HallucPsychDays, data.HallucPsychRoute);
-        setDrugUse('MethamDays', 'MethamRoute', data.MethamDays, data.MethamRoute);
-        setDrugUse('BenzodiazepinesDays', 'BenzodiazepinesRoute', data.BenzodiazepinesDays, data.BenzodiazepinesRoute);
-        setDrugUse('BarbituatesDays', 'BarbituatesRoute', data.BarbituatesDays, data.BarbituatesRoute);
-        setDrugUse('NonPrescGhbDays', 'NonPrescGhbRoute', data.NonPrescGhbDays, data.NonPrescGhbRoute);
-        setDrugUse('KetamineDays', 'KetamineRoute', data.KetamineDays, data.KetamineRoute);
-        setDrugUse('OtherTranquilizersDays', 'OtherTranquilizersRoute', data.OtherTranquilizersDays, data.OtherTranquilizersRoute);
-        setDrugUse('InhalantsDays', 'InhalantsRoute', data.InhalantsDays, data.InhalantsRoute);
-        setDrugUse('OtherIllegalDrugsDays', 'OtherIllegalDrugsRoute', data.OtherIllegalDrugsDays, data.OtherIllegalDrugsRoute);
-    }
-
-    setValue('OtherIllegalDrugsSpec', data.OtherIllegalDrugsSpec);
     setValue('InjectedDrugs', data.InjectedDrugs, MV);
     setValue('ParaphenaliaUsedOthers', data.ParaphenaliaUsedOthers, MV);
 
@@ -513,6 +563,8 @@ function inputPage14(data) {
         setCombo('ArrestedDays', data.ArrestedDays, 0);
         setCombo('ArrestedDrugDays', data.ArrestedDrugDays, 0);
         setCombo('ArrestedConfineDays', data.ArrestedConfineDays, 0);
+        if(parseInt(data.DAUseIllegDrugsDays) > parseInt(data.NrCrimes))
+            data.NrCrimes = data.DAUseIllegDrugsDays;
         setCombo('NrCrimes', data.NrCrimes, 0);
     }
     setValue('AwaitTrial', data.AwaitTrial, MV);
@@ -644,6 +696,119 @@ function inputPage20(data) {
     setValue('WhomInTrouble', data.WhomInTrouble, MV);
     setValue('WhomInTroubleSpec', data.WhomInTroubleSpec);
     setValue('RelationshipSatisfaction', data.RelationshipSatisfaction, MV);
+    clickButton('ToolBar_Next');
+    if(data.gpra_type === 1)
+        setTimeout(inputPage21, 1000, data);
+    else if(data.gpra_type === 2)
+        setTimeout(dischargeSectionJ, 1000, data);
+}
+
+function dischargeSectionJ(data) {
+    console.log("Discharge Section J");
+    assert(spars.$('#DischargeDate').length === 0, "Incorrect page");
+    setValue('DischargeDate', data.DischargeDate, null, false);
+    setValue('DischargeStatusCompl', data.DischargeStatusCompl);
+    if(data.DischargeStatusCompl === "2") {
+        if(data.DischargeStatusTermReason.length === 1)
+            data.DischargeStatusTermReason = "0"+data.DischargeStatusTermReason;
+        setValue('DischargeStatusTermReason', data.DischargeStatusTermReason);
+        if(data.DischargeStatusTermReason === "13") {
+            setValue('OtherDischargeStatTermRsnSpec', data.OtherDischargeStatTermRsnSpec);
+        }
+    }
+    setValue('HIVTest', data.jHIVTest, MV);
+    if(data.jHIVTest === "0") {
+        setValue('HIVTestResult', data.jHIVTestResult);
+    }
+    clickButton('ToolBar_Next');
+    setTimeout(servicesReceivedPage1, 1000, data);
+}
+
+function servicesReceivedPage1(data) {
+    console.log("Services Received Page 1");
+    assert(spars.$('#Modality1CaseManagement').length === 0, "Incorrect page");
+    setValue('Modality1CaseManagement', data.SvcCaseManagementDis);
+    setValue('Modality2DayTreatment', data.SvcDayTreatmentDis);
+    setValue('Modality3InpatientHospital', data.SvcInpatientDis);
+    setValue('Modality4Outpatient', data.SvcOutpatientDis);
+    setValue('Modality5Outreach', data.SvcOutreachDis);
+    setValue('Modality6IntensiveOutpatient', data.SvcIntensiveOutpatientDis);
+    setValue('Modality7Methadone', data.SvcMethadoneDis);
+    setValue('Modality8ResidentialRehabilitation', data.SvcResidentialRehabDis);
+    setValue('ModalityDetoxification9AHospital', data.SvcHospitalInpatientDis);
+    setValue('ModalityDetoxification9BFree', data.SvcFreeStandingResDis);
+    setValue('ModalityDetoxification9CAmbulatory', data.SvcAmbulatoryDetoxDis);
+    setValue('Modality10AfterCare', data.SvcAfterCareDis);
+    setValue('Modality11RecoverySupport', data.SvcRecoverySupportDis);
+    setValue('Modality12Other', data.SvcOtherModalitiesDis);
+    setValue('Modality12OtherSpec', data.SvcOtherModalitesSpecDis);
+    clickButton('ToolBar_Next');
+    setTimeout(servicesReceivedPage2, 1000, data);
+}
+
+function servicesReceivedPage2(data) {
+    console.log("Services Received Page 2");
+    assert(spars.$('#Treatment1Screening').length === 0, "Incorrect page");
+    setValue('Treatment1Screening', data.SvcScreeningDis);
+    setValue('Treatment2BriefIntervention', data.SvcBriefInterventionDis);
+    setValue('Treatment3BriefTreatment', data.SvcBriefTreatmentDis);
+    setValue('Treatment4ReferralToTreatment', data.SvcReferralTreatmentDis);
+    setValue('Treatment5Assessment', data.SvcAssessmentDis);
+    setValue('Treatment6RecoveryPlanning', data.SvcTreatmentPlanningDis);
+    setValue('Treatment7IndividualCounseling', data.SvcIndividualCounsDis);
+    setValue('Treatment8GroupCounseling', data.SvcGroupCounsDis);
+    setValue('Treatment9FamilyCounseling', data.SvcFamilyMarriageCounsDis);
+    setValue('Treatment10CoOccurringTreatment', data.SvcCoOccurringDis);
+    setValue('Treatment11PharmacologicalInterventions', data.SvcPharmacologicalDis);
+    setValue('Treatment12AIDSCounseling', data.SvcHIVAIDSCounsDis);
+    setValue('Treatment13Other', data.SvcOtherClinicalCounsDis);
+    setValue('Treatment13OtherSpec', data.SvcOtherClinicalCounsSpecDis);
+    clickButton('ToolBar_Next');
+    setTimeout(servicesReceivedPage3, 1000, data);
+}
+
+function servicesReceivedPage3(data) {
+    console.log("Services Received Page 3");
+    assert(spars.$('#CaseManagement1FamilyServices').length === 0, "Incorrect page");
+    setValue('CaseManagement1FamilyServices', data.SvcFamilyServicesDis);
+    setValue('CaseManagement2ChildCare', data.SvcChildCareDis);
+    setValue('CaseManagement3APreEmployment', data.SvcPreEmploymentDis);
+    setValue('CaseManagement3BEmploymentCoaching', data.SvcEmploymentCoachingDis);
+    setValue('CaseManagement4IndividualCoordination', data.SvcIndividualCoordDis);
+    setValue('CaseManagement5Transportation', data.SvcTransportationDis);
+    setValue('CaseManagement6AIDSService', data.SvcHIVAIDSServicesDis);
+    setValue('CaseManagement7SupportiveTransitional', data.SvcDrugFreeHousingDis);
+    setValue('CaseManagement8Other', data.SvcOtherCaseMgmtDis);
+    setValue('CaseManagement8OtherSpec', data.SvcOtherCaseMgmtSpecDis);
+    setValue('Medical1Care', data.SvcMedicalCareDis);
+    setValue('Medical2AlcoholDrugTesting', data.SvcAlcoholDrugTestingDis);
+    setValue('Medical3AIDSMedicalSupport', data.SvcHIVAIDSMedicalDis);
+    setValue('Medical4Other', data.SvcOtherMedicalDis);
+    setValue('Medical4OtherSpec', data.SvcOtherMedicalSpecDis);
+    setValue('AfterCare1ContinuingCare', data.SvcContinuingCareDis);
+    setValue('AfterCare2RelapsePrevention', data.SvcRelapsePreventionDis);
+    setValue('AfterCare3RecoveryCoaching', data.SvcRecoveryCoachingDis);
+    setValue('AfterCare4SelfHelp', data.SvcSelfHelpSupportDis);
+    setValue('AfterCare5SpiritualSupport', data.SvcSpiritualSupportDis);
+    setValue('AfterCare6Other', data.SvcOtherAfterCareDis);
+    setValue('AfterCare6OtherSpec', data.SvcOtherAfterCareSpecDis);
+    clickButton('ToolBar_Next');
+    setTimeout(servicesReceivedPage4, 1000, data);
+}
+
+function servicesReceivedPage4(data) {
+    console.log("Services Received Page 4");
+    assert(spars.$('#Education1SubstanceAbuse').length === 0, "Incorrect page");
+    setValue('Education1SubstanceAbuse', data.SvcSubstanceAbuseEduDis);
+    setValue('Education2AIDSEducation', data.SvcHIVAIDSEduDis);
+    setValue('Education3Other', data.SvcOtherEduDis);
+    setValue('Education3OtherSpec', data.SvcOtherEduSpecDis);
+    setValue('PeerToPeer1Coaching', data.SvcPeerCoachingDis);
+    setValue('PeerToPeer2HousingSupport', data.SvcHousingSupportDis);
+    setValue('PeerToPeer3DrugFreeActivities', data.SvcDrugFreeSocialDis);
+    setValue('PeerToPeer4InformationAndReferral', data.SvcInformationReferralDis);
+    setValue('PeerToPeer5Other', data.SvcOtherRecoveryDis);
+    setValue('PeerToPeer5OtherSpec', data.SvcOtherRecoverySpecDis);
     clickButton('ToolBar_Next');
     setTimeout(inputPage21, 1000, data);
 }

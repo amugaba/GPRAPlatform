@@ -10,7 +10,7 @@
     <div class="panel float-center">
         <div class="pageTitle" style="margin-top: 0">Enter a new password</div>
 
-        <p>Password must be at least 8 characters long.</p>
+        <p>Password must be at least 8 characters long and have an uppercase letter, a lowercase letter, a number, and a symbol.</p>
         <form action="/login/changePassword" method="post">
             <input type="hidden" name="csrf_token" value="<?= csrf_token(); ?>">
             <input type="hidden" name="id" value="<?= input('id'); ?>">
