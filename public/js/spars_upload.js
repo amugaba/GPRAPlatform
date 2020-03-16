@@ -67,16 +67,34 @@ function startNextGPRA() {
             spars.document.getElementById('NewIntake').click();
             setTimeout(inputPage1, 1000, data);
         }
-        else if(data.gpra_type === 2) {
-            log("Type == Discharge");
+        else {
             setValue("ClientID", data.client_uid); //search for record by client ID
             clickButton("ToolBar_Query");
             setTimeout(function() {
-                spars.document.getElementById('AddDischarge').click();
-                setTimeout(function() {
-                    clickButton('Yes');
-                    setTimeout(dischargePage1, 1000, data);
-                }, 1000, data);
+                if(data.gpra_type === 2) {
+                    log("Type == Discharge");
+                    spars.document.getElementById('AddDischarge').click();
+                    setTimeout(function () {
+                        clickButton('Yes');
+                        setTimeout(recordManagementFD, 1000, data);
+                    }, 1000, data);
+                }
+                else if(data.gpra_type === 3) {
+                    log("Type == 3 Month Followup");
+                    spars.document.getElementById('Add3Month').click();
+                    setTimeout(function () {
+                        clickButton('Yes');
+                        setTimeout(recordManagementFD, 1000, data);
+                    }, 1000, data);
+                }
+                else if(data.gpra_type === 4) {
+                    log("Type == 6 Month Followup");
+                    spars.document.getElementById('Add6Month').click();
+                    setTimeout(function () {
+                        clickButton('Yes');
+                        setTimeout(recordManagementFD, 1000, data);
+                    }, 1000, data);
+                }
             }, 1000, data);
         }
     }
@@ -84,22 +102,25 @@ function startNextGPRA() {
         log('GPRA upload finished');
 }
 
-function dischargePage1(data) {
+function recordManagementFD(data) {
     console.log("page 1");
     assert(spars.$('#ClientIntake_ClientID').length === 0, "Incorrect page");
     setValue('ConductedInterview', data.ConductedInterview);
-    if(data.ConductedInterview === "0") {
-        clickButton('ToolBar_Next');
-        //skip to J Discharge Status
-        setTimeout(dischargeSectionJ, 1000, data);
-    }
-    else {
-        setTimeout(function() {
+    setTimeout(function() {
+        if(data.ConductedInterview === "0") {
+            clickButton('ToolBar_Next');
+            //skip to J Discharge Status
+            if(data.gpra_type === 2)
+                setTimeout(dischargeSectionJ, 1000, data);
+            else if(data.gpra_type === 3 || data.gpra_type === 4)
+                setTimeout(followupSectionI, 1000, data);
+        }
+        else {
             setValue('InterviewDate', data.InterviewDate, null, false);
             clickButton('ToolBar_Next');
             setTimeout(inputPage2, 1000, data);
-        }, 1000, data);
-    }
+        }
+    }, 1000, data);
 }
 
 function inputPage1(data) {
@@ -194,7 +215,7 @@ function inputPage2(data) {
     clickButton('ToolBar_Next');
     if(data.gpra_type === 1)
         setTimeout(inputPage3, 1000, data);
-    else if(data.gpra_type === 2)
+    else if(data.gpra_type === 2 || data.gpra_type === 3 || data.gpra_type === 4)
         setTimeout(inputPage9, 1000, data);
 }
 
@@ -421,7 +442,7 @@ function inputPage9(data) {
 
 function setDrugUse(daysID, routeID, daysValue, routeValue) {
     setCombo(daysID, daysValue, MV);
-    setValue(routeID, routeValue);
+    setValue(routeID, routeValue, MV);
 }
 
 function inputPage10(data) {
@@ -563,6 +584,8 @@ function inputPage14(data) {
         setCombo('ArrestedDays', data.ArrestedDays, 0);
         setCombo('ArrestedDrugDays', data.ArrestedDrugDays, 0);
         setCombo('ArrestedConfineDays', data.ArrestedConfineDays, 0);
+        if(data.NrCrimes === "") //can't parseInt a blank
+            data.NrCrimes = "0";
         if(parseInt(data.DAUseIllegDrugsDays) > parseInt(data.NrCrimes))
             data.NrCrimes = data.DAUseIllegDrugsDays;
         setCombo('NrCrimes', data.NrCrimes, 0);
@@ -701,6 +724,8 @@ function inputPage20(data) {
         setTimeout(inputPage21, 1000, data);
     else if(data.gpra_type === 2)
         setTimeout(dischargeSectionJ, 1000, data);
+    else if(data.gpra_type === 3 || data.gpra_type === 4)
+        setTimeout(followupSectionI, 1000, data);
 }
 
 function dischargeSectionJ(data) {
@@ -809,6 +834,18 @@ function servicesReceivedPage4(data) {
     setValue('PeerToPeer4InformationAndReferral', data.SvcInformationReferralDis);
     setValue('PeerToPeer5Other', data.SvcOtherRecoveryDis);
     setValue('PeerToPeer5OtherSpec', data.SvcOtherRecoverySpecDis);
+    clickButton('ToolBar_Next');
+    setTimeout(inputPage21, 1000, data);
+}
+
+function followupSectionI(data) {
+    console.log("Followup Section I");
+    assert(spars.$('#FollowUpStatusCode').length === 0, "Incorrect page");
+    setValue('FollowUpStatusCode', data.FLWPStatus);
+    if(data.FLWPStatus === "32") {
+        setValue('FollowUpOtherSpecify', data.FLWPStatusSpec);
+    }
+    setValue('ReceivingServices', data.ReceivingServices);
     clickButton('ToolBar_Next');
     setTimeout(inputPage21, 1000, data);
 }
