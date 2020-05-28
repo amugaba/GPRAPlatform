@@ -6,5 +6,5 @@
     <div v-if="gpra.assessment_type == 1">
         <label>Client Type:</label>{{gpra.ClientType == 1 ? 'Treatment Client' : 'Client in Recovery'}}<br>
     </div>
-    <label>Interview Date:</label>{{gpra.InterviewDate}}<br>
+    <label>Interview Date:</label>{{gpra.ConductedInterview != 0 ? gpra.InterviewDate : "Interview not Conducted"}}<br>
 </div>

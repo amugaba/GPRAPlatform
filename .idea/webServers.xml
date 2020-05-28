@@ -11,7 +11,7 @@
         </fileTransfer>
       </webServer>
       <webServer id="ee5932a0-b741-4623-a34b-bef50491dc92" name="AWS" url="http://ec2-3-14-3-173.us-east-2.compute.amazonaws.com">
-        <fileTransfer host="ec2-3-14-3-173.us-east-2.compute.amazonaws.com" port="22" privateKey="C:\Users\tiddd\.ssh\AngstromAWSKeyPair.ppk" rootFolder="/var/www/" accessType="SFTP" keyPair="true">
+        <fileTransfer host="ec2-3-14-3-173.us-east-2.compute.amazonaws.com" port="22" privateKey="C:\Users\David\.ssh\AngstromAWSKeyPair.ppk" rootFolder="/var/www/" accessType="SFTP" keyPair="true">
           <advancedOptions>
             <advancedOptions dataProtectionLevel="Private" shareSSLContext="true" />
           </advancedOptions>

@@ -451,6 +451,23 @@ class GPRAValidator extends Validator {
             if(strpos($question->code, 'Spec') === false)
                 $this->checkIntegerInRange($question->code, 0, 999);
         }
+
+        //at least one modality must be chosen
+        if($this->gpra->SvcCaseManagementDis == 0 && $this->gpra->SvcDayTreatmentDis == 0 && $this->gpra->SvcInpatientDis == 0 && $this->gpra->SvcOutpatientDis == 0 &&
+            $this->gpra->SvcOutreachDis == 0 && $this->gpra->SvcIntensiveOutpatientDis == 0 && $this->gpra->SvcMethadoneDis == 0 && $this->gpra->SvcResidentialRehabDis == 0 &&
+            $this->gpra->SvcHospitalInpatientDis == 0 && $this->gpra->SvcFreeStandingResDis == 0 && $this->gpra->SvcAmbulatoryDetoxDis == 0 && $this->gpra->SvcAfterCareDis == 0 &&
+            $this->gpra->SvcRecoverySupportDis == 0 && $this->gpra->SvcOtherModalitiesDis == 0) {
+            $this->addError('SvcCaseManagementDis','At least one modality must be chosen');
+        }
+
+        //only one detox can be chosen
+        if($this->gpra->SvcFreeStandingResDis == 1 && $this->gpra->SvcHospitalInpatientDis == 1) {
+            $this->addError('SvcFreeStandingResDis','At most one detox can be chosen');
+        }
+        if($this->gpra->SvcAmbulatoryDetoxDis == 1 && ($this->gpra->SvcFreeStandingResDis == 1 || $this->gpra->SvcHospitalInpatientDis == 1)) {
+            $this->addError('SvcAmbulatoryDetoxDis','At most one detox can be chosen');
+        }
+
         $this->validateOtherSpecifyRange('SvcOtherModalitiesDis',1, null, 'SvcOtherModalitesSpecDis');
         $this->validateOtherSpecifyRange('SvcOtherCaseMgmtDis',1, null, 'SvcOtherCaseMgmtSpecDis');
         $this->validateOtherSpecifyRange('SvcOtherMedicalDis',1, null, 'SvcOtherMedicalSpecDis');

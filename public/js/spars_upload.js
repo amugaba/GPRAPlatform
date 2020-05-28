@@ -731,7 +731,7 @@ function inputPage20(data) {
 function dischargeSectionJ(data) {
     console.log("Discharge Section J");
     assert(spars.$('#DischargeDate').length === 0, "Incorrect page");
-    setValue('DischargeDate', data.DischargeDate, null, false);
+    setValue('DischargeDate', data.DischargeDate, null, true);
     setValue('DischargeStatusCompl', data.DischargeStatusCompl);
     if(data.DischargeStatusCompl === "2") {
         if(data.DischargeStatusTermReason.length === 1)
@@ -741,12 +741,16 @@ function dischargeSectionJ(data) {
             setValue('OtherDischargeStatTermRsnSpec', data.OtherDischargeStatTermRsnSpec);
         }
     }
-    setValue('HIVTest', data.jHIVTest, MV);
-    if(data.jHIVTest === "0") {
-        setValue('HIVTestResult', data.jHIVTestResult);
-    }
-    clickButton('ToolBar_Next');
-    setTimeout(servicesReceivedPage1, 1000, data);
+    //the HIV questions are disabled until you click next the first time
+    //clickButton('ToolBar_Next');
+    setTimeout(function() {
+        setValue('HIVTest', data.jHIVTest, MV);
+        if(data.jHIVTest === "0") {
+            setValue('HIVTestResult', data.jHIVTestResult);
+        }
+        clickButton('ToolBar_Next');
+        setTimeout(servicesReceivedPage1, 1000, data);
+    }, 1000, data);
 }
 
 function servicesReceivedPage1(data) {
