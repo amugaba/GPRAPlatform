@@ -3,19 +3,17 @@
   <component name="WebServers">
     <option name="servers">
       <webServer id="f774b91f-340c-45ff-a40e-0b4866337d68" name="Angstrom" url="https://gpra.angstrom-software.com">
-        <fileTransfer host="angstrom-software.com" port="22" rootFolder="/home/davtid4/" accessType="SFTP">
+        <fileTransfer rootFolder="/home/davtid4/" accessType="SFTP" host="angstrom-software.com" port="22" sshConfigId="5f8b5afa-abb9-4cd0-9d87-81a61a474a56" sshConfig="Angstrom">
           <advancedOptions>
             <advancedOptions dataProtectionLevel="Private" shareSSLContext="true" />
           </advancedOptions>
-          <option name="port" value="22" />
         </fileTransfer>
       </webServer>
       <webServer id="ee5932a0-b741-4623-a34b-bef50491dc92" name="AWS" url="http://ec2-3-14-3-173.us-east-2.compute.amazonaws.com">
-        <fileTransfer host="ec2-3-14-3-173.us-east-2.compute.amazonaws.com" port="22" privateKey="C:\Users\David\.ssh\AngstromAWSKeyPair.ppk" rootFolder="/var/www/" accessType="SFTP" keyPair="true">
+        <fileTransfer rootFolder="/var/www/" accessType="SFTP" host="ec2-3-14-3-173.us-east-2.compute.amazonaws.com" port="22" sshConfigId="397b2058-cbc3-4842-9542-34553ec84bc4" sshConfig="AWS" keyPair="true">
           <advancedOptions>
             <advancedOptions dataProtectionLevel="Private" shareSSLContext="true" />
           </advancedOptions>
-          <option name="port" value="22" />
         </fileTransfer>
       </webServer>
     </option>

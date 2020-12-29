@@ -17,7 +17,7 @@
         <label><input type="checkbox" v-model="unexportedOnly"> Find un-exported only</label>
     </form>
 
-    <b-table :fields="tableFields" :items="gpras" :per-page="10" :current-page="currentPage" hover bordered sort-by="id" :sort-desc="true">
+    <b-table :fields="tableFields" :items="gpras" :per-page="15" :current-page="currentPage" hover bordered sort-by="id" :sort-desc="true">
         <template v-slot:cell(select)="data">
             <input type="checkbox" v-model="selectedGPRAs" :value="data.item.id">
         </template>
@@ -27,20 +27,23 @@
         <template v-slot:cell(client_id)="data">
             {{data.item.client_id}}
         </template>
+        <template v-slot:cell(episode)="data">
+            {{data.item.episode}}
+        </template>
+        <template v-slot:cell(gpra_type)="data">
+            {{data.item.gpra_type | gpraType}}
+        </template>
         <template v-slot:cell(interview_date)="data">
             {{data.item.interview_date | date}}
         </template>
         <template v-slot:cell(completed)="data">
             {{data.item.status | yn}}
         </template>
-        <template v-slot:cell(interview_conducted)="data">
-            {{data.item.interview_conducted | yn}}
-        </template>
         <template v-slot:cell(exported)="data">
             {{data.item.exported | yn}}
         </template>
     </b-table>
-    <b-pagination v-show="gpras.length>15" :total-rows="gpras.length" :per-page="10" v-model="currentPage" style="float: right; margin-top: 0"></b-pagination>
+    <b-pagination v-show="gpras.length>15" :total-rows="gpras.length" :per-page="15" v-model="currentPage" style="float: right; margin-top: 0"></b-pagination>
 
     <div class="text-center">
         <input type="button" value="Export JSON" class="btn btn-primary" @click="exportGPRAs">
@@ -69,9 +72,10 @@
                     {key: 'select', label: 'Select', sortable: false},
                     {key: 'id', label: 'Auto ID', sortable: true},
                     {key: 'client_id', label: 'Client', sortable: true},
+                    {key: 'episode', label: 'Episode', sortable: true},
+                    {key: 'gpra_type', label: 'Type', sortable: true},
                     {key: 'interview_date', label: 'Interview Date', sortable: true},
                     {key: 'completed', label: 'Completed', sortable: true},
-                    {key: 'interview_conducted', label: 'Did Interview', sortable: true},
                     {key: 'exported', label: 'Uploaded', sortable: true}
                 ],
                 currentPage: 1

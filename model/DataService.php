@@ -344,8 +344,11 @@ class DataService {
         if($end_date == null)
             $end_date = '2900-01-01';
 
-        $result = $this->query("SELECT a.id, c.uid AS client_id, a.created_date, a.status, a.interview_conducted, a.interview_date, a.exported FROM assessments a
+        $result = $this->query("SELECT a.id, c.uid AS client_id, e.number AS episode, a.gpra_type, a.created_date, 
+            a.status, a.interview_conducted, a.interview_date, a.exported 
+            FROM assessments a
             JOIN clients c ON a.client_id=c.id
+            JOIN episodes e on a.episode_id = e.id
             WHERE a.gpra_type > 0 AND a.grant_id=? AND $id_clause AND c.uid LIKE ? AND a.created_date >= ? AND a.created_date <= ? AND $unexported_clause",
             [Session::getGrant()->id, '%'.$client_id.'%', $start_date, $end_date]);
 

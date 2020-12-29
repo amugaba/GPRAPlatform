@@ -244,13 +244,16 @@ class GPRAValidator extends Validator {
             'OpiatesDarvon','OpiatesCodeine','OpiatesTylenol','OpiatesOxyco','NonPresMethadone','HallucPsych','Metham','Benzodiazepines',
             'Barbituates','NonPrescGhb','Ketamine','OtherTranquilizers','Inhalants','OtherIllegalDrugs'];
         $maxDrugDays = 0;
+        $sumDrugDays = 0;
         $injected = false;
         foreach($substances as $substance) {
             $days_code = $substance.'Days';
             $route_code = $substance.'Route';
             $this->checkIntegerInRange($days_code,0,30);
-            if($this->gpra->$days_code > 0)
+            if($this->gpra->$days_code > 0) {
                 $maxDrugDays = max($maxDrugDays, $this->gpra->$days_code);
+                $sumDrugDays += $this->gpra->$days_code;
+            }
             else
                 $this->gpra->$route_code = null;
             if($this->gpra->$route_code >= 4)
@@ -260,6 +263,11 @@ class GPRAValidator extends Validator {
         //now check drug days
         if($this->gpra->DAUseIllegDrugsDays < $maxDrugDays) {
             $this->addError('DAUseIllegDrugsDays','Days of drug use cannot be less than the days of use for any individual substance ('.$maxDrugDays.')');
+        }
+
+        //the sum of the days of use for individual drugs cannot be less than the total days of illegal drug use
+        if($this->gpra->DAUseIllegDrugsDays > $sumDrugDays) {
+            $this->addError('DAUseIllegDrugsDays','Days of drug use cannot be greater than the sum of days of use for all individual substances ('.$sumDrugDays.')');
         }
 
         //have to check other specify without using function since it's a range of values
@@ -457,7 +465,21 @@ class GPRAValidator extends Validator {
             $this->gpra->SvcOutreachDis == 0 && $this->gpra->SvcIntensiveOutpatientDis == 0 && $this->gpra->SvcMethadoneDis == 0 && $this->gpra->SvcResidentialRehabDis == 0 &&
             $this->gpra->SvcHospitalInpatientDis == 0 && $this->gpra->SvcFreeStandingResDis == 0 && $this->gpra->SvcAmbulatoryDetoxDis == 0 && $this->gpra->SvcAfterCareDis == 0 &&
             $this->gpra->SvcRecoverySupportDis == 0 && $this->gpra->SvcOtherModalitiesDis == 0) {
-            $this->addError('SvcCaseManagementDis','At least one modality must be chosen');
+            $this->addError('SvcCaseManagementDis','At least one Modality must be > 0');
+        }
+
+        //at least one service must be chosen
+        if($this->gpra->SvcScreeningDis == 0 && $this->gpra->SvcBriefInterventionDis == 0 && $this->gpra->SvcBriefTreatmentDis == 0 && $this->gpra->SvcReferralTreatmentDis == 0 &&
+            $this->gpra->SvcAssessmentDis == 0 && $this->gpra->SvcTreatmentPlanningDis == 0 && $this->gpra->SvcIndividualCounsDis == 0 && $this->gpra->SvcGroupCounsDis == 0 &&
+            $this->gpra->SvcFamilyMarriageCounsDis == 0 && $this->gpra->SvcCoOccurringDis == 0 && $this->gpra->SvcPharmacologicalDis == 0 && $this->gpra->SvcHIVAIDSCounsDis == 0 &&
+            $this->gpra->SvcOtherClinicalCounsDis == 0 && $this->gpra->SvcFamilyServicesDis == 0 && $this->gpra->SvcChildCareDis == 0 && $this->gpra->SvcPreEmploymentDis == 0 &&
+            $this->gpra->SvcEmploymentCoachingDis == 0 && $this->gpra->SvcIndividualCoordDis == 0 && $this->gpra->SvcTransportationDis == 0 && $this->gpra->SvcHIVAIDSServicesDis == 0 &&
+            $this->gpra->SvcDrugFreeHousingDis == 0 && $this->gpra->SvcOtherCaseMgmtDis == 0 && $this->gpra->SvcMedicalCareDis == 0 && $this->gpra->SvcAlcoholDrugTestingDis == 0 &&
+            $this->gpra->SvcHIVAIDSMedicalDis == 0 && $this->gpra->SvcOtherMedicalDis == 0 && $this->gpra->SvcContinuingCareDis == 0 && $this->gpra->SvcRelapsePreventionDis == 0 &&
+            $this->gpra->SvcRecoveryCoachingDis == 0 && $this->gpra->SvcSelfHelpSupportDis == 0 && $this->gpra->SvcSpiritualSupportDis == 0 && $this->gpra->SvcOtherAfterCareDis == 0 &&
+            $this->gpra->SvcSubstanceAbuseEduDis == 0 && $this->gpra->SvcHIVAIDSEduDis == 0 && $this->gpra->SvcOtherEduDis == 0 && $this->gpra->SvcPeerCoachingDis == 0 &&
+            $this->gpra->SvcHousingSupportDis == 0 && $this->gpra->SvcDrugFreeSocialDis == 0 && $this->gpra->SvcInformationReferralDis == 0 && $this->gpra->SvcOtherRecoveryDis == 0) {
+            $this->addError('SvcScreeningDis','At least one Service (anything outside Modality) must be > 0');
         }
 
         //only one detox can be chosen
