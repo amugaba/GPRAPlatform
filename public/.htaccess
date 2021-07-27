@@ -4,4 +4,4 @@ RewriteEngine On
 RewriteCond %{REQUEST_URI} !(\.map|\.css|\.js|\.png|\.jpg|\.gif|robots\.txt|test.php|\.ico)$ [NC]
 RewriteRule ^(.*)$ index.php [NC,L]
 
-#Header append X-FRAME-OPTIONS "SAMEORIGIN"
+Header append X-FRAME-OPTIONS "SAMEORIGIN"
