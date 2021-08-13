@@ -465,7 +465,7 @@ class DataService {
         $values = [];
         foreach($questions as $question) {
             $code = $question->code;
-            $values[] = "(".$assessment_id.",".$question->id.",'".$answers->$code."')";
+            $values[] = "(".$assessment_id.",".$question->id.",'".$this->connection->real_escape_string($answers->$code)."')";
         }
         $this->query("INSERT INTO answers (assessment_id, question_id, value) VALUES ".join(',',$values)."
             ON DUPLICATE KEY UPDATE value = VALUES(value)");
