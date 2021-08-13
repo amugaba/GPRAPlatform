@@ -194,7 +194,7 @@ Vue.component('question-text', {
                         <span class="title" v-html="title"></span> <span class="reminderText" v-if="reminder">({{reminder}})</span>\
                     </div>\
                     <div class="answers">\
-                        <input type="text" :value="value" @input="setValue">\
+                        <input type="text" :value="value" @input="setValue" maxlength="255">\
                     </div>\
                     <span class="error-message">{{this.$parent.errors[this.id]}}</span>\
                 </div>',
