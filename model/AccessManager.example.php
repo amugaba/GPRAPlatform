@@ -1,7 +1,9 @@
 <?php
 
 /**
- * 
+ * This file is used to store passwords and keys. It should not be added to Git.
+ * AccessManager.example.php is added to git instead with blank data.
+ *
  * Enter your MySQL database connection info below.
  * Username and password are for the user account your created with privileges
  * to edit the database
@@ -9,10 +11,9 @@
  * Databasename is the name of the schema you created.
  * Port is the port used to connect to the MySQL database.
  * @author tiddd
- *
  */
 
-class ConnectionManager
+class AccessManagerExample
 {
     private $production = false;
     public $port = "3306";
@@ -20,16 +21,18 @@ class ConnectionManager
     public function __construct ()
     {
         if($this->production) {
-            $this->username = "gpra_user"; //data_user
-            $this->password = "TM3TSLubjhyMmMnV!";
-            $this->server = "127.0.0.1";
-            $this->databasename = "gpra_platform";
+            $this->username = "";
+            $this->password = "";
+            $this->server = "";
+            $this->databasename = "";
         }
         else {
-            $this->username = "root";
-            $this->password = "asdf2423";
-            $this->server = "127.0.0.1";
-            $this->databasename = "gpra_platform";
+            $this->username = "";
+            $this->password = "";
+            $this->server = "";
+            $this->databasename = "";
         }
+
+        $this->mail_password = "";
     }
 }

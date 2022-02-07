@@ -2,16 +2,36 @@
 <project version="4">
   <component name="SshConfigs">
     <configs>
-      <sshConfig authType="PASSWORD" host="angstrom-software.com" id="bdbf12bb-795e-495c-b146-23894335c65e" port="22" customName="Angstrom" nameFormat="CUSTOM" />
-      <sshConfig host="ec2-3-14-3-173.us-east-2.compute.amazonaws.com" id="397b2058-cbc3-4842-9542-34553ec84bc4" keyPath="C:\Users\David\.ssh\AngstromAWSKeyPair.ppk" port="22" customName="AWS" nameFormat="CUSTOM" username="ec2-user" />
-      <sshConfig authType="PASSWORD" host="angstrom-software.com" id="580aaa92-a8c0-4abf-9fd0-1dd2c838be82" port="22" customName="Angstrom" nameFormat="CUSTOM" />
-      <sshConfig host="ec2-3-14-3-173.us-east-2.compute.amazonaws.com" id="af6d5e06-78c4-4d98-ad4e-b5470320c4da" keyPath="C:\Users\David\.ssh\AngstromAWSKeyPair.ppk" port="22" customName="AWS" nameFormat="CUSTOM" />
-      <sshConfig authType="PASSWORD" host="angstrom-software.com" id="ea9dd2eb-8090-459b-88df-284a803699fc" port="22" customName="Angstrom" nameFormat="CUSTOM" />
-      <sshConfig host="ec2-3-14-3-173.us-east-2.compute.amazonaws.com" id="5e233b83-550c-49c3-99f6-d39dc728d5c0" keyPath="C:\Users\David\.ssh\AngstromAWSKeyPair.ppk" port="22" customName="AWS" nameFormat="CUSTOM" />
-      <sshConfig authType="PASSWORD" host="angstrom-software.com" id="b42be42e-3ae9-4e7e-9b2d-8ea07d7d19a1" port="22" customName="Angstrom" nameFormat="CUSTOM" />
-      <sshConfig host="ec2-3-14-3-173.us-east-2.compute.amazonaws.com" id="477e3632-7f28-43fd-9cb7-fd9cba0c616c" keyPath="C:\Users\David\.ssh\AngstromAWSKeyPair.ppk" port="22" customName="AWS" nameFormat="CUSTOM" />
-      <sshConfig authType="PASSWORD" host="angstrom-software.com" id="5f8b5afa-abb9-4cd0-9d87-81a61a474a56" port="22" customName="Angstrom" nameFormat="CUSTOM" />
-      <sshConfig host="ec2-3-14-3-173.us-east-2.compute.amazonaws.com" id="6b10cb4c-2089-4492-bc7c-6a8620df8583" keyPath="C:\Users\David\.ssh\AngstromAWSKeyPair.ppk" port="22" customName="AWS" nameFormat="CUSTOM" />
+      <sshConfig authType="PASSWORD" connectionConfig="{&quot;serverAliveInterval&quot;:300}" host="angstrom-software.com" id="bdbf12bb-795e-495c-b146-23894335c65e" port="22" customName="Angstrom" nameFormat="CUSTOM">
+        <option name="customName" value="Angstrom" />
+      </sshConfig>
+      <sshConfig connectionConfig="{&quot;serverAliveInterval&quot;:300}" host="ec2-3-14-3-173.us-east-2.compute.amazonaws.com" id="397b2058-cbc3-4842-9542-34553ec84bc4" keyPath="C:\Users\David\.ssh\AngstromAWSKeyPair.ppk" port="22" customName="AWS" nameFormat="CUSTOM" username="ec2-user">
+        <option name="customName" value="AWS" />
+      </sshConfig>
+      <sshConfig authType="PASSWORD" host="angstrom-software.com" id="580aaa92-a8c0-4abf-9fd0-1dd2c838be82" port="22" customName="Angstrom" nameFormat="CUSTOM">
+        <option name="customName" value="Angstrom" />
+      </sshConfig>
+      <sshConfig host="ec2-3-14-3-173.us-east-2.compute.amazonaws.com" id="af6d5e06-78c4-4d98-ad4e-b5470320c4da" keyPath="C:\Users\David\.ssh\AngstromAWSKeyPair.ppk" port="22" customName="AWS" nameFormat="CUSTOM">
+        <option name="customName" value="AWS" />
+      </sshConfig>
+      <sshConfig authType="PASSWORD" host="angstrom-software.com" id="ea9dd2eb-8090-459b-88df-284a803699fc" port="22" customName="Angstrom" nameFormat="CUSTOM">
+        <option name="customName" value="Angstrom" />
+      </sshConfig>
+      <sshConfig host="ec2-3-14-3-173.us-east-2.compute.amazonaws.com" id="5e233b83-550c-49c3-99f6-d39dc728d5c0" keyPath="C:\Users\David\.ssh\AngstromAWSKeyPair.ppk" port="22" customName="AWS" nameFormat="CUSTOM">
+        <option name="customName" value="AWS" />
+      </sshConfig>
+      <sshConfig authType="PASSWORD" host="angstrom-software.com" id="b42be42e-3ae9-4e7e-9b2d-8ea07d7d19a1" port="22" customName="Angstrom" nameFormat="CUSTOM">
+        <option name="customName" value="Angstrom" />
+      </sshConfig>
+      <sshConfig host="ec2-3-14-3-173.us-east-2.compute.amazonaws.com" id="477e3632-7f28-43fd-9cb7-fd9cba0c616c" keyPath="C:\Users\David\.ssh\AngstromAWSKeyPair.ppk" port="22" customName="AWS" nameFormat="CUSTOM">
+        <option name="customName" value="AWS" />
+      </sshConfig>
+      <sshConfig authType="PASSWORD" host="angstrom-software.com" id="5f8b5afa-abb9-4cd0-9d87-81a61a474a56" port="22" customName="Angstrom" nameFormat="CUSTOM">
+        <option name="customName" value="Angstrom" />
+      </sshConfig>
+      <sshConfig host="ec2-3-14-3-173.us-east-2.compute.amazonaws.com" id="6b10cb4c-2089-4492-bc7c-6a8620df8583" keyPath="C:\Users\David\.ssh\AngstromAWSKeyPair.ppk" port="22" customName="AWS" nameFormat="CUSTOM">
+        <option name="customName" value="AWS" />
+      </sshConfig>
     </configs>
   </component>
 </project>

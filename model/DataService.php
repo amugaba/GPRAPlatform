@@ -12,7 +12,7 @@ class DataService {
 
     protected function __construct ()
     {
-        $cm = new ConnectionManager();
+        $cm = new AccessManager();
         $this->connection = mysqli_connect($cm->server, $cm->username, $cm->password, $cm->databasename, $cm->port);
         $this->connection->set_charset('utf8');
         $this->throwExceptionOnError();

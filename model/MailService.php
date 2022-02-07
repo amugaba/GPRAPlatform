@@ -88,7 +88,8 @@ class MailService {
         $mail->Host = "smtp.dreamhost.com";
         $mail->Port = 587;
         $mail->Username = 'david.tidd@angstrom-software.com';
-        $mail->Password = 'tiny emu riding camel2';
+        $am = new AccessManager();
+        $mail->Password = $am->mail_password;
 
         $mail->CharSet = 'UTF-8';
         $mail->setFrom('david.tidd@angstrom-software.com', 'Angstrom Software Support');
