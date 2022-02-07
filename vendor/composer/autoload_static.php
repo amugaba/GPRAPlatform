@@ -80,13 +80,15 @@ class ComposerStaticInitcc6118f8e79a1b1ee9819aea0cba4464
     );
 
     public static $classMap = array (
+        'AccessManager' => __DIR__ . '/../..' . '/model/AccessManager.php',
+        'AccessManagerExample' => __DIR__ . '/../..' . '/model/AccessManager.example.php',
         'Admin' => __DIR__ . '/../..' . '/middleware/Admin.php',
         'Answer' => __DIR__ . '/../..' . '/model/Answer.php',
         'Assessment' => __DIR__ . '/../..' . '/model/Assessment.php',
         'AssessmentTypes' => __DIR__ . '/../..' . '/model/AssessmentTypes.php',
         'Auth' => __DIR__ . '/../..' . '/middleware/Auth.php',
         'Client' => __DIR__ . '/../..' . '/model/Client.php',
-        'ConnectionManager' => __DIR__ . '/../..' . '/model/ConnectionManager.php',
+        'Composer\\InstalledVersions' => __DIR__ . '/..' . '/composer/InstalledVersions.php',
         'Controller' => __DIR__ . '/../..' . '/controller/Controller.php',
         'CsrfVerifier' => __DIR__ . '/../..' . '/middleware/CsrfVerifier.php',
         'DataService' => __DIR__ . '/../..' . '/model/DataService.php',

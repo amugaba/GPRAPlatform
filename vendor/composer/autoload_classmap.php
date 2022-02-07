@@ -6,13 +6,15 @@ $vendorDir = dirname(dirname(__FILE__));
 $baseDir = dirname($vendorDir);
 
 return array(
+    'AccessManager' => $baseDir . '/model/AccessManager.php',
+    'AccessManagerExample' => $baseDir . '/model/AccessManager.example.php',
     'Admin' => $baseDir . '/middleware/Admin.php',
     'Answer' => $baseDir . '/model/Answer.php',
     'Assessment' => $baseDir . '/model/Assessment.php',
     'AssessmentTypes' => $baseDir . '/model/AssessmentTypes.php',
     'Auth' => $baseDir . '/middleware/Auth.php',
     'Client' => $baseDir . '/model/Client.php',
-    'ConnectionManager' => $baseDir . '/model/ConnectionManager.php',
+    'Composer\\InstalledVersions' => $vendorDir . '/composer/InstalledVersions.php',
     'Controller' => $baseDir . '/controller/Controller.php',
     'CsrfVerifier' => $baseDir . '/middleware/CsrfVerifier.php',
     'DataService' => $baseDir . '/model/DataService.php',
